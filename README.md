@@ -71,3 +71,15 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Links
+
+Swagger: http://localhost:7000/api/docs
+Swagger: https://onlinestore-production.up.railway.app/api/docs
+
+```bash
+Migrations:
+npm run migration:generate -- src/database/migrations/CreateNameTable
+npm run migration:run
+
+```
