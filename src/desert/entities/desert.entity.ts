@@ -25,6 +25,9 @@ export class Desert {
   @Column({ type: String, nullable: true })
   imagePath: string;
 
+  // @Column({ type: String, nullable: true })
+  // imagePathId: string;
+
   @Column({ type: Number, nullable: true })
   weight: number;
 
