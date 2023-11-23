@@ -1,4 +1,4 @@
-import { Exclude } from 'class-transformer';
+import { DesertType } from 'src/common/types/desertTypes';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -13,9 +13,8 @@ export class Desert {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: String, nullable: true })
-  @Exclude({ toPlainOnly: true })
-  type: string;
+  @Column({ type: 'enum', enum: DesertType, nullable: true })
+  type: DesertType;
 
   @Column({ type: String, nullable: true })
   name: string;

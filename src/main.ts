@@ -42,5 +42,6 @@ async function start() {
 
   const dataBaseCreateService = app.get(DataBaseCreateService);
   await dataBaseCreateService.desertRepositoryInit();
+  await dataBaseCreateService.desertTypesRepositoryInit();
 }
 start();

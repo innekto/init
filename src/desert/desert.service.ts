@@ -12,6 +12,7 @@ export class DesertService {
     @InjectRepository(Desert) private desertRepository: Repository<Desert>,
     private cloudinaryService: CloudinaryService,
   ) {}
+
   async create(data: CreateDesertDto, file: Express.Multer.File) {
     const upload = await this.cloudinaryService.uploadFile(file);
 
