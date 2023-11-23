@@ -25,7 +25,7 @@ export class UsersController {
   // }
 
   @ApiOperation({ summary: 'get all' })
-  @Get()
+  @Get('users')
   getAll() {
     return this.usersServise.getAll();
   }
