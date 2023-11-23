@@ -16,6 +16,7 @@ import { Desert } from './desert/entities/desert.entity';
 import { OrderModule } from './order/order.module';
 import { dataSourceOptionst } from './database/database-config';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { DesertTypeEntity } from './desert/entities/desert-type.entity';
 
 // dotenv.config();
 
@@ -23,7 +24,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
   controllers: [AppController],
   providers: [AppService, DataBaseCreateService],
   imports: [
-    TypeOrmModule.forFeature([Desert]),
+    TypeOrmModule.forFeature([Desert, DesertTypeEntity]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {

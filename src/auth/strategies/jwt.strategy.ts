@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import { IUser } from '../../types/types';
+import { IUser } from '../../common/types/types';
 dotenv.config();
 
 const { JWT_SECRET } = process.env;

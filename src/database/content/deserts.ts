@@ -1,15 +1,7 @@
-import { DesertType } from 'src/types/desertTypes';
+import { Desert } from 'src/common/interfaces/deserts';
+import { DesertType } from 'src/common/types/desertTypes';
 
-export interface Desert {
-  type: DesertType;
-  name: string;
-  price: number;
-  imagePath: string;
-  weight: number;
-  composition: string;
-}
-
-export const desertData = [
+export const desertData: Desert[] = [
   {
     type: DesertType.Macaroon,
     name: 'macaroon set',
@@ -219,7 +211,7 @@ export const desertData = [
   },
 
   {
-    type: DesertType.BentoCakes,
+    type: DesertType.Bento,
     name: 'Amsterdam',
     price: 350,
     imagePath:
@@ -229,7 +221,7 @@ export const desertData = [
       'Poppy seed sponge cake with a thick layer of cherry confit between layers of rich cheese cream cheese, chocolate mousse with poppy seeds',
   },
   {
-    type: DesertType.BentoCakes,
+    type: DesertType.Bento,
     name: 'Sacher',
     price: 300,
     imagePath:
@@ -239,7 +231,7 @@ export const desertData = [
       'Шоколадний сметанний бісквіт, просочений коньячним сиропом, апельсиново-абрикосовий конфітюр, шоколадний ганаш, шоколадний декор',
   },
   {
-    type: DesertType.BentoCakes,
+    type: DesertType.Bento,
     name: 'Cherry',
     price: 270,
     imagePath:
@@ -249,7 +241,7 @@ export const desertData = [
       'Шоколадний  бісквіт, просочений цукровим сиропом, прошарований кондитерським кремом, натуральний фруктовий наповнювач',
   },
   {
-    type: DesertType.BentoCakes,
+    type: DesertType.Bento,
     name: 'Love',
     price: 300,
     imagePath:
@@ -258,7 +250,7 @@ export const desertData = [
     composition: 'Шоколадний бісквіт, ванільний крем, апельсинові цукати',
   },
   {
-    type: DesertType.BentoCakes,
+    type: DesertType.Bento,
     name: 'Oreo cheesecake',
     price: 400,
     imagePath:
@@ -268,7 +260,7 @@ export const desertData = [
       'Шоколадно-пісочне тісто, м’який сир, крем на основі маскарпоне з солоною карамеллю та шматочками печива',
   },
   {
-    type: DesertType.BentoCakes,
+    type: DesertType.Bento,
     name: 'Carrot and orange cake',
     price: 400,
     imagePath:

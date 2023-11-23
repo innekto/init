@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { DesertType } from 'src/types/desertTypes';
+import { DesertType } from 'src/common/types/desertTypes';
 
 export class CreateDesertDto {
   @ApiProperty()
   @IsNotEmpty()
-  @IsEnum(DesertType, { message: 'Invalid dessert type' })
+  @IsEnum(DesertType)
   type: DesertType;
 
   @ApiProperty()

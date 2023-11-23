@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import { IUser } from '../../types/types';
+import { IUser } from '../../common/types/types';
 import { RefreshDto } from './dto/refreshToken.dto';
 dotenv.config();
 

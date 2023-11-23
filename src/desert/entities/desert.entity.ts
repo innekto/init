@@ -1,4 +1,4 @@
-import { DesertType } from 'src/types/desertTypes';
+import { DesertType } from 'src/common/types/desertTypes';
 import {
   PrimaryGeneratedColumn,
   Column,
