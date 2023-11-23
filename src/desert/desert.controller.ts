@@ -46,7 +46,7 @@ export class DesertController {
     return this.desertService.create(createDesertDto, file);
   }
 
-  @Delete('desetr-image/delete/:id')
+  @Patch('desetr-image/replace/:id')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   async deleteDesertImage(
