@@ -19,7 +19,7 @@ export class User {
   @Column({ type: String, nullable: true })
   lastName: string;
 
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   @Column({ type: String, nullable: true })
   password: string;
 

@@ -1,7 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { DataBaseCreateService } from './database/servise/data-base-create.service';
+import { ClassSerializerInterceptor } from '@nestjs/common';
 
 async function start() {
   const PORT = process.env.PORT || 5000;
@@ -22,6 +23,8 @@ async function start() {
     optionsSuccessStatus: 204,
     credentials: true,
   });
+
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle('online-store')

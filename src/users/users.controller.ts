@@ -23,4 +23,10 @@ export class UsersController {
   // create(@Body() createUserDto: CreateUserDto) {
   //   return this.usersServise.create(createUserDto);
   // }
+
+  @ApiOperation({ summary: 'get all' })
+  @Get()
+  getAll() {
+    return this.usersServise.getAll();
+  }
 }
