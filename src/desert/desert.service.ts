@@ -1,11 +1,15 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateDesertDto } from './dto/create-desert.dto';
 import { UpdateDesertDto } from './dto/update-desert.dto';
 import { Desert } from './entities/desert.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { DesertType } from 'src/common/types/desertTypes';
+import { desertType } from 'src/common/types/desertTypes';
 
 @Injectable()
 export class DesertService {
@@ -15,7 +19,7 @@ export class DesertService {
   ) {}
 
   async create(data: CreateDesertDto, file: Express.Multer.File) {
-    const isCorrectType = Object.values(DesertType).includes(data.type);
+    const isCorrectType = desertType.includes(data.type);
     if (!isCorrectType) {
       throw new ConflictException('Incorrect type of desert');
     }
@@ -28,17 +32,51 @@ export class DesertService {
     return desert;
   }
 
-  async replaceDesertImage(id: number, file: Express.Multer.File) {
+  async updateDesert(
+    id: number,
+    file: Express.Multer.File,
+    updateDesertDto: UpdateDesertDto,
+  ) {
     const desert = await this.desertRepository.findOne({ where: { id } });
-    // витягуємо public_id з адреси зображення//
-    const parts = desert.imagePath.split('/');
-    const fileName = parts[parts.length - 1];
-    const publicId = fileName.split('.')[0];
+    if (!desert) {
+      throw new NotFoundException(`Desert with id ${id} not found`);
+    }
 
-    await this.cloudinaryService.deleteFile(publicId);
-    const upload = await this.cloudinaryService.uploadFile(file);
+    if (file) {
+      const parts = desert.imagePath.split('/');
+      const fileName = parts[parts.length - 1];
+      const publicId = fileName.split('.')[0];
 
-    desert.imagePath = upload.secure_url;
+      await this.cloudinaryService.deleteFile(publicId);
+
+      const upload = await this.cloudinaryService.uploadFile(file);
+      desert.imagePath = upload.secure_url;
+    }
+
+    const isCorrectType = desertType.includes(updateDesertDto.type);
+    if (updateDesertDto.type && !isCorrectType) {
+      throw new ConflictException('Incorrect type of desert');
+    }
+    desert.type = updateDesertDto.type;
+
+    desert.name =
+      updateDesertDto.name !== '' ? updateDesertDto.name : desert.name;
+
+    desert.price =
+      updateDesertDto.price.toString() !== ''
+        ? updateDesertDto.price
+        : desert.price;
+
+    desert.weight =
+      updateDesertDto.weight.toString() !== ''
+        ? updateDesertDto.weight
+        : desert.weight;
+
+    desert.composition =
+      updateDesertDto.composition !== ''
+        ? updateDesertDto.composition
+        : desert.composition;
+
     await this.desertRepository.save(desert);
   }
 

@@ -1,12 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty } from 'class-validator';
-import { DesertType } from 'src/common/types/desertTypes';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateDesertDto {
   @ApiProperty()
   @IsNotEmpty()
-  @IsEnum(DesertType)
-  type: DesertType;
+  type: string;
 
   @ApiProperty()
   @IsNotEmpty()

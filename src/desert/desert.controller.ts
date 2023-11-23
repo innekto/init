@@ -18,7 +18,6 @@ import { UpdateDesertDto } from './dto/update-desert.dto';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { ReplaceDesertImageDto } from './dto/replace-desert-image-dto';
 
 @ApiTags('deserts')
 @Controller('desert')
@@ -46,23 +45,17 @@ export class DesertController {
     return this.desertService.create(createDesertDto, file);
   }
 
-  @Patch('desetr-image/replace/:id')
+  @Patch('desert/:id')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   async deleteDesertImage(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-        ],
-      }),
-    )
-    file: Express.Multer.File,
-    @Body() replaceImage: ReplaceDesertImageDto,
+    @UploadedFile() file: Express.Multer.File,
+
+    @Body() updateDesertDto: UpdateDesertDto,
     @Param('id') id: number,
   ) {
-    return await this.desertService.replaceDesertImage(id, file);
+    console.log('id', id);
+    return await this.desertService.updateDesert(id, file, updateDesertDto);
   }
 
   @Get()
