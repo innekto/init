@@ -1,13 +1,13 @@
-import * as argon2 from 'argon2';
-import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
-import { ConflictException, Injectable } from '@nestjs/common';
+// import * as argon2 from 'argon2';
+// import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
+// import { CreateUserDto } from './dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
-import * as crypto from 'crypto';
+// import * as crypto from 'crypto';
 
 @Injectable()
 export class UsersService {
