@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,6 +15,9 @@ import { DataBaseCreateService } from './database/servise/data-base-create.servi
 import { Desert } from './desert/entities/desert.entity';
 import { OrderModule } from './order/order.module';
 import { dataSourceOptionst } from './database/database-config';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+
+// dotenv.config();
 
 @Module({
   controllers: [AppController],
@@ -41,6 +44,7 @@ import { dataSourceOptionst } from './database/database-config';
     AuthModule,
     DesertModule,
     OrderModule,
+    CloudinaryModule,
   ],
 })
 export class AppModule {}

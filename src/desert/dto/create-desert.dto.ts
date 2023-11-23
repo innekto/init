@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsEmail, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateDesertDto {
   @ApiProperty()
@@ -16,9 +16,9 @@ export class CreateDesertDto {
   @IsNotEmpty()
   price: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string', format: 'binary' })
   @IsNotEmpty()
-  imagePath: string;
+  imagePath: Express.Multer.File;
 
   @ApiProperty()
   weight: number;

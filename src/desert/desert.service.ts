@@ -4,14 +4,22 @@ import { UpdateDesertDto } from './dto/update-desert.dto';
 import { Desert } from './entities/desert.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class DesertService {
   constructor(
     @InjectRepository(Desert) private desertRepository: Repository<Desert>,
+    private cloudinaryService: CloudinaryService,
   ) {}
-  create(createDesertDto: CreateDesertDto) {
-    return 'This action adds a new desert';
+  async create(data: CreateDesertDto, file: Express.Multer.File) {
+    const upload = await this.cloudinaryService.uploadFile(file);
+
+    const desert = await this.desertRepository.save({
+      ...data,
+      imagePath: upload.secure_url,
+    });
+    return desert;
   }
 
   async findAll() {

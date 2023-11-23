@@ -10,6 +10,7 @@ import {
 
 @Entity('users')
 export class User {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
 

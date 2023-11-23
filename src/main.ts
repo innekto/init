@@ -28,7 +28,7 @@ async function start() {
 
   const config = new DocumentBuilder()
     .setTitle('online-store')
-    .setDescription('base URL: "https://onlinestore-production.up.railway.app"')
+    .setDescription('base URL: "https://online-store-frwk.onrender.com"')
     .setVersion('1.0.1')
     .addBearerAuth()
     .addTag('OS')

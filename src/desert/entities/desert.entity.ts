@@ -20,8 +20,8 @@ export class Desert {
   @Column({ type: String, nullable: true })
   name: string;
 
-  @Column({ type: String, nullable: true })
-  price: string;
+  @Column({ type: Number, nullable: true })
+  price: number;
 
   @Column({ type: String, nullable: true })
   imagePath: string;
