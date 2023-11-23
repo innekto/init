@@ -1,6 +1,1 @@
-export enum DesertType {
-  Macaroon = 'macaroon',
-  Tarts = 'tarts',
-  Cakes = 'cakes',
-  Bento = 'bento',
-}
+export const desertType = ['macaroon', 'tarts', 'cakes', 'bento'];

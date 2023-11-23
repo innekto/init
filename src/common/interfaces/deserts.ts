@@ -1,7 +1,5 @@
-import { DesertType } from 'src/common/types/desertTypes';
-
 export interface Desert {
-  type: DesertType;
+  type: string;
   name: string;
   price: number;
   imagePath: string;

@@ -1,9 +1,9 @@
 import { Desert } from 'src/common/interfaces/deserts';
-import { DesertType } from 'src/common/types/desertTypes';
+import { desertType } from 'src/common/types/desertTypes';
 
 export const desertData: Desert[] = [
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'macaroon set',
     price: 480,
     imagePath:
@@ -12,7 +12,7 @@ export const desertData: Desert[] = [
     composition: 'Набір макарунів',
   },
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'coffee macaroon',
     price: 55,
     imagePath:
@@ -21,7 +21,7 @@ export const desertData: Desert[] = [
     composition: 'Кавовий макарун з лікером Бейліз',
   },
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'strawberry macaroon',
     price: 55,
     imagePath:
@@ -30,7 +30,7 @@ export const desertData: Desert[] = [
     composition: 'Полуничний макарун з родзинками',
   },
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'pistachio macaroon',
     price: 55,
     imagePath:
@@ -39,7 +39,7 @@ export const desertData: Desert[] = [
     composition: 'Макарун з фісташковою помадкою',
   },
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'Condensed milk macaroon',
     price: 55,
     imagePath:
@@ -48,7 +48,7 @@ export const desertData: Desert[] = [
     composition: 'Макарун зі згущеним молоком',
   },
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'Blueberry macaroon',
     price: 55,
     imagePath:
@@ -57,7 +57,7 @@ export const desertData: Desert[] = [
     composition: 'Макарун з чорницею',
   },
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'Vanilla macaroon',
     price: 55,
     imagePath:
@@ -66,7 +66,7 @@ export const desertData: Desert[] = [
     composition: 'Ванільний макарун з крихтою',
   },
   {
-    type: DesertType.Macaroon,
+    type: desertType[0],
     name: 'Bubble gum macaroon',
     price: 55,
     imagePath:
@@ -76,7 +76,7 @@ export const desertData: Desert[] = [
   },
 
   {
-    type: DesertType.Tarts,
+    type: desertType[1],
     name: 'Eclair',
     price: 70,
     imagePath:
@@ -85,7 +85,7 @@ export const desertData: Desert[] = [
     composition: 'Еклер зі згущеним молоком',
   },
   {
-    type: DesertType.Tarts,
+    type: desertType[1],
     name: 'Eclair',
     price: 70,
     imagePath:
@@ -94,7 +94,7 @@ export const desertData: Desert[] = [
     composition: 'Шоколадний еклер',
   },
   {
-    type: DesertType.Tarts,
+    type: desertType[1],
     name: 'Raspberry cake',
     price: 160,
     imagePath:
@@ -103,7 +103,7 @@ export const desertData: Desert[] = [
     composition: 'Бісквіт, сирний крем-мус, малина',
   },
   {
-    type: DesertType.Tarts,
+    type: desertType[1],
     name: 'cheesecake with lingonberry jam',
     price: 160,
     imagePath:
@@ -113,7 +113,7 @@ export const desertData: Desert[] = [
       'chocolate sponge cake, cottage cheese mousse, lingonberry jam',
   },
   {
-    type: DesertType.Tarts,
+    type: desertType[1],
     name: 'tartufo',
     price: 70,
     imagePath:
@@ -122,7 +122,7 @@ export const desertData: Desert[] = [
     composition: 'hazelnut, cocoa, vanilla cream',
   },
   {
-    type: DesertType.Tarts,
+    type: desertType[1],
     name: 'Classic honey cake',
     price: 145,
     imagePath:
@@ -132,7 +132,7 @@ export const desertData: Desert[] = [
   },
 
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: 'Mozart',
     price: 550,
     imagePath:
@@ -142,7 +142,7 @@ export const desertData: Desert[] = [
       'chocolate sponge cake soaked in amareto sugar syrup and chocolate cream with milk cream',
   },
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: 'Esterhazy',
     price: 750,
     imagePath:
@@ -151,7 +151,7 @@ export const desertData: Desert[] = [
     composition: 'almond cakes, butter custard with orange liqueur.',
   },
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: 'Tiramisu cake with mascarpone',
     price: 900,
     imagePath:
@@ -161,7 +161,7 @@ export const desertData: Desert[] = [
       'almond sponge cake soaked in syrup with coffee and rum, and mascarpone-based cheese cream, layered with biscuit biscuits, and garnished with cocoa.',
   },
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: '"Saint Tropez" with fruit',
     price: 800,
     imagePath:
@@ -171,7 +171,7 @@ export const desertData: Desert[] = [
       'sponge cake, custard soaked in orange juice, fresh oranges, kiwi, grapes, cocktail cherries, canned pineapple covered with fruit gel.',
   },
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: 'Black pearl',
     price: 750,
     imagePath:
@@ -180,7 +180,7 @@ export const desertData: Desert[] = [
     composition: 'Sour cream and coffee cakes, cream, with prunes',
   },
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: 'Cherry',
     price: 550,
     imagePath:
@@ -190,7 +190,7 @@ export const desertData: Desert[] = [
       'Chocolate classic sponge cake soaked in syrup. Whipped cream cream with cocoa and cherries on cognac.',
   },
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: 'Orange truffle',
     price: 750,
     imagePath:
@@ -200,7 +200,7 @@ export const desertData: Desert[] = [
       'Chocolate butter sponge cake, truffle filling, orange mousse layer, chocolate ganache, macaron.',
   },
   {
-    type: DesertType.Cakes,
+    type: desertType[2],
     name: 'Bounty',
     price: 750,
     imagePath:
@@ -211,7 +211,7 @@ export const desertData: Desert[] = [
   },
 
   {
-    type: DesertType.Bento,
+    type: desertType[3],
     name: 'Amsterdam',
     price: 350,
     imagePath:
@@ -221,7 +221,7 @@ export const desertData: Desert[] = [
       'Poppy seed sponge cake with a thick layer of cherry confit between layers of rich cheese cream cheese, chocolate mousse with poppy seeds',
   },
   {
-    type: DesertType.Bento,
+    type: desertType[3],
     name: 'Sacher',
     price: 300,
     imagePath:
@@ -231,7 +231,7 @@ export const desertData: Desert[] = [
       'Шоколадний сметанний бісквіт, просочений коньячним сиропом, апельсиново-абрикосовий конфітюр, шоколадний ганаш, шоколадний декор',
   },
   {
-    type: DesertType.Bento,
+    type: desertType[3],
     name: 'Cherry',
     price: 270,
     imagePath:
@@ -241,7 +241,7 @@ export const desertData: Desert[] = [
       'Шоколадний  бісквіт, просочений цукровим сиропом, прошарований кондитерським кремом, натуральний фруктовий наповнювач',
   },
   {
-    type: DesertType.Bento,
+    type: desertType[3],
     name: 'Love',
     price: 300,
     imagePath:
@@ -250,7 +250,7 @@ export const desertData: Desert[] = [
     composition: 'Шоколадний бісквіт, ванільний крем, апельсинові цукати',
   },
   {
-    type: DesertType.Bento,
+    type: desertType[3],
     name: 'Oreo cheesecake',
     price: 400,
     imagePath:
@@ -260,7 +260,7 @@ export const desertData: Desert[] = [
       'Шоколадно-пісочне тісто, м’який сир, крем на основі маскарпоне з солоною карамеллю та шматочками печива',
   },
   {
-    type: DesertType.Bento,
+    type: desertType[3],
     name: 'Carrot and orange cake',
     price: 400,
     imagePath:

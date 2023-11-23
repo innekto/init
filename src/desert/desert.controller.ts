@@ -17,11 +17,15 @@ import { CreateDesertDto } from './dto/create-desert.dto';
 import { UpdateDesertDto } from './dto/update-desert.dto';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @ApiTags('deserts')
 @Controller('desert')
 export class DesertController {
-  constructor(private readonly desertService: DesertService) {}
+  constructor(
+    private readonly desertService: DesertService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   @Post()
   @ApiConsumes('multipart/form-data')
@@ -39,6 +43,19 @@ export class DesertController {
     @Body() createDesertDto: CreateDesertDto,
   ) {
     return this.desertService.create(createDesertDto, file);
+  }
+
+  @Patch('desert/:id')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('imagePath'))
+  async deleteDesertImage(
+    @UploadedFile() file: Express.Multer.File,
+
+    @Body() updateDesertDto: UpdateDesertDto,
+    @Param('id') id: number,
+  ) {
+    console.log('id', id);
+    return await this.desertService.updateDesert(id, file, updateDesertDto);
   }
 
   @Get()
