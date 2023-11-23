@@ -49,32 +49,21 @@ export class AuthService {
       .slice(-6);
 
     const user = await this.usersRepository.save({
+      ...data,
       email: data.email,
       password: await argon2.hash(data.password),
       hash,
     });
-
+    console.log('user', user);
     await this.mailerService.sendMail({
       from: 'virchenko.vlad.2021@gmail.com',
       to: user.email,
       subject: 'Підтвердження реєстрації',
       html: `Для завершення реєстрації введіть цей код у відповідне поле: <strong>${hash}</strong>`,
     });
-
-    const token = await this.jwtService.signAsync(
-      {
-        id: user.id,
-        email: user.email,
-      },
-      {
-        expiresIn: 30 * 60,
-      },
-    );
-
-    return { user, token };
   }
 
-  async confirmEmail(hash: string): Promise<void> {
+  async confirmEmail(hash: string): Promise<object> {
     const user = await this.usersRepository.findOne({ where: { hash } });
 
     if (!user) {
@@ -83,6 +72,19 @@ export class AuthService {
         status: HttpStatus.NOT_FOUND,
       });
     }
+
+    const token = await this.jwtService.signAsync({
+      id: user.id,
+      email: user.email,
+    });
+    const decodedToken: any = this.jwtService.decode(token, { json: true });
+
+    user.isConfirm = true;
+    user.online = true;
+    user.hash = null;
+
+    await this.usersRepository.save(user);
+    return { user, token, tokenExpires: decodedToken.exp * 1000 };
   }
 
   async validateUser(email: string, password: string): Promise<any> {

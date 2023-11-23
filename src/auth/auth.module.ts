@@ -14,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 dotenv.config();
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ const { JWT_SECRET } = process.env;
     PassportModule,
     JwtModule.register({
       secret: JWT_SECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: TOKEN_EXPIRES_IN },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, RefreshJwtStrategy],

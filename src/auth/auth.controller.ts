@@ -16,6 +16,7 @@ import { RefreshJwtAuthGuard } from './guards/auth/refresh-jwt-auth.guard';
 // import { RefreshDto } from './strategies/dto/refreshToken.dto';
 import { ForgotPasswordDto } from './guards/auth/dto/forgot-password.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
+import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -29,9 +30,11 @@ export class AuthController {
   }
 
   @Post('email/confirm')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async confirmEmail(@Body() hash: string): Promise<void> {
-    return this.authService.confirmEmail(hash);
+  @HttpCode(HttpStatus.OK)
+  async confirmEmail(
+    @Body() confirmEmailDto: AuthConfirmEmailDto,
+  ): Promise<object> {
+    return this.authService.confirmEmail(confirmEmailDto.hash);
   }
 
   @Post('login')

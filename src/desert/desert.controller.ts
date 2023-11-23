@@ -6,11 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  FileTypeValidator,
+  MaxFileSizeValidator,
+  ParseFilePipe,
+  UploadedFile,
 } from '@nestjs/common';
 import { DesertService } from './desert.service';
 import { CreateDesertDto } from './dto/create-desert.dto';
 import { UpdateDesertDto } from './dto/update-desert.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('deserts')
 @Controller('desert')
@@ -18,8 +24,21 @@ export class DesertController {
   constructor(private readonly desertService: DesertService) {}
 
   @Post()
-  create(@Body() createDesertDto: CreateDesertDto) {
-    return this.desertService.create(createDesertDto);
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('imagePath'))
+  create(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @Body() createDesertDto: CreateDesertDto,
+  ) {
+    return this.desertService.create(createDesertDto, file);
   }
 
   @Get()
