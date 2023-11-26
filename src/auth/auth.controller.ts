@@ -59,8 +59,8 @@ export class AuthController {
     return this.authService.refreshToken(req.user);
   }
 
-  @Post('/forgotPassword')
-  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
-    return this.authService.forgotPassword(forgotPasswordDto);
-  }
+  // @Post('/forgotPassword')
+  // async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+  //   return this.authService.forgotPassword(forgotPasswordDto);
+  // }
 }

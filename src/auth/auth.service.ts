@@ -143,31 +143,31 @@ export class AuthService {
     };
   }
 
-  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
-    const user = await this.userService.findOne(forgotPasswordDto.email);
+  // async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+  //   const user = await this.userService.findOne(forgotPasswordDto.email);
 
-    if (!user) {
-      throw new BadRequestException('Invalid email');
-    }
+  //   if (!user) {
+  //     throw new BadRequestException('Invalid email');
+  //   }
 
-    // Generate a token for password reset
-    const token = this.jwtService.sign(
-      { id: user.id, email: user.email },
-      { expiresIn: '1h' },
-    );
+  //   // Generate a token for password reset
+  //   const token = this.jwtService.sign(
+  //     { id: user.id, email: user.email },
+  //     { expiresIn: '1h' },
+  //   );
 
-    // Construct the reset password link
-    const resetLink = `${process.env.CLIENT_APP_URL}/auth/reset-password?token=${token}`;
+  //   // Construct the reset password link
+  //   const resetLink = `${process.env.CLIENT_APP_URL}/auth/reset-password?token=${token}`;
 
-    await this.mailerService.sendMail({
-      from: 'virchenko.vlad.2021@gmail.com',
-      to: user.email,
-      subject: 'forgot password',
-      html: `
-                
-                <p>Please use this <a href="${resetLink}">link</a> to reset your password.</p>
-            `,
-    });
-    return { message: 'Password reset link sent successfully' };
-  }
+  //   await this.mailerService.sendMail({
+  //     from: 'virchenko.vlad.2021@gmail.com',
+  //     to: user.email,
+  //     subject: 'forgot password',
+  //     html: `
+
+  //               <p>Please use this <a href="${resetLink}">link</a> to reset your password.</p>
+  //           `,
+  //   });
+  //   return { message: 'Password reset link sent successfully' };
+  // }
 }
