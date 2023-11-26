@@ -75,7 +75,7 @@ Nest is [MIT licensed](LICENSE).
 ## Links
 
 Swagger: http://localhost:7000/api/docs
-Swagger: https://onlinestore-production.up.railway.app/api/docs
+Swagger:https://online-store-frwk.onrender.com/api/docs
 
 ```bash
 Migrations:
