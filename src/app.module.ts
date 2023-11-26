@@ -17,14 +17,25 @@ import { OrderModule } from './order/order.module';
 import { dataSourceOptionst } from './database/database-config';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { DesertTypeEntity } from './desert/entities/desert-type.entity';
+import { GoogleStrategy } from './auth/strategies/google.strategy';
+import { AuthService } from './auth/auth.service';
+import { User } from './users/user.entity';
+import { JwtService } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 
 // dotenv.config();
 
 @Module({
   controllers: [AppController],
-  providers: [AppService, DataBaseCreateService],
+  providers: [
+    AppService,
+    DataBaseCreateService,
+    GoogleStrategy,
+    AuthService,
+    JwtService,
+  ],
   imports: [
-    TypeOrmModule.forFeature([Desert, DesertTypeEntity]),
+    TypeOrmModule.forFeature([Desert, DesertTypeEntity, User]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {
@@ -40,6 +51,7 @@ import { DesertTypeEntity } from './desert/entities/desert-type.entity';
       },
     }),
 
+    PassportModule.register({ session: true }),
     UsersModule,
     RolesModule,
     AuthModule,

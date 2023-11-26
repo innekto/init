@@ -30,6 +30,11 @@ export class AuthService {
     private mailerService: MailerService,
   ) {}
 
+  async findOne(id: number) {
+    const user = await this.usersRepository.findOneBy({ id });
+    return user;
+  }
+
   async register(data: AuthRegisterDto) {
     const existingUser = await this.usersRepository.findOne({
       where: { email: data.email },
@@ -95,6 +100,28 @@ export class AuthService {
       return user;
     }
     throw new UnauthorizedException('user or password are incorrect');
+  }
+
+  async googleLogin(req) {
+    if (!req.user) {
+      return 'No user!';
+    }
+    return {
+      message: 'User info from google',
+      user: req.user,
+    };
+  }
+
+  async validateGoogleUser(details) {
+    const user = await this.usersRepository.findOneBy({ email: details.email });
+
+    if (!user) {
+      const newUser = this.usersRepository.create(details);
+
+      return await this.usersRepository.save(newUser);
+    }
+
+    return user;
   }
 
   async login(user: IUser) {
