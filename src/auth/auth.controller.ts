@@ -28,7 +28,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('email/register')
-  // @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   async register(@Body() createUserDto: AuthRegisterDto) {
     return this.authService.register(createUserDto);
   }
@@ -43,11 +43,12 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(GoogleAuthGuard)
-  async googleAuth(@Req() req) {
-    return await { message: 'Hello' };
+  async googleAuth(@Req() req: Request) {
+    return req.user;
   }
 
   @Get('google/redirect')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(GoogleAuthGuard)
   async googleAuthRedirect(@Req() req: Request) {
     return await this.authService.googleLogin(req);
