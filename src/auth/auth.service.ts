@@ -30,7 +30,7 @@ export class AuthService {
     private mailerService: MailerService,
   ) {}
 
-  async findOne(id: number) {
+  async findOneById(id: number) {
     const user = await this.usersRepository.findOneBy({ id });
     return user;
   }
@@ -59,7 +59,7 @@ export class AuthService {
       password: await argon2.hash(data.password),
       hash,
     });
-    console.log('user', user);
+
     await this.mailerService.sendMail({
       from: 'virchenko.vlad.2021@gmail.com',
       to: user.email,
@@ -139,7 +139,10 @@ export class AuthService {
 
   async refreshToken(user: IUser) {
     return {
-      token: this.jwtService.sign({ id: user.id, email: user.email }),
+      token: this.jwtService.sign(
+        { id: user.id, email: user.email },
+        { expiresIn: '7d' },
+      ),
     };
   }
 
