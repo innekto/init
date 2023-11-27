@@ -12,14 +12,14 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 // import { JwtAuthGuard } from './guards/auth/jwt-auth.guard';
 // import { LocalAuthGuard } from './guards/auth/local-auth.guard';
-import { RefreshJwtAuthGuard } from './guards/auth/refresh-jwt-auth.guard';
+import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
 // import { RefreshDto } from './strategies/dto/refreshToken.dto';
-import { ForgotPasswordDto } from './guards/auth/dto/forgot-password.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
-import { JwtAuthGuard } from './guards/auth/jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
-import { GoogleAuthGuard } from './guards/auth/google.guard';
+import { GoogleAuthGuard } from './guards/google.guard';
 import { Request } from 'express';
 
 @ApiTags('auth')
