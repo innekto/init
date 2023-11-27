@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsString,
   MinLength,
+  IsPhoneNumber,
 } from 'class-validator';
 import { lowerCaseTransformer } from 'src/utils/transformers/to-lower-case';
 
@@ -18,6 +19,11 @@ export class AuthRegisterDto {
   })
   @IsNotEmpty()
   email: string;
+
+  @ApiProperty({ example: '+380509999999' })
+  @IsNotEmpty()
+  @IsPhoneNumber()
+  phone: string;
 
   @ApiProperty({ example: 'John' })
   @IsNotEmpty()

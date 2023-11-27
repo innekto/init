@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { IUser } from '../../common/types/types';
-import { RefreshDto } from './dto/refreshToken.dto';
+import { RefreshDto } from '../dto/refreshToken.dto';
 dotenv.config();
 
 const { JWT_SECRET } = process.env;

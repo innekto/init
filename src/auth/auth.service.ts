@@ -10,7 +10,7 @@ import { UsersService } from '../users/users.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from 'src/common/types/types';
-import { ForgotPasswordDto } from './guards/auth/dto/forgot-password.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
@@ -18,8 +18,10 @@ import { randomStringGenerator } from '@nestjs/common/utils/random-string-genera
 import * as crypto from 'crypto';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/user.entity';
+
 import { Repository } from 'typeorm';
+import { IsEmail } from 'class-validator';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +32,7 @@ export class AuthService {
     private mailerService: MailerService,
   ) {}
 
-  async findOne(id: number) {
+  async findOneById(id: number) {
     const user = await this.usersRepository.findOneBy({ id });
     return user;
   }
@@ -59,7 +61,7 @@ export class AuthService {
       password: await argon2.hash(data.password),
       hash,
     });
-    console.log('user', user);
+
     await this.mailerService.sendMail({
       from: 'virchenko.vlad.2021@gmail.com',
       to: user.email,
@@ -106,22 +108,43 @@ export class AuthService {
     if (!req.user) {
       return 'No user!';
     }
+
+    const token = await this.jwtService.signAsync({
+      id: req.user.id,
+      email: req.user.email,
+    });
+    const decodedToken: any = this.jwtService.decode(token, { json: true });
+
     return {
-      message: 'User info from google',
+      message: 'Successfully logged in',
       user: req.user,
+      token,
+      tokenExpires: decodedToken.exp * 1000,
     };
   }
 
   async validateGoogleUser(details) {
     const user = await this.usersRepository.findOneBy({ email: details.email });
+    user.online = true;
+    const logginedUser = await this.usersRepository.save(user);
 
     if (!user) {
       const newUser = this.usersRepository.create(details);
+      await this.usersRepository.save(newUser);
 
-      return await this.usersRepository.save(newUser);
+      const crearedUser = await this.usersRepository.findOneBy({
+        email: details.email,
+      });
+
+      crearedUser.isConfirm = true;
+      crearedUser.online = true;
+
+      const savedUser = this.usersRepository.save(crearedUser);
+
+      return savedUser;
     }
 
-    return user;
+    return logginedUser;
   }
 
   async login(user: IUser) {
@@ -139,7 +162,10 @@ export class AuthService {
 
   async refreshToken(user: IUser) {
     return {
-      token: this.jwtService.sign({ id: user.id, email: user.email }),
+      token: this.jwtService.sign(
+        { id: user.id, email: user.email },
+        { expiresIn: '7d' },
+      ),
     };
   }
 
