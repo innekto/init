@@ -8,7 +8,7 @@ import {
   Get,
   Req,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 // import { JwtAuthGuard } from './guards/auth/jwt-auth.guard';
 // import { LocalAuthGuard } from './guards/auth/local-auth.guard';
@@ -18,14 +18,20 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
+
 import { GoogleAuthGuard } from './guards/google.guard';
 import { Request } from 'express';
+import { AuthLoginDto } from './dto/auth-login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Post('login')
+  async login(@Body() loginDto: AuthLoginDto) {
+    return await this.authService.login(loginDto.email, loginDto.password);
+  }
 
   @Post('email/register')
   @HttpCode(HttpStatus.OK)
@@ -54,10 +60,11 @@ export class AuthController {
     return await this.authService.googleLogin(req);
   }
 
-  @UseGuards(RefreshJwtAuthGuard)
+  @ApiBearerAuth()
   @Post('refresh')
-  async refreshToken(@Req() req): Promise<{ token: string }> {
-    return this.authService.refreshToken(req.user);
+  @UseGuards(RefreshJwtAuthGuard)
+  async refreshToken(@Req() req) {
+    return this.authService.refreshToken(req.user.id);
   }
 
   // @Post('/forgotPassword')

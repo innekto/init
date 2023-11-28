@@ -9,7 +9,7 @@ import {
 import { UsersService } from '../users/users.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { IUser } from 'src/common/types/types';
+
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { AuthRegisterDto } from './dto/auth-register.dto';
@@ -20,7 +20,7 @@ import * as crypto from 'crypto';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
-import { IsEmail } from 'class-validator';
+
 import { User } from '../users/user.entity';
 
 @Injectable()
@@ -62,11 +62,14 @@ export class AuthService {
       hash,
     });
 
+    const confirmLink = `http://localhost:7000/verify/email/${hash}`;
+
     await this.mailerService.sendMail({
       from: 'virchenko.vlad.2021@gmail.com',
       to: user.email,
       subject: 'Підтвердження реєстрації',
-      html: `Для завершення реєстрації введіть цей код у відповідне поле: <strong>${hash}</strong>`,
+      html: `Для завершення реєстрації перейдіть за посиланням: <a href="${confirmLink}" style="font-weight: bold; color: blue;">${confirmLink}</a>
+      `,
     });
   }
 
@@ -80,10 +83,11 @@ export class AuthService {
       });
     }
 
-    const token = await this.jwtService.signAsync({
+    const { token, refreshToken } = await this.generateTokens({
       id: user.id,
       email: user.email,
     });
+
     const decodedToken: any = this.jwtService.decode(token, { json: true });
 
     user.isConfirm = true;
@@ -91,7 +95,7 @@ export class AuthService {
     user.hash = null;
 
     await this.usersRepository.save(user);
-    return { user, token, tokenExpires: decodedToken.exp * 1000 };
+    return { user, token, refreshToken, tokenExpires: decodedToken.exp * 1000 };
   }
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -108,25 +112,26 @@ export class AuthService {
     if (!req.user) {
       return 'No user!';
     }
+    const user = await this.usersRepository.findOneBy({ id: req.user.id });
 
-    const token = await this.jwtService.signAsync({
-      id: req.user.id,
-      email: req.user.email,
+    const { token, refreshToken } = await this.generateTokens({
+      id: user.id,
+      email: user.email,
     });
+
     const decodedToken: any = this.jwtService.decode(token, { json: true });
 
     return {
       message: 'Successfully logged in',
-      user: req.user,
+      user,
       token,
+      refreshToken,
       tokenExpires: decodedToken.exp * 1000,
     };
   }
 
   async validateGoogleUser(details) {
     const user = await this.usersRepository.findOneBy({ email: details.email });
-    user.online = true;
-    const logginedUser = await this.usersRepository.save(user);
 
     if (!user) {
       const newUser = this.usersRepository.create(details);
@@ -144,28 +149,78 @@ export class AuthService {
       return savedUser;
     }
 
+    user.online = true;
+
+    const logginedUser = await this.usersRepository.save(user);
     return logginedUser;
   }
 
-  async login(user: IUser) {
-    const { id, email } = user;
+  async login(email: string, password: string) {
+    const user = await this.usersRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+
+    const isValidPassword = await argon2.verify(user.password, password);
+
+    if (!isValidPassword) {
+      throw new BadRequestException('Wrong password');
+    }
+
+    const { token, refreshToken } = await this.generateTokens({
+      id: user.id,
+      email: user.email,
+    });
+
+    const decodedToken: any = this.jwtService.decode(token, { json: true });
+
+    await this.usersRepository.save(user);
+
     return {
-      id,
-      email,
-      token: this.jwtService.sign({ id: user.id, email: user.email }),
-      refreshToken: this.jwtService.sign(
-        { id: user.id, email: user.email },
-        { expiresIn: '7d' },
-      ),
+      token,
+      tokenExpires: decodedToken.exp * 1000,
+      refreshToken,
+      user,
     };
   }
 
-  async refreshToken(user: IUser) {
-    return {
-      token: this.jwtService.sign(
-        { id: user.id, email: user.email },
-        { expiresIn: '7d' },
+  async refreshToken(id: number) {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+
+    const { token, refreshToken } = await this.generateTokens({
+      id: user.id,
+      email: user.email,
+    });
+
+    const decodedToken: any = this.jwtService.decode(token, { json: true });
+
+    return { refreshToken, token, tokenExpires: decodedToken.exp * 1000 };
+  }
+
+  async generateTokens(user: { id: number; email: string }) {
+    const [token, refreshToken] = await Promise.all([
+      await this.jwtService.signAsync({
+        id: user.id,
+        email: user.email,
+      }),
+
+      await this.jwtService.signAsync(
+        {
+          id: user.id,
+          email: user.email,
+        },
+        {
+          expiresIn: '7d',
+        },
       ),
+    ]);
+    return {
+      token,
+      refreshToken,
     };
   }
 
