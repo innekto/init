@@ -1,9 +1,8 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import { IUser } from '../../common/types/types';
-import { RefreshDto } from '../dto/refreshToken.dto';
+
 dotenv.config();
 
 const { JWT_SECRET } = process.env;
@@ -15,17 +14,16 @@ export class RefreshJwtStrategy extends PassportStrategy(
 ) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromBodyField('refresh'),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: JWT_SECRET,
     });
   }
 
-  async validate(refreshDto: RefreshDto, user: IUser) {
-    if (!refreshDto || !refreshDto.refresh) {
-      throw new BadRequestException('Refresh token is required');
+  async validate(payload: any) {
+    if (!payload) {
+      throw new UnauthorizedException();
     }
-
-    return { id: user.id, email: user.email };
+    return { id: payload.id, email: payload.email };
   }
 }
