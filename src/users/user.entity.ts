@@ -10,7 +10,6 @@ import {
 
 @Entity('users')
 export class User {
-  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -39,6 +38,10 @@ export class User {
 
   @Column({ type: Boolean, default: false })
   online: boolean;
+
+  @Exclude()
+  @Column({ type: String, nullable: true, default: 'user' })
+  role: string;
 
   @CreateDateColumn()
   createdAt: Date;

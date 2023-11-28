@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { desertData } from '../content/deserts';
 import { DesertTypeEntity } from 'src/desert/entities/desert-type.entity';
 import { desertTypes } from '../content/desert-types';
+import { User } from 'src/users/user.entity';
+
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class DataBaseCreateService {
@@ -13,6 +16,8 @@ export class DataBaseCreateService {
     private desertRepository: Repository<Desert>,
     @InjectRepository(DesertTypeEntity)
     private desertTypesRepository: Repository<DesertTypeEntity>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   async desertRepositoryInit() {
@@ -30,6 +35,22 @@ export class DataBaseCreateService {
           Object.assign(new DesertTypeEntity(), type),
         );
       }
+    }
+  }
+
+  async adminCreation() {
+    const admin = await this.userRepository.findOneBy({ role: 'admin' });
+
+    if (!admin) {
+      const adminUser = new User();
+
+      adminUser.email = 'admin@gmail.com';
+      adminUser.role = 'admin';
+      adminUser.password = await argon2.hash('password');
+      adminUser.firstName = 'admin';
+      adminUser.lastName = 'admin';
+      adminUser.isConfirm = true;
+      await this.userRepository.save(adminUser);
     }
   }
 }

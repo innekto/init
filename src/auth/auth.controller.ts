@@ -33,6 +33,11 @@ export class AuthController {
     return await this.authService.login(loginDto.email, loginDto.password);
   }
 
+  @Post('admin/login')
+  async adminLogin(@Body() loginDto: AuthLoginDto) {
+    return await this.authService.adminLogin(loginDto.email, loginDto.password);
+  }
+
   @Post('email/register')
   @HttpCode(HttpStatus.OK)
   async register(@Body() createUserDto: AuthRegisterDto) {
