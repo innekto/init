@@ -2,6 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { JwtPayload } from './jwt-payload.interface';
 
 dotenv.config();
 
@@ -20,10 +21,10 @@ export class RefreshJwtStrategy extends PassportStrategy(
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: JwtPayload) {
     if (!payload) {
       throw new UnauthorizedException();
     }
-    return { id: payload.id, email: payload.email };
+    return { payload };
   }
 }
