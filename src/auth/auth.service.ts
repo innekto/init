@@ -86,6 +86,7 @@ export class AuthService {
     const { token, refreshToken } = await this.generateTokens({
       id: user.id,
       email: user.email,
+      role: user.role,
     });
 
     const decodedToken: any = this.jwtService.decode(token, { json: true });
@@ -117,6 +118,7 @@ export class AuthService {
     const { token, refreshToken } = await this.generateTokens({
       id: user.id,
       email: user.email,
+      role: user.role,
     });
 
     const decodedToken: any = this.jwtService.decode(token, { json: true });
@@ -171,9 +173,45 @@ export class AuthService {
     const { token, refreshToken } = await this.generateTokens({
       id: user.id,
       email: user.email,
+      role: user.role,
     });
 
     const decodedToken: any = this.jwtService.decode(token, { json: true });
+
+    user.online = true;
+
+    await this.usersRepository.save(user);
+
+    return {
+      token,
+      tokenExpires: decodedToken.exp * 1000,
+      refreshToken,
+      user,
+    };
+  }
+
+  async adminLogin(email: string, password: string) {
+    const user = await this.usersRepository.findOneBy({ email });
+
+    if (!user || user.role !== 'admin') {
+      throw new NotFoundException('user not found');
+    }
+
+    const isValidPassword = await argon2.verify(user.password, password);
+
+    if (!isValidPassword) {
+      throw new BadRequestException('Wrong password');
+    }
+
+    const { token, refreshToken } = await this.generateTokens({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    const decodedToken: any = this.jwtService.decode(token, { json: true });
+
+    user.online = true;
 
     await this.usersRepository.save(user);
 
@@ -194,6 +232,7 @@ export class AuthService {
     const { token, refreshToken } = await this.generateTokens({
       id: user.id,
       email: user.email,
+      role: user.role,
     });
 
     const decodedToken: any = this.jwtService.decode(token, { json: true });
@@ -201,17 +240,19 @@ export class AuthService {
     return { refreshToken, token, tokenExpires: decodedToken.exp * 1000 };
   }
 
-  async generateTokens(user: { id: number; email: string }) {
+  async generateTokens(user: { id: number; email: string; role: string }) {
     const [token, refreshToken] = await Promise.all([
       await this.jwtService.signAsync({
         id: user.id,
         email: user.email,
+        role: user.role,
       }),
 
       await this.jwtService.signAsync(
         {
           id: user.id,
           email: user.email,
+          role: user.role,
         },
         {
           expiresIn: '7d',

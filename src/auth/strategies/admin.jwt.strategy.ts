@@ -1,16 +1,16 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import * as dotenv from 'dotenv';
-
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from './jwt-payload.interface';
+
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
 const { JWT_SECRET } = process.env;
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -20,8 +20,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    if (!payload.id) {
-      throw new UnauthorizedException();
+    if (payload.role !== 'admin') {
+      throw new UnauthorizedException(
+        'You do not have the required permissions.',
+      );
     }
 
     return payload;
