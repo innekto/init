@@ -22,6 +22,7 @@ import { AuthService } from './auth/auth.service';
 import { User } from './users/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { DesertFillingEntity } from './desert/entities/filling.entity';
 
 // dotenv.config();
 
@@ -35,7 +36,12 @@ import { PassportModule } from '@nestjs/passport';
     JwtService,
   ],
   imports: [
-    TypeOrmModule.forFeature([Desert, DesertTypeEntity, User]),
+    TypeOrmModule.forFeature([
+      Desert,
+      DesertTypeEntity,
+      User,
+      DesertFillingEntity,
+    ]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {

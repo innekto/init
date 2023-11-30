@@ -56,8 +56,10 @@ async function start() {
   await app.listen(PORT, () => console.log(`server started on port:${PORT}`));
 
   const dataBaseCreateService = app.get(DataBaseCreateService);
+
   await dataBaseCreateService.desertRepositoryInit();
   await dataBaseCreateService.desertTypesRepositoryInit();
   await dataBaseCreateService.adminCreation();
+  await dataBaseCreateService.desertFillingRepositoryInit();
 }
 start();
