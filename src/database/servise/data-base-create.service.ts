@@ -47,8 +47,7 @@ export class DataBaseCreateService {
       adminUser.email = 'admin@gmail.com';
       adminUser.role = 'admin';
       adminUser.password = await argon2.hash('password');
-      adminUser.firstName = 'admin';
-      adminUser.lastName = 'admin';
+      adminUser.name = 'admin admin';
       adminUser.isConfirm = true;
       await this.userRepository.save(adminUser);
     }

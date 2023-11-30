@@ -14,10 +14,7 @@ export class User {
   id: number;
 
   @Column({ type: String, nullable: true })
-  firstName: string;
-
-  @Column({ type: String, nullable: true })
-  lastName: string;
+  name: string;
 
   @Exclude({ toPlainOnly: true })
   @Column({ type: String, nullable: true })
