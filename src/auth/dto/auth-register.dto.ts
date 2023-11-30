@@ -25,13 +25,9 @@ export class AuthRegisterDto {
   @IsPhoneNumber()
   phone: string;
 
-  @ApiProperty({ example: 'John' })
+  @ApiProperty({ example: 'John Doe' })
   @IsNotEmpty()
-  firstName: string | null;
-
-  @ApiProperty({ example: 'Doe' })
-  @IsNotEmpty()
-  lastName: string | null;
+  name: string | null;
 
   @ApiProperty({ example: '11234567', description: "user's password" })
   @IsNotEmpty()

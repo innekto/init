@@ -14,13 +14,9 @@ export class CreateUserDto {
   @MinLength(6, { message: 'Password length must be at least 6 characters' })
   password: string;
 
-  @ApiProperty({ example: 'John' })
+  @ApiProperty({ example: 'John Doe' })
   @IsNotEmpty()
-  firstName: string | null;
-
-  @ApiProperty({ example: 'Doe' })
-  @IsNotEmpty()
-  lastName: string | null;
+  name: string | null;
 
   @ApiProperty({
     example: 'notActive',
