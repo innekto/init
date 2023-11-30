@@ -1,3 +1,4 @@
+import { Order } from 'src/order/entities/order.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -5,6 +6,8 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity('desert')
@@ -24,14 +27,15 @@ export class Desert {
   @Column({ type: String, nullable: true })
   imagePath: string;
 
-  // @Column({ type: String, nullable: true })
-  // imagePathId: string;
-
   @Column({ type: Number, nullable: true })
   weight: number;
 
   @Column({ type: String, nullable: true })
   composition: string;
+
+  @ManyToMany(() => Order, (order) => order.deserts)
+  @JoinTable({ name: 'order_to_desert' })
+  orders: Order[];
 
   @CreateDateColumn()
   createdAt: Date;

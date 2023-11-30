@@ -1,4 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Desert } from 'src/desert/entities/desert.entity';
+import { User } from 'src/users/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('order')
 export class Order {
@@ -10,4 +20,12 @@ export class Order {
 
   @Column()
   number: number;
+
+  @ManyToOne(() => User, (user) => user.orders)
+  @JoinColumn({ name: 'userId' }) // Ім'я стовпця з ідентифікатором користувача в таблиці 'order'
+  user: User;
+
+  @ManyToMany(() => Desert, (desert) => desert.orders)
+  @JoinTable({ name: 'order_to_desert' })
+  deserts: Desert[];
 }
