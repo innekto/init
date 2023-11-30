@@ -17,49 +17,6 @@ export class UsersService {
     private readonly mailerService: MailerService,
   ) {}
 
-  // async create(createUserDto: CreateUserDto) {
-  //   const existUser = await this.usersRepository.findOne({
-  //     where: { email: createUserDto.email },
-  //   });
-  //   console.log('existUser', existUser);
-  //   if (existUser) throw new ConflictException('email already exist');
-
-  //   const hash = crypto
-  //     .createHash('sha256')
-  //     .update(randomStringGenerator())
-  //     .digest('hex');
-
-  //   const user = await this.usersRepository.save({
-  //     email: createUserDto.email,
-  //     password: await argon2.hash(createUserDto.password),
-  //     status: createUserDto.status,
-  //     hash,
-  //   });
-
-  //   const confirmLink = `http://localhost:3000/verify/email/${hash}`;
-
-  //   await this.mailerService.sendMail({
-  //     from: 'virchenko.vlad.2021@gmail.com',
-  //     to: user.email,
-  //     subject: 'Підтвердження реєстрації',
-  //     html: `Для завершення реєстрації перейдіть за посиланням: <a href="${confirmLink}">${confirmLink}</a>`,
-  //   });
-
-  //   const token = await this.jwtService.signAsync(
-  //     {
-  //       id: user.id,
-  //       email: user.email,
-  //     },
-  //     {
-  //       expiresIn: 30, // Термін дії токену в секундах
-  //     },
-  //   );
-
-  //   const decodedToken = await this.jwtService.verifyAsync(token);
-  //   console.log('decodedToken', decodedToken);
-  //   return { user, token };
-  // }
-
   async findOne(email: string): Promise<User> {
     return this.usersRepository.findOne({ where: { email } });
   }

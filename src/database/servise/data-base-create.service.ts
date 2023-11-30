@@ -4,10 +4,12 @@ import { Desert } from 'src/desert/entities/desert.entity';
 import { Repository } from 'typeorm';
 import { desertData } from '../content/deserts';
 import { DesertTypeEntity } from 'src/desert/entities/desert-type.entity';
-import { desertTypes } from '../content/desert-types';
+import { desertTypes } from '../content/types/desert-types';
 import { User } from 'src/users/user.entity';
 
 import * as argon2 from 'argon2';
+import { DesertFillingEntity } from 'src/desert/entities/filling.entity';
+import { desertFillingData } from '../content/desrt-fillings';
 
 @Injectable()
 export class DataBaseCreateService {
@@ -18,12 +20,23 @@ export class DataBaseCreateService {
     private desertTypesRepository: Repository<DesertTypeEntity>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(DesertFillingEntity)
+    private desertFillingRepository: Repository<DesertFillingEntity>,
   ) {}
 
   async desertRepositoryInit() {
     if ((await this.desertRepository.count()) === 0) {
       for (const desert of desertData) {
         await this.desertRepository.save(Object.assign(new Desert(), desert));
+      }
+    }
+  }
+  async desertFillingRepositoryInit() {
+    if ((await this.desertFillingRepository.count()) === 0) {
+      for (const desert of desertFillingData) {
+        await this.desertFillingRepository.save(
+          Object.assign(new Desert(), desert),
+        );
       }
     }
   }

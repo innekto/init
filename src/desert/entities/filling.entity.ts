@@ -1,14 +1,15 @@
 // desert-type.entity.ts
 
-import { Exclude } from 'class-transformer';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('desert_types')
-export class DesertTypeEntity {
-  @Exclude()
+@Entity('desrt_filling')
+export class DesertFillingEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: String, nullable: true })
-  type: string;
+  name: string;
+
+  @Column({ type: String, nullable: true })
+  imagePath: string;
 }

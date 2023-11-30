@@ -10,15 +10,10 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
-// import { JwtAuthGuard } from './guards/auth/jwt-auth.guard';
-// import { LocalAuthGuard } from './guards/auth/local-auth.guard';
 import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
-// import { RefreshDto } from './strategies/dto/refreshToken.dto';
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
+// import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
-
 import { GoogleAuthGuard } from './guards/google.guard';
 import { Request } from 'express';
 import { AuthLoginDto } from './dto/auth-login.dto';

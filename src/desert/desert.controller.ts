@@ -11,15 +11,18 @@ import {
   MaxFileSizeValidator,
   ParseFilePipe,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { DesertService } from './desert.service';
 import { CreateDesertDto } from './dto/create-desert.dto';
 import { UpdateDesertDto } from './dto/update-desert.dto';
-import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('deserts')
+@ApiTags('desert')
 @Controller('desert')
 export class DesertController {
   constructor(
@@ -27,10 +30,32 @@ export class DesertController {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
+  @Get()
+  async findAll() {
+    return this.desertService.findAll();
+  }
+
+  @Get('deserts-of-type/:type')
+  async findDesertsOfType(@Param('type') type: string) {
+    return this.desertService.findDesertsOfType(type);
+  }
+
+  @Get('types')
+  async getTypes() {
+    return this.desertService.getTypesOfDeserts();
+  }
+
+  @Get('filings')
+  async getFilings() {
+    return this.desertService.getFilings();
+  }
+
+  @ApiBearerAuth()
   @Post()
+  @UseGuards(AdminAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
-  create(
+  async create(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -45,7 +70,9 @@ export class DesertController {
     return this.desertService.create(createDesertDto, file);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
+  @UseGuards(AdminAuthGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   async deleteDesertImage(
@@ -58,23 +85,17 @@ export class DesertController {
     return await this.desertService.updateDesert(id, file, updateDesertDto);
   }
 
-  @Get()
-  findAll() {
-    return this.desertService.findAll();
-  }
-
+  @ApiBearerAuth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @UseGuards(JwtAuthGuard)
+  async findOne(@Param('id') id: string) {
     return this.desertService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDesertDto: UpdateDesertDto) {
-    return this.desertService.update(+id, updateDesertDto);
-  }
-
+  @ApiBearerAuth()
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @UseGuards(AdminAuthGuard)
+  async remove(@Param('id') id: string) {
     return this.desertService.remove(+id);
   }
 }

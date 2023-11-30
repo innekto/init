@@ -10,11 +10,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { desertType } from 'src/common/types/desertTypes';
+import { DesertTypeEntity } from './entities/desert-type.entity';
+import { DesertFillingEntity } from './entities/filling.entity';
 
 @Injectable()
 export class DesertService {
   constructor(
     @InjectRepository(Desert) private desertRepository: Repository<Desert>,
+    @InjectRepository(DesertTypeEntity)
+    private desertTypeRepository: Repository<DesertTypeEntity>,
+    @InjectRepository(DesertFillingEntity)
+    private desertFilingRepository: Repository<DesertFillingEntity>,
     private cloudinaryService: CloudinaryService,
   ) {}
 
@@ -82,6 +88,22 @@ export class DesertService {
 
   async findAll() {
     return await this.desertRepository.find();
+  }
+
+  async getTypesOfDeserts() {
+    const types = await this.desertTypeRepository.find();
+    return types.map((type) => type.type);
+  }
+
+  async getFilings() {
+    const filling = await this.desertFilingRepository.find();
+    return filling.map((fil) => {
+      return { name: fil.name, image: fil.imagePath };
+    });
+  }
+
+  async findDesertsOfType(type: string) {
+    return await this.desertRepository.find({ where: { type: type } });
   }
 
   findOne(id: number) {
