@@ -18,10 +18,12 @@ import { randomStringGenerator } from '@nestjs/common/utils/random-string-genera
 import * as crypto from 'crypto';
 
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository } from 'typeorm';
-
 import { User } from '../users/user.entity';
+
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Injectable()
 export class AuthService {
@@ -62,7 +64,7 @@ export class AuthService {
       hash,
     });
 
-    const confirmLink = `http://localhost:7000/verify/email/${hash}`;
+    const confirmLink = `${process.env.FRONTEND_DOMAIN}/verify/${hash}`;
 
     await this.mailerService.sendMail({
       from: 'virchenko.vlad.2021@gmail.com',
