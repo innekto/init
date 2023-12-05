@@ -22,7 +22,7 @@ export class Order {
   number: number;
 
   @ManyToOne(() => User, (user) => user.orders)
-  @JoinColumn({ name: 'userId' }) // Ім'я стовпця з ідентифікатором користувача в таблиці 'order'
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   @ManyToMany(() => Desert, (desert) => desert.orders)

@@ -1,5 +1,3 @@
-// desert-type.entity.ts
-
 import { Exclude } from 'class-transformer';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 

@@ -16,7 +16,12 @@ import {
 import { DesertService } from './desert.service';
 import { CreateDesertDto } from './dto/create-desert.dto';
 import { UpdateDesertDto } from './dto/update-desert.dto';
-import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
@@ -30,26 +35,33 @@ export class DesertController {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
+  @ApiOperation({ summary: 'Get all deserts' })
   @Get()
   async findAll() {
     return this.desertService.findAll();
   }
 
+  @ApiOperation({ summary: 'Get all deserts of one type' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get('deserts-of-type/:type')
   async findDesertsOfType(@Param('type') type: string) {
     return this.desertService.findDesertsOfType(type);
   }
 
+  @ApiOperation({ summary: 'Only for rendering' })
   @Get('types')
   async getTypes() {
     return this.desertService.getTypesOfDeserts();
   }
 
+  @ApiOperation({ summary: 'Only for rendering' })
   @Get('filings')
   async getFilings() {
     return this.desertService.getFilings();
   }
 
+  @ApiOperation({ summary: 'Create new desert by admin' })
   @ApiBearerAuth()
   @Post()
   @UseGuards(AdminAuthGuard)
@@ -70,6 +82,7 @@ export class DesertController {
     return this.desertService.create(createDesertDto, file);
   }
 
+  @ApiOperation({ summary: 'Update desert by admin' })
   @ApiBearerAuth()
   @Patch(':id')
   @UseGuards(AdminAuthGuard)
@@ -85,6 +98,7 @@ export class DesertController {
     return await this.desertService.updateDesert(id, file, updateDesertDto);
   }
 
+  @ApiOperation({ summary: 'Get one desert by ID' })
   @ApiBearerAuth()
   @Get(':id')
   @UseGuards(JwtAuthGuard)
@@ -92,6 +106,7 @@ export class DesertController {
     return this.desertService.findOne(+id);
   }
 
+  @ApiOperation({ summary: 'Delete desert by admin' })
   @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(AdminAuthGuard)
