@@ -65,23 +65,13 @@ export class DesertService {
     }
     desert.type = updateDesertDto.type;
 
-    desert.name =
-      updateDesertDto.name !== '' ? updateDesertDto.name : desert.name;
+    desert.name = updateDesertDto.name ?? desert.name;
 
-    desert.price =
-      updateDesertDto.price.toString() !== ''
-        ? updateDesertDto.price
-        : desert.price;
+    desert.price = updateDesertDto.price ?? desert.price;
 
-    desert.weight =
-      updateDesertDto.weight.toString() !== ''
-        ? updateDesertDto.weight
-        : desert.weight;
+    desert.weight = updateDesertDto.weight ?? desert.weight;
 
-    desert.composition =
-      updateDesertDto.composition !== ''
-        ? updateDesertDto.composition
-        : desert.composition;
+    desert.composition = updateDesertDto.composition ?? desert.composition;
 
     await this.desertRepository.save(desert);
   }
