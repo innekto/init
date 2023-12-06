@@ -17,6 +17,7 @@ import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
 import { GoogleAuthGuard } from './guards/google.guard';
 import { Request } from 'express';
 import { AuthLoginDto } from './dto/auth-login.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -65,6 +66,13 @@ export class AuthController {
   @UseGuards(RefreshJwtAuthGuard)
   async refreshToken(@Req() req) {
     return this.authService.refreshToken(req.user.id);
+  }
+
+  @ApiBearerAuth()
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(@Req() req) {
+    return this.authService.logout(req.user.id);
   }
 
   // @Post('/forgotPassword')
