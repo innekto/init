@@ -242,6 +242,14 @@ export class AuthService {
     return { refreshToken, token, tokenExpires: decodedToken.exp * 1000 };
   }
 
+  async logout(id: number) {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    user.online = false;
+    await this.usersRepository.save(user);
+  }
   async generateTokens(user: { id: number; email: string; role: string }) {
     const [token, refreshToken] = await Promise.all([
       await this.jwtService.signAsync({
