@@ -80,10 +80,6 @@ export class DesertService {
     return updatedDesert;
   }
 
-  async findAll() {
-    return await this.desertRepository.find();
-  }
-
   async getTypesOfDeserts() {
     const types = await this.desertTypeRepository.find();
     return types.map((type) => type.type);

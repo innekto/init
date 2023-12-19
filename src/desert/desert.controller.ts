@@ -38,12 +38,6 @@ export class DesertController {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  @ApiOperation({ summary: 'Get all deserts' })
-  @Get()
-  async findAll() {
-    return this.desertService.findAll();
-  }
-
   @ApiOperation({ summary: 'Get all deserts of one type' })
   @ApiResponse({
     status: HttpStatus.OK,
