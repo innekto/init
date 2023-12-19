@@ -17,9 +17,6 @@ export class UsersService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async findOne(email: string): Promise<User> {
-    return this.usersRepository.findOne({ where: { email } });
-  }
   async getAll() {
     return this.usersRepository.find();
   }

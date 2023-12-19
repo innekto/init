@@ -22,9 +22,9 @@ export class RefreshJwtStrategy extends PassportStrategy(
   }
 
   async validate(payload: JwtPayload) {
-    if (!payload) {
+    if (!payload.role) {
       throw new UnauthorizedException();
     }
-    return { payload };
+    return payload;
   }
 }

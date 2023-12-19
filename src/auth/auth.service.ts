@@ -22,6 +22,8 @@ import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 
 import * as dotenv from 'dotenv';
+import { AuthLoginDto } from './dto/auth-login.dto';
+import { JwtPayload } from './strategies/jwt-payload.interface';
 
 dotenv.config();
 
@@ -39,14 +41,18 @@ export class AuthService {
     return user;
   }
 
-  async register(data: AuthRegisterDto) {
-    const existingUser = await this.usersRepository.findOne({
-      where: { email: data.email },
-    });
+  async register(data: AuthRegisterDto): Promise<void> {
+    const existingUser = await this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email OR user.phone = :phone', {
+        email: data.email,
+        phone: data.phone,
+      })
+      .getOne();
 
     if (existingUser) {
       throw new ConflictException({
-        error: `User with this email already exists.`,
+        error: `User with this email or phone number already exists.`,
         status: HttpStatus.UNPROCESSABLE_ENTITY,
       });
     }
@@ -101,16 +107,6 @@ export class AuthService {
     return { user, token, refreshToken, tokenExpires: decodedToken.exp * 1000 };
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.findOne(email);
-    const passwordMatch = await argon2.verify(user.password, password);
-
-    if (user && passwordMatch) {
-      return user;
-    }
-    throw new UnauthorizedException('user or password are incorrect');
-  }
-
   async googleLogin(req) {
     if (!req.user) {
       return 'No user!';
@@ -159,14 +155,24 @@ export class AuthService {
     return logginedUser;
   }
 
-  async login(email: string, password: string) {
-    const user = await this.usersRepository.findOneBy({ email });
+  async login(loginDto: AuthLoginDto) {
+    const loginValue = loginDto.login;
+
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.phone = :loginValue OR user.email = :loginValue', {
+        loginValue,
+      })
+      .getOne();
 
     if (!user) {
       throw new NotFoundException('user not found');
     }
 
-    const isValidPassword = await argon2.verify(user.password, password);
+    const isValidPassword = await argon2.verify(
+      user.password,
+      loginDto.password,
+    );
 
     if (!isValidPassword) {
       throw new BadRequestException('Wrong password');
@@ -192,41 +198,53 @@ export class AuthService {
     };
   }
 
-  async adminLogin(email: string, password: string) {
-    const user = await this.usersRepository.findOneBy({ email });
+  async adminLogin(loginDto: AuthLoginDto) {
+    const loginValue = loginDto.login;
 
-    if (!user || user.role !== 'admin') {
-      throw new NotFoundException('user not found');
+    const admin = await this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.phone = :loginValue OR user.email = :loginValue', {
+        loginValue,
+      })
+      .andWhere('user.role = :role', { role: 'admin' })
+      .getOne();
+
+    if (!admin) {
+      throw new NotFoundException('admin not found');
     }
 
-    const isValidPassword = await argon2.verify(user.password, password);
+    const isValidPassword = await argon2.verify(
+      admin.password,
+      loginDto.password,
+    );
 
     if (!isValidPassword) {
       throw new BadRequestException('Wrong password');
     }
 
     const { token, refreshToken } = await this.generateTokens({
-      id: user.id,
-      email: user.email,
-      role: user.role,
+      id: admin.id,
+      email: admin.email,
+      role: admin.role,
     });
 
     const decodedToken: any = this.jwtService.decode(token, { json: true });
 
-    user.online = true;
+    admin.online = true;
 
-    await this.usersRepository.save(user);
+    await this.usersRepository.save(admin);
 
     return {
       token,
       tokenExpires: decodedToken.exp * 1000,
       refreshToken,
-      user,
+      admin,
     };
   }
 
   async refreshToken(id: number) {
-    const user = await this.usersRepository.findOneBy({ id });
+    const user = await this.usersRepository.findOneByOrFail({ id });
+
     if (!user) {
       throw new NotFoundException('user not found');
     }
@@ -237,7 +255,10 @@ export class AuthService {
       role: user.role,
     });
 
-    const decodedToken: any = this.jwtService.decode(token, { json: true });
+    const decodedToken: JwtPayload = this.jwtService.decode(token, {
+      json: true,
+    });
+    console.log('decodedToken', decodedToken);
 
     return { refreshToken, token, tokenExpires: decodedToken.exp * 1000 };
   }
@@ -250,12 +271,12 @@ export class AuthService {
     user.online = false;
     await this.usersRepository.save(user);
   }
+
   async generateTokens(user: { id: number; email: string; role: string }) {
     const [token, refreshToken] = await Promise.all([
       await this.jwtService.signAsync({
         id: user.id,
         email: user.email,
-        role: user.role,
       }),
 
       await this.jwtService.signAsync(
