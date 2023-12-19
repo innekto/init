@@ -93,11 +93,28 @@ export class DesertService {
   }
 
   async findDesertsOfType(type: string) {
-    return await this.desertRepository.find({ where: { type: type } });
+    if (!desertType.includes(type)) {
+      throw new ConflictException('Incorrect type of dessert');
+    }
+
+    const desserts = await this.desertRepository.find({
+      where: { type: type },
+    });
+
+    if (!desserts) {
+      throw new NotFoundException();
+    }
+
+    return desserts;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} desert`;
+  async findOne(id: number): Promise<Desert> {
+    const dessert = await this.desertRepository.findOne({ where: { id } });
+
+    if (!dessert) {
+      throw new NotFoundException();
+    }
+    return dessert;
   }
 
   update(id: number, updateDesertDto: UpdateDesertDto) {

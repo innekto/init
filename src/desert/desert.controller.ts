@@ -12,6 +12,7 @@ import {
   ParseFilePipe,
   UploadedFile,
   UseGuards,
+  HttpStatus,
 } from '@nestjs/common';
 import { DesertService } from './desert.service';
 import { CreateDesertDto } from './dto/create-desert.dto';
@@ -20,12 +21,14 @@ import {
   ApiBearerAuth,
   ApiConsumes,
   ApiOperation,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Desert } from './entities/desert.entity';
 
 @ApiTags('desert')
 @Controller('desert')
@@ -42,6 +45,27 @@ export class DesertController {
   }
 
   @ApiOperation({ summary: 'Get all deserts of one type' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    content: {
+      'application/json': {
+        example: [
+          {
+            id: 1,
+            type: 'macaroon',
+            name: 'Набір макарунів',
+            price: 480,
+            imagePath: 'https://...',
+            weight: 180,
+            composition: 'Набір макарунів',
+            createdAt: '2023-12-19T15:30:29.542Z',
+            updatedAt: '2023-12-19T15:30:29.542Z',
+            deletedAt: null,
+          },
+        ],
+      },
+    },
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('deserts-of-type/:type')
@@ -94,15 +118,33 @@ export class DesertController {
     @Body() updateDesertDto: UpdateDesertDto,
     @Param('id') id: number,
   ) {
-    console.log('id', id);
     return await this.desertService.updateDesert(id, file, updateDesertDto);
   }
 
   @ApiOperation({ summary: 'Get one desert by ID' })
   @ApiBearerAuth()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    content: {
+      'application/json': {
+        example: {
+          id: 10,
+          type: 'tarts',
+          name: 'Еклер',
+          price: 70,
+          imagePath: 'https://.......',
+          weight: 55,
+          composition: 'Шоколадний еклер',
+          createdAt: 'Date',
+          updatedAt: 'Date',
+          deletedAt: null,
+        },
+      },
+    },
+  })
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<Desert> {
     return this.desertService.findOne(+id);
   }
 
