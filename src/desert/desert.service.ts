@@ -42,8 +42,9 @@ export class DesertService {
     id: number,
     file: Express.Multer.File,
     updateDesertDto: UpdateDesertDto,
-  ) {
+  ): Promise<Desert> {
     const desert = await this.desertRepository.findOne({ where: { id } });
+
     if (!desert) {
       throw new NotFoundException(`Desert with id ${id} not found`);
     }
@@ -63,17 +64,20 @@ export class DesertService {
     if (updateDesertDto.type && !isCorrectType) {
       throw new ConflictException('Incorrect type of desert');
     }
-    desert.type = updateDesertDto.type;
 
-    desert.name = updateDesertDto.name ?? desert.name;
+    await this.desertRepository.update(desert.id, {
+      type: updateDesertDto.type,
+      name: updateDesertDto.name,
+      price: updateDesertDto.price,
+      weight: updateDesertDto.weight,
+      composition: updateDesertDto.composition,
+    });
 
-    desert.price = updateDesertDto.price ?? desert.price;
+    const updatedDesert = await this.desertRepository.findOne({
+      where: { id: desert.id },
+    });
 
-    desert.weight = updateDesertDto.weight ?? desert.weight;
-
-    desert.composition = updateDesertDto.composition ?? desert.composition;
-
-    await this.desertRepository.save(desert);
+    return updatedDesert;
   }
 
   async findAll() {
@@ -115,10 +119,6 @@ export class DesertService {
       throw new NotFoundException();
     }
     return dessert;
-  }
-
-  update(id: number, updateDesertDto: UpdateDesertDto) {
-    return `This action updates a #${id} desert`;
   }
 
   remove(id: number) {

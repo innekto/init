@@ -20,6 +20,7 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
   }
 
   async validate(payload: JwtPayload) {
+    console.log('payload.role', payload.role);
     if (payload.role !== 'admin') {
       throw new UnauthorizedException(
         'You do not have the required permissions.',
