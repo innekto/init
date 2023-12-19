@@ -8,7 +8,12 @@ import {
   Get,
   Req,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
 // import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -25,23 +30,72 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
+  @ApiOperation({ summary: 'login by user' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    content: {
+      'application/json': {
+        example: {
+          token: 'string',
+          tokenExpires: 'number',
+          refreshToken: 'refreshToken',
+          user: {
+            id: 'id',
+            name: 'John Doe',
+            phone: '+380509999999',
+            email: 'email@examole.com',
+            isConfirm: 'boolean',
+            online: 'boolean',
+            createdAt: 'Date',
+            updatedAt: 'Date',
+            deletedAt: 'Date or null',
+          },
+        },
+      },
+    },
+  })
   async login(@Body() loginDto: AuthLoginDto) {
-    return await this.authService.login(loginDto.email, loginDto.password);
+    return await this.authService.login(loginDto);
   }
 
   @Post('admin/login')
+  @ApiOperation({ summary: 'login by admin' })
   async adminLogin(@Body() loginDto: AuthLoginDto) {
-    return await this.authService.adminLogin(loginDto.email, loginDto.password);
+    return await this.authService.adminLogin(loginDto);
   }
 
   @Post('email/register')
-  @HttpCode(HttpStatus.OK)
-  async register(@Body() createUserDto: AuthRegisterDto) {
+  @ApiOperation({ summary: 'user registration' })
+  @HttpCode(HttpStatus.CREATED)
+  async register(@Body() createUserDto: AuthRegisterDto): Promise<void> {
     return this.authService.register(createUserDto);
   }
 
   @Post('email/confirm')
-  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'user email confirmation' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    content: {
+      'application/json': {
+        example: {
+          token: 'string',
+          tokenExpires: 'number',
+          refreshToken: 'refreshToken',
+          user: {
+            id: 'id',
+            name: 'John Doe',
+            phone: '+380509999999',
+            email: 'email@examole.com',
+            isConfirm: 'boolean',
+            online: 'boolean',
+            createdAt: 'Date',
+            updatedAt: 'Date',
+            deletedAt: 'Date or null',
+          },
+        },
+      },
+    },
+  })
   async confirmEmail(
     @Body() confirmEmailDto: AuthConfirmEmailDto,
   ): Promise<object> {
@@ -63,6 +117,19 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Post('refresh')
+  @ApiOperation({ summary: "refreshing user's tokens when token expired " })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    content: {
+      'application/json': {
+        example: {
+          token: 'string',
+          tokenExpires: 'number',
+          refreshToken: 'refreshToken',
+        },
+      },
+    },
+  })
   @UseGuards(RefreshJwtAuthGuard)
   async refreshToken(@Req() req) {
     return this.authService.refreshToken(req.user.id);
@@ -70,6 +137,8 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Post('logout')
+  @ApiOperation({ summary: 'logout by user' })
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req) {
     return this.authService.logout(req.user.id);

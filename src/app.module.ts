@@ -23,6 +23,7 @@ import { User } from './users/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { DesertFillingEntity } from './desert/entities/filling.entity';
+import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
 
 // dotenv.config();
 
@@ -32,6 +33,7 @@ import { DesertFillingEntity } from './desert/entities/filling.entity';
     AppService,
     DataBaseCreateService,
     GoogleStrategy,
+    AdminJwtStrategy,
     AuthService,
     JwtService,
   ],
