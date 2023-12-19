@@ -23,6 +23,7 @@ import { GoogleAuthGuard } from './guards/google.guard';
 import { Request } from 'express';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { User } from 'src/common/decorators/user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -131,8 +132,8 @@ export class AuthController {
     },
   })
   @UseGuards(RefreshJwtAuthGuard)
-  async refreshToken(@Req() req) {
-    return this.authService.refreshToken(req.user.id);
+  async refreshToken(@User('id') userId: number) {
+    return this.authService.refreshToken(userId);
   }
 
   @ApiBearerAuth()
@@ -140,8 +141,8 @@ export class AuthController {
   @ApiOperation({ summary: 'logout by user' })
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  async logout(@Req() req) {
-    return this.authService.logout(req.user.id);
+  async logout(@User('id') userId: number) {
+    return this.authService.logout(userId);
   }
 
   // @Post('/forgotPassword')
