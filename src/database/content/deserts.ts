@@ -173,7 +173,7 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_5_wwcs61.jpg',
     weight: 2500,
-    composition: '',
+    composition: 'Полунично-малинова начинка',
   },
   {
     type: desertType[2],
@@ -182,7 +182,7 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_4_hiwvzi.jpg',
     weight: 4000,
-    composition: '',
+    composition: 'вишнева начинка',
   },
   {
     type: desertType[2],
@@ -191,7 +191,7 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_3_pqhmqk.jpg',
     weight: 1000,
-    composition: '',
+    composition: 'шоколадно чорнична начинка',
   },
   {
     type: desertType[2],
@@ -201,84 +201,6 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_y41iok.jpg',
     weight: 4000,
     composition: 'начинка на ваш вибір',
-  },
-  {
-    type: desertType[2],
-    name: 'Моцарт',
-    price: 550,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700486571/istockphoto-1794340513-612x612_lcggeq.jpg',
-    weight: 1000,
-    composition:
-      'шоколадний бісквіт, просочений цукровим сиропом амарето та шоколадним кремом з молочним кремом',
-  },
-  {
-    type: desertType[2],
-    name: 'Естерхазі',
-    price: 750,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700486819/istockphoto-1272409238-612x612_eqnxva.jpg',
-    weight: 1000,
-    composition: 'мигдальні коржі, масляний крем з апельсиновим лікером',
-  },
-  {
-    type: desertType[2],
-    name: 'Торт тірамісу з маскарпоне',
-    price: 900,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700499453/istockphoto-175264665-612x612_r0yhmn.jpg',
-    weight: 1000,
-    composition:
-      'мигдальний бісквіт, просочений сиропом з кавою та ромом, і сирний крем на основі маскарпоне, перешарований бісквітним печивом і прикрашений какао',
-  },
-  {
-    type: desertType[2],
-    name: '"Сен-Тропе" з фруктами',
-    price: 800,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700512206/%D0%97%D0%BD%D1%96%D0%BC%D0%BE%D0%BA_%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0_2023-11-20_%D0%BE_22.29.51_ppuneh.png',
-    weight: 1000,
-    composition:
-      'бісквіт, заварний крем, просочений апельсиновим соком, свіжі апельсини, ківі, виноград, коктейльна вишня, консервований ананас, покритий фруктовим гелем.',
-  },
-  {
-    type: desertType[2],
-    name: 'Чорна перлина',
-    price: 750,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700512631/tort_chernaya_jemchujina-258_06b_o_vj34yt.webp',
-    weight: 1000,
-    composition: 'Сметанно-кавові коржі, вершкові, з чорносливом',
-  },
-  {
-    type: desertType[2],
-    name: 'Вишня',
-    price: 550,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700512909/noroot_bxquy6.webp',
-    weight: 1000,
-    composition:
-      'Шоколадний класичний бісквіт, просочений сиропом. Крем зі збитих вершків з какао та вишнею на коньяку.',
-  },
-  {
-    type: desertType[2],
-    name: 'Помаранчевий трюфель',
-    price: 750,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700513050/noroot_1_j9woxi.webp',
-    weight: 1000,
-    composition:
-      'Шоколадно-масляний бісквіт, трюфельна начинка, шар апельсинового мусу, шоколадний ганаш, макарон.',
-  },
-  {
-    type: desertType[2],
-    name: 'Баунті',
-    price: 750,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700513273/DSC_0276_lfurhs.webp',
-    weight: 1000,
-    composition:
-      'Шоколадний бісквіт, кокосова начинка з молоком та маслом, шоколадний ганаш',
   },
 
   {

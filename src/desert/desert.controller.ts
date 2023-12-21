@@ -73,11 +73,11 @@ export class DesertController {
     return this.desertService.getTypesOfDeserts();
   }
 
-  @ApiOperation({ summary: 'Only for rendering' })
-  @Get('filings')
-  async getFilings() {
-    return this.desertService.getFilings();
-  }
+  // @ApiOperation({ summary: 'Only for rendering' })
+  // @Get('filings')
+  // async getFilings() {
+  //   return this.desertService.getFilings();
+  // }
 
   @ApiOperation({ summary: 'Create new desert by admin' })
   @ApiBearerAuth()
