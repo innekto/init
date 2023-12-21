@@ -10,6 +10,7 @@ import { User } from 'src/users/user.entity';
 import * as argon2 from 'argon2';
 import { DesertFillingEntity } from 'src/desert/entities/filling.entity';
 import { desertFillingData } from '../content/desrt-fillings';
+import { desertFillingType } from 'src/common/types/desertFillingType';
 
 @Injectable()
 export class DataBaseCreateService {
@@ -64,5 +65,63 @@ export class DataBaseCreateService {
       adminUser.isConfirm = true;
       await this.userRepository.save(adminUser);
     }
+  }
+
+  async desertsFillingCreation() {
+    const cakes = await this.desertRepository.find({
+      where: { type: 'cakes' },
+      relations: ['desertFilling'],
+    });
+
+    const cakesWithMultiFillings = cakes.filter(
+      (cake) => cake.composition === 'начинка на ваш вибір',
+    );
+
+    if (cakes && cakes[0].desertFilling.length === 0) {
+      const fillingTypesArray = desertFillingType.slice(0, 6);
+
+      for (const cake of cakesWithMultiFillings) {
+        const fillingsToAdd = await this.desertFillingRepository
+          .createQueryBuilder('fillings')
+          .select()
+          .where('fillings.name IN (:...types)', { types: fillingTypesArray })
+          .getMany();
+
+        cake.desertFilling.push(...fillingsToAdd);
+      }
+
+      const chocolateBlueberry = cakes.find(
+        (cake) => cake.name === 'Шоколадно-чорничний торт',
+      );
+
+      const chocolateBlueberryFilling =
+        await this.desertFillingRepository.findOne({
+          where: { name: desertFillingType[6] },
+        });
+
+      chocolateBlueberry.desertFilling.push(chocolateBlueberryFilling);
+
+      const cherryGrang = cakes.find(
+        (cake) => cake.name === 'Торт "Черрі Гранд"',
+      );
+
+      const cherryFilling = await this.desertFillingRepository.findOne({
+        where: { name: desertFillingType[7] },
+      });
+
+      cherryGrang.desertFilling.push(cherryFilling);
+
+      const strawberryRaspberry = cakes.find(
+        (cake) => cake.name === 'Полунично-малиновий торт',
+      );
+
+      const strawberryRaspberryFilling =
+        await this.desertFillingRepository.findOne({
+          where: { name: desertFillingType[8] },
+        });
+
+      strawberryRaspberry.desertFilling.push(strawberryRaspberryFilling);
+    }
+    await this.desertRepository.save(cakes);
   }
 }

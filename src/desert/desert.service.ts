@@ -85,12 +85,12 @@ export class DesertService {
     return types.map((type) => type.type);
   }
 
-  async getFilings() {
-    const filling = await this.desertFilingRepository.find();
-    return filling.map((fil) => {
-      return { name: fil.name, image: fil.imagePath };
-    });
-  }
+  // async getFilings() {
+  //   const filling = await this.desertFilingRepository.find();
+  //   return filling.map((fil) => {
+  //     return { name: fil.name, image: fil.imagePath };
+  //   });
+  // }
 
   async findDesertsOfType(type: string) {
     if (!desertType.includes(type)) {
@@ -109,7 +109,10 @@ export class DesertService {
   }
 
   async findOne(id: number): Promise<Desert> {
-    const dessert = await this.desertRepository.findOne({ where: { id } });
+    const dessert = await this.desertRepository.findOne({
+      where: { id },
+      relations: ['desertFilling'],
+    });
 
     if (!dessert) {
       throw new NotFoundException();
