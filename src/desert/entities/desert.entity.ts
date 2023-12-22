@@ -10,6 +10,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { DesertFillingEntity } from './filling.entity';
+import { CreateDesertDto } from '../dto/create-desert.dto';
 
 @Entity('desert')
 export class Desert {
@@ -41,7 +42,7 @@ export class Desert {
   decor: string;
 
   @Column({ type: Number, nullable: true })
-  number_of_tiers: number;
+  numberOfTiers: number;
 
   @Column({ type: String, nullable: true })
   for: string;
@@ -68,4 +69,10 @@ export class Desert {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  constructor(data?: CreateDesertDto) {
+    if (data) {
+      Object.assign(this, data);
+    }
+  }
 }
