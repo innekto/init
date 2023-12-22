@@ -4,75 +4,77 @@ import { desertType } from 'src/common/types/desertTypes';
 export const desertData: Desert[] = [
   {
     type: desertType[0],
-    name: 'Набір макарунів',
+    name: 'Макаруни, фісташковий',
+    price: 1210,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703245092/%D1%84%D0%BE%D1%82%D0%BE_pw7fuc.jpg',
+    quantity: 24,
+    flavor: 'фісташковий',
+  },
+  {
+    type: desertType[0],
+    name: 'Макаруни, солона карамель',
+    price: 440,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703245558/%D1%84%D0%BE%D1%82%D0%BE_h0hsrv.jpg',
+    quantity: 8,
+    flavor: 'солона карамель',
+  },
+  {
+    type: desertType[0],
+    name: 'Макаруни, мікс смаків',
     price: 480,
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700486047/istockphoto-450480787-612x612_fh3y7a.jpg',
-    weight: 180,
-    composition: 'Набір макарунів',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703245558/%D1%84%D0%BE%D1%82%D0%BE_h0hsrv.jpg',
+    composition:
+      '2 фісташкових, 2 солона карамель, 3 шоколод-малина, 3 груша-карамель, 2 маскарпоне-шоколад ',
+    quantity: 12,
   },
   {
     type: desertType[0],
-    name: 'Кавовий макарун',
-    price: 55,
+    name: 'Макаруни, шоколад-малина',
+    price: 1700,
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700476799/istockphoto-1055509326-612x612_pg95l3.jpg',
-    weight: 17,
-    composition: 'Кавовий макарун з лікером Бейліз',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703245961/%D1%84%D0%BE%D1%82%D0%BE_tdvjx0.jpg',
+    flavor: 'шоколад-малина',
+    quantity: 32,
   },
   {
     type: desertType[0],
-    name: 'Полуничний макарун',
-    price: 55,
+    name: 'Макаруни, полуничний',
+    price: 440,
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700476799/istockphoto-1324705485-612x612_qiyi9k.jpg',
-    weight: 19,
-    composition: 'Полуничний макарун з родзинками',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703246064/%D1%84%D0%BE%D1%82%D0%BE_ypvbsh.jpg',
+    quantity: 8,
+    flavor: 'полуничний',
   },
   {
     type: desertType[0],
-    name: 'Фісташковий макарун',
-    price: 55,
+    name: 'Макаруни, груша-карамель',
+    price: 520,
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700516705/colored-macarrons-isolated-on-white_95419-6340_vgmyb5.jpg',
-    weight: 17,
-    composition: 'Макарун з фісташковою помадкою',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703246210/%D1%84%D0%BE%D1%82%D0%BE_jmiybu.jpg',
+    flavor: 'груша-карамель',
+    quantity: 12,
   },
   {
     type: desertType[0],
-    name: 'Макарун зі згущеним молоком',
-    price: 55,
+    name: 'Макаруни, мікс смаків',
+    price: 1300,
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700476799/istockphoto-1324705449-612x612_rjksoi.jpg',
-    weight: 19,
-    composition: 'Макарун зі згущеним молоком',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703246515/%D1%84%D0%BE%D1%82%D0%BE_fcs0xo.jpg',
+    composition:
+      '4 фісташкових, 4 солона карамель, 6 шоколод-малина, 6 груша-карамель, 4 маскарпоне-шоколад ',
+    quantity: 24,
   },
   {
     type: desertType[0],
-    name: 'Чорничний макарун',
-    price: 55,
+    name: 'Макаруни, маскарпоне-шоколад',
+    price: 660,
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700476799/istockphoto-1410884368-612x612_jnqqe2.jpg',
-    weight: 15,
-    composition: 'Макарун з чорницею',
-  },
-  {
-    type: desertType[0],
-    name: 'Ванільний макарун',
-    price: 55,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700476799/istockphoto-1411213519-612x612_itceq8.jpg',
-    weight: 15,
-    composition: 'Ванільний макарун з крихтою',
-  },
-  {
-    type: desertType[0],
-    name: 'Жуйковий макарун',
-    price: 55,
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700476799/istockphoto-1265013413-612x612_lbumv4.jpg',
-    weight: 15,
-    composition: 'Макаруни зі смаком жуйки та сгущеним молоком',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703246368/%D1%84%D0%BE%D1%82%D0%BE_xm8rai.jpg',
+    flavor: 'маскарпоне-шоколад',
+    quantity: 12,
   },
 
   {
@@ -82,7 +84,7 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700517142/12456.jpg_doupu9.webp',
     weight: 55,
-    composition: 'Еклер зі згущеним молоком',
+    flavor: 'згущенe молоком',
   },
   {
     type: desertType[1],
@@ -91,7 +93,7 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700517142/12456.jpg_doupu9.webp',
     weight: 55,
-    composition: 'Шоколадний еклер',
+    flavor: 'Шоколад',
   },
   {
     type: desertType[1],
@@ -138,6 +140,8 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_2_eawc4n.jpg',
     weight: 4000,
     composition: 'начинка на ваш вибір',
+    number_of_tiers: 2,
+    decor: 'Живі квіти',
   },
   {
     type: desertType[2],
@@ -147,6 +151,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_6_vgqk8i.jpg',
     weight: 2500,
     composition: 'начинка на ваш вибір',
+    decor: 'цукрові прикраси',
   },
   {
     type: desertType[2],
@@ -156,6 +161,8 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337800/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_7_xqlr6i.jpg',
     weight: 2500,
     composition: 'начинка на ваш вибір',
+    number_of_tiers: 1,
+    decor: 'цукрові прикраси, фрукти, ягоди',
   },
   {
     type: desertType[2],
@@ -165,6 +172,8 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_zgbo16.jpg',
     weight: 2500,
     composition: 'начинка на ваш вибір',
+    number_of_tiers: 1,
+    decor: 'макаруни',
   },
   {
     type: desertType[2],
@@ -173,7 +182,9 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_5_wwcs61.jpg',
     weight: 2500,
-    composition: 'Полунично-малинова начинка',
+    flavor: 'Полунично-малинова',
+    number_of_tiers: 1,
+    decor: 'живі квіти',
   },
   {
     type: desertType[2],
@@ -182,7 +193,9 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_4_hiwvzi.jpg',
     weight: 4000,
-    composition: 'вишнева начинка',
+    flavor: 'вишнева начинка',
+    number_of_tiers: 2,
+    decor: 'живі квіти',
   },
   {
     type: desertType[2],
@@ -191,7 +204,9 @@ export const desertData: Desert[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_3_pqhmqk.jpg',
     weight: 1000,
-    composition: 'шоколадно чорнична начинка',
+    flavor: 'шоколадно-чорнична',
+    number_of_tiers: 1,
+    decor: 'фрукти, ягоди, шоколадні прикраси',
   },
   {
     type: desertType[2],
@@ -201,6 +216,8 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_y41iok.jpg',
     weight: 4000,
     composition: 'начинка на ваш вибір',
+    number_of_tiers: 3,
+    decor: 'живі квіти',
   },
 
   {

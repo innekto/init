@@ -34,6 +34,21 @@ export class Desert {
   @Column({ type: String, nullable: true })
   composition: string;
 
+  @Column({ type: String, nullable: true })
+  flavor: string;
+
+  @Column({ type: String, nullable: true })
+  decor: string;
+
+  @Column({ type: Number, nullable: true })
+  number_of_tiers: number;
+
+  @Column({ type: String, nullable: true })
+  for: string;
+
+  @Column({ type: String, nullable: true })
+  quantity: string;
+
   @ManyToMany(() => Order, (order) => order.deserts)
   @JoinTable({ name: 'order_to_desert' })
   orders: Order[];

@@ -60,8 +60,8 @@ export class DesertController {
       },
     },
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   @Get('deserts-of-type/:type')
   async findDesertsOfType(@Param('type') type: string) {
     return this.desertService.findDesertsOfType(type);
@@ -116,7 +116,7 @@ export class DesertController {
   }
 
   @ApiOperation({ summary: 'Get one desert by ID' })
-  @ApiBearerAuth()
+  // @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     content: {
@@ -137,7 +137,7 @@ export class DesertController {
     },
   })
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async findOne(@Param('id') id: string): Promise<Desert> {
     return this.desertService.findOne(+id);
   }
