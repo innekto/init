@@ -31,10 +31,11 @@ export class DesertService {
     }
     const upload = await this.cloudinaryService.uploadFile(file);
 
-    const desert = await this.desertRepository.save({
-      ...data,
-      imagePath: upload.secure_url,
-    });
+    // const desert = await this.desertRepository.save({
+    //   ...data,
+    //   imagePath: upload.secure_url,
+    // });
+    const desert = new Desert({ ...data, imagePath: upload.secure_url });
     return desert;
   }
 
@@ -65,17 +66,9 @@ export class DesertService {
       throw new ConflictException('Incorrect type of desert');
     }
 
-    await this.desertRepository.update(desert.id, {
-      type: updateDesertDto.type,
-      name: updateDesertDto.name,
-      price: updateDesertDto.price,
-      weight: updateDesertDto.weight,
-      composition: updateDesertDto.composition,
-    });
+    Object.assign(desert, updateDesertDto);
 
-    const updatedDesert = await this.desertRepository.findOne({
-      where: { id: desert.id },
-    });
+    const updatedDesert = await this.desertRepository.save(desert);
 
     return updatedDesert;
   }

@@ -1,27 +1,54 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateDesertDto {
   @ApiProperty()
   @IsNotEmpty()
-  type: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
   name: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  price: number;
 
   @ApiProperty({ type: 'string', format: 'binary' })
   imagePath: Express.Multer.File;
 
   @ApiProperty()
   @IsNotEmpty()
-  weight: number;
+  @IsOptional()
+  weight?: number;
 
-  @ApiProperty({ example: 'Doe' })
+  @ApiProperty()
   @IsNotEmpty()
-  composition: string;
+  @IsOptional()
+  composition?: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  price: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  type: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsOptional()
+  flavor?: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsOptional()
+  decor?: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsOptional()
+  numberOfTiers?: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsOptional()
+  for?: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsOptional()
+  quantity?: string;
 }
