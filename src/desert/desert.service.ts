@@ -36,6 +36,8 @@ export class DesertService {
     //   imagePath: upload.secure_url,
     // });
     const desert = new Desert({ ...data, imagePath: upload.secure_url });
+    await this.desertRepository.save(desert);
+
     return desert;
   }
 
