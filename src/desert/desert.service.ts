@@ -31,10 +31,6 @@ export class DesertService {
     }
     const upload = await this.cloudinaryService.uploadFile(file);
 
-    // const desert = await this.desertRepository.save({
-    //   ...data,
-    //   imagePath: upload.secure_url,
-    // });
     const desert = new Desert({ ...data, imagePath: upload.secure_url });
     await this.desertRepository.save(desert);
 
