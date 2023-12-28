@@ -140,7 +140,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_2_eawc4n.jpg',
     weight: 4000,
     composition: 'начинка на ваш вибір',
-    number_of_tiers: 2,
+    numberOfTiers: 2,
     decor: 'Живі квіти',
   },
   {
@@ -161,7 +161,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337800/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_7_xqlr6i.jpg',
     weight: 2500,
     composition: 'начинка на ваш вибір',
-    number_of_tiers: 1,
+    numberOfTiers: 1,
     decor: 'цукрові прикраси, фрукти, ягоди',
   },
   {
@@ -172,7 +172,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_zgbo16.jpg',
     weight: 2500,
     composition: 'начинка на ваш вибір',
-    number_of_tiers: 1,
+    numberOfTiers: 1,
     decor: 'макаруни',
   },
   {
@@ -183,7 +183,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_5_wwcs61.jpg',
     weight: 2500,
     flavor: 'Полунично-малинова',
-    number_of_tiers: 1,
+    numberOfTiers: 1,
     decor: 'живі квіти',
   },
   {
@@ -194,7 +194,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_4_hiwvzi.jpg',
     weight: 4000,
     flavor: 'вишнева начинка',
-    number_of_tiers: 2,
+    numberOfTiers: 2,
     decor: 'живі квіти',
   },
   {
@@ -205,7 +205,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_3_pqhmqk.jpg',
     weight: 1000,
     flavor: 'шоколадно-чорнична',
-    number_of_tiers: 1,
+    numberOfTiers: 1,
     decor: 'фрукти, ягоди, шоколадні прикраси',
   },
   {
@@ -216,7 +216,7 @@ export const desertData: Desert[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1701337799/%D1%84%D0%BE%D1%82%D0%BE_%D0%BA%D0%BE%D0%BF%D1%96%D1%8F_y41iok.jpg',
     weight: 4000,
     composition: 'начинка на ваш вибір',
-    number_of_tiers: 3,
+    numberOfTiers: 3,
     decor: 'живі квіти',
   },
 
@@ -229,6 +229,8 @@ export const desertData: Desert[] = [
     weight: 450,
     composition:
       'Маковий бісквіт з товстим шаром вишневого конфітюру між шарами насиченого сирного крему, шоколадним мусом з маком',
+    for: 'для всіх',
+    decor: 'цукрові прикраси',
   },
   {
     type: desertType[3],
@@ -239,6 +241,8 @@ export const desertData: Desert[] = [
     weight: 350,
     composition:
       'Шоколадний сметанний бісквіт, просочений коньячним сиропом, апельсиново-абрикосовий конфітюр, шоколадний ганаш, шоколадний декор',
+    for: 'для чоловіків',
+    decor: 'цукрові прикраси',
   },
   {
     type: desertType[3],
@@ -249,15 +253,19 @@ export const desertData: Desert[] = [
     weight: 350,
     composition:
       'Шоколадний  бісквіт, просочений цукровим сиропом, прошарований кондитерським кремом, натуральний фруктовий наповнювач',
+    for: 'для всіх',
+    decor: 'фрукти, ягоди',
   },
   {
     type: desertType[3],
-    name: 'Сердце',
+    name: 'Серце',
     price: 300,
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1700514502/Bento-tort-love-480x480-562x429_rnepk1.png',
     weight: 350,
     composition: 'Шоколадний бісквіт, ванільний крем, апельсинові цукати',
+    for: 'для всіх',
+    decor: 'цукрові прикраси',
   },
   {
     type: desertType[3],
@@ -268,6 +276,8 @@ export const desertData: Desert[] = [
     weight: 350,
     composition:
       'Шоколадно-пісочне тісто, м’який сир, крем на основі маскарпоне з солоною карамеллю та шматочками печива',
+    for: 'для всіх',
+    decor: 'шоколадні прикраси',
   },
   {
     type: desertType[3],
@@ -278,5 +288,73 @@ export const desertData: Desert[] = [
     weight: 350,
     composition:
       'Морквяні коржі з корицею, вершковий крем, кисло-солодкий апельсиновий компоте, курага',
+    for: 'для всіх',
+    decor: 'цукрові прикраси',
+  },
+  {
+    type: desertType[3],
+    name: 'На день народження',
+    price: 450,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703523885/%D1%84%D0%BE%D1%82%D0%BE_nc5nig.jpg',
+    weight: 500,
+    composition: 'начинка на ваш вибір',
+    for: 'для всіх',
+    decor: 'напис',
+  },
+  {
+    type: desertType[3],
+    name: 'На день народження',
+    price: 500,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703525519/%D1%84%D0%BE%D1%82%D0%BE_fay3xm.jpg',
+    weight: 500,
+    composition: 'начинка на ваш вибір',
+    for: 'для всіх',
+    decor: 'напис',
+  },
+  {
+    type: desertType[3],
+    name: 'На день народження',
+    price: 470,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703525633/%D1%84%D0%BE%D1%82%D0%BE_pbu800.jpg',
+    weight: 500,
+    composition: 'начинка на ваш вибір',
+    for: 'для дітей',
+    decor: 'цукрові прикраси',
+  },
+  {
+    type: desertType[3],
+    name: 'Дитячий з малюнком',
+    price: 400,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703526312/%D1%84%D0%BE%D1%82%D0%BE_yqgt8n.jpg',
+    weight: 500,
+    composition: 'начинка на ваш вибір',
+    for: 'для дітей',
+    decor: 'цукрові прикраси',
+  },
+  {
+    type: desertType[3],
+    name: 'З написом',
+    price: 440,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703526455/%D1%84%D0%BE%D1%82%D0%BE_y7u56b.jpg',
+    weight: 500,
+    composition: 'начинка на ваш вибір',
+    for: 'для молодят',
+    decor: 'напис',
+  },
+  {
+    type: desertType[3],
+    name: 'З написом',
+    price: 440,
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1703526514/%D1%84%D0%BE%D1%82%D0%BE_swzll3.jpg',
+    weight: 500,
+    composition: 'начинка на ваш вибір',
+    for: 'для всіх',
+    decor: 'напис',
   },
 ];

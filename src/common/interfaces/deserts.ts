@@ -8,6 +8,6 @@ export interface Desert {
   quantity?: number;
   decor?: string;
   flavor?: string;
-  number_of_tiers?: number;
+  numberOfTiers?: number;
   for?: string;
 }

@@ -24,6 +24,10 @@ export class DesertService {
     private cloudinaryService: CloudinaryService,
   ) {}
 
+  async getAllDeserts() {
+    return await this.desertRepository.find();
+  }
+
   async create(data: CreateDesertDto, file: Express.Multer.File) {
     const isCorrectType = desertType.includes(data.type);
     if (!isCorrectType) {
@@ -31,11 +35,9 @@ export class DesertService {
     }
     const upload = await this.cloudinaryService.uploadFile(file);
 
-    // const desert = await this.desertRepository.save({
-    //   ...data,
-    //   imagePath: upload.secure_url,
-    // });
     const desert = new Desert({ ...data, imagePath: upload.secure_url });
+    await this.desertRepository.save(desert);
+
     return desert;
   }
 
