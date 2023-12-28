@@ -24,6 +24,10 @@ export class DesertService {
     private cloudinaryService: CloudinaryService,
   ) {}
 
+  async getAllDeserts() {
+    return await this.desertRepository.find();
+  }
+
   async create(data: CreateDesertDto, file: Express.Multer.File) {
     const isCorrectType = desertType.includes(data.type);
     if (!isCorrectType) {
