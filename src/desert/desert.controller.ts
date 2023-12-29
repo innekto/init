@@ -29,6 +29,7 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Desert } from './entities/desert.entity';
+import { User } from 'src/common/decorators/user.decorator';
 
 @ApiTags('desert')
 @Controller('desert')
@@ -152,7 +153,18 @@ export class DesertController {
   @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(AdminAuthGuard)
-  async remove(@Param('id') id: string) {
-    return this.desertService.remove(+id);
+  async remove(@Param('id') id: number) {
+    return this.desertService.remove(id);
+  }
+
+  @ApiOperation({ summary: 'add/remove desert to/from favorite' })
+  @ApiBearerAuth()
+  @Post('toggleDesertFavorite/:desertId')
+  @UseGuards(JwtAuthGuard)
+  async toggleDesertFavorite(
+    @User('id') userId: number,
+    @Param('desertId') desertId: number,
+  ) {
+    return this.desertService.toggleDesertFavorite(userId, desertId);
   }
 }

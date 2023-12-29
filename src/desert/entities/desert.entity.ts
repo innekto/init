@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { DesertFillingEntity } from './filling.entity';
 import { CreateDesertDto } from '../dto/create-desert.dto';
+import { User } from 'src/users/user.entity';
 
 @Entity('desert')
 export class Desert {
@@ -60,6 +61,10 @@ export class Desert {
   )
   @JoinTable({ name: 'filling_to_desert' })
   desertFilling: DesertFillingEntity[];
+
+  @ManyToMany(() => User, (user) => user.favoriteDesserts)
+  @JoinTable({ name: 'favorite_deserts' })
+  favoritedBy: User[];
 
   @CreateDateColumn()
   createdAt: Date;
