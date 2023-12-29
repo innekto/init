@@ -12,6 +12,7 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { desertType } from 'src/common/types/desertTypes';
 import { DesertTypeEntity } from './entities/desert-type.entity';
 import { DesertFillingEntity } from './entities/filling.entity';
+import { User } from 'src/users/user.entity';
 
 @Injectable()
 export class DesertService {
@@ -19,6 +20,8 @@ export class DesertService {
     @InjectRepository(Desert) private desertRepository: Repository<Desert>,
     @InjectRepository(DesertTypeEntity)
     private desertTypeRepository: Repository<DesertTypeEntity>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     @InjectRepository(DesertFillingEntity)
     private desertFilingRepository: Repository<DesertFillingEntity>,
     private cloudinaryService: CloudinaryService,
@@ -115,7 +118,43 @@ export class DesertService {
     return dessert;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} desert`;
+  }
+
+  async toggleDesertFavorite(userId: number, desertId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favoriteDesserts'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const desert = await this.desertRepository.findOne({
+      where: { id: desertId },
+    });
+
+    if (!desert) {
+      throw new NotFoundException('Desert not found');
+    }
+
+    const isDesertInFavorites = user.favoriteDesserts.some(
+      (favDesert) => favDesert.id === desertId,
+    );
+
+    if (isDesertInFavorites) {
+      // Видаляємо десерт зі списку фейворітів
+      user.favoriteDesserts = user.favoriteDesserts.filter(
+        (favDesert) => favDesert.id !== desertId,
+      );
+    } else {
+      // Додаємо десерт до списку фейворітів
+      user.favoriteDesserts.push(desert);
+    }
+
+    await this.userRepository.save(user);
+    return user;
   }
 }

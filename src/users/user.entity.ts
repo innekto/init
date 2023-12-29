@@ -1,10 +1,13 @@
 import { Exclude } from 'class-transformer';
+import { Desert } from 'src/desert/entities/desert.entity';
 import { Order } from 'src/order/entities/order.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -44,6 +47,10 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @ManyToMany(() => Desert, { cascade: true })
+  @JoinTable({ name: 'favorite_deserts' })
+  favoriteDesserts: Desert[];
 
   @CreateDateColumn()
   createdAt: Date;
