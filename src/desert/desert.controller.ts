@@ -159,8 +159,24 @@ export class DesertController {
 
   @ApiOperation({ summary: 'add/remove desert to/from favorite' })
   @ApiBearerAuth()
-  @Post('toggleDesertFavorite/:desertId')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    content: {
+      'application/json': {
+        example: {
+          user: {
+            id: 1,
+            favoriteDesserts: [
+              { id: 2, name: 'name' },
+              { id: 3, name: 'name' },
+            ],
+          },
+        },
+      },
+    },
+  })
   @UseGuards(JwtAuthGuard)
+  @Post('toggleDesertFavorite/:desertId')
   async toggleDesertFavorite(
     @User('id') userId: number,
     @Param('desertId') desertId: number,
