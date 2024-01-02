@@ -22,10 +22,8 @@ export class UsersService {
   }
 
   async me(id: number) {
-    const me = await this.usersRepository.findOneBy({ id });
-    if (!me) {
-      throw new NotFoundException();
-    }
+    const me = await this.usersRepository.findOneByOrFail({ id });
+
     return me;
   }
 }

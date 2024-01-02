@@ -165,7 +165,7 @@ export class AuthService {
       })
       .getOne();
 
-    if (!user) {
+    if (!user || user.role === 'admin') {
       throw new NotFoundException('user not found');
     }
 
