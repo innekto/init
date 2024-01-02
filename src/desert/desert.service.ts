@@ -107,14 +107,11 @@ export class DesertService {
   }
 
   async findOne(id: number): Promise<Desert> {
-    const dessert = await this.desertRepository.findOne({
+    const dessert = await this.desertRepository.findOneOrFail({
       where: { id },
       relations: ['desertFilling'],
     });
 
-    if (!dessert) {
-      throw new NotFoundException();
-    }
     return dessert;
   }
 
@@ -123,22 +120,14 @@ export class DesertService {
   }
 
   async toggleDesertFavorite(userId: number, desertId: number) {
-    const user = await this.userRepository.findOne({
+    const user = await this.userRepository.findOneOrFail({
       where: { id: userId },
       relations: ['favoriteDesserts'],
     });
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    const desert = await this.desertRepository.findOne({
+    const desert = await this.desertRepository.findOneOrFail({
       where: { id: desertId },
     });
-
-    if (!desert) {
-      throw new NotFoundException('Desert not found');
-    }
 
     const isDesertInFavorites = user.favoriteDesserts.some(
       (favDesert) => favDesert.id === desertId,

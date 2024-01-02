@@ -24,6 +24,8 @@ import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { DesertFillingEntity } from './desert/entities/filling.entity';
 import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor';
 
 // dotenv.config();
 
@@ -36,6 +38,10 @@ import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
     AdminJwtStrategy,
     AuthService,
     JwtService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: NotFoundInterceptor,
+    },
   ],
   imports: [
     TypeOrmModule.forFeature([
