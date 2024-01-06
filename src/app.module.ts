@@ -7,7 +7,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 
-import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { DesertModule } from './desert/desert.module';
@@ -67,7 +66,7 @@ import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor'
 
     PassportModule.register({ session: true }),
     UsersModule,
-    RolesModule,
+
     AuthModule,
     DesertModule,
     OrderModule,
