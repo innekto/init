@@ -5,7 +5,7 @@ import {
   CallHandler,
   NotFoundException,
 } from '@nestjs/common';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 
 @Injectable()
 export class NotFoundInterceptor implements NestInterceptor {
@@ -20,7 +20,7 @@ export class NotFoundInterceptor implements NestInterceptor {
           throw new NotFoundException(`${extractedText} not found`);
         }
 
-        return of(error);
+        throw error;
       }),
     );
   }

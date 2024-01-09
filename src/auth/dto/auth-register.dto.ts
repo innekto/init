@@ -22,7 +22,8 @@ export class AuthRegisterDto {
 
   @ApiProperty({ example: '+380509999999' })
   @IsNotEmpty()
-  @IsPhoneNumber()
+  // @IsPhoneNumber()
+  @Matches(/^\+380\d{9}$/, { message: 'incorrect phone format' })
   phone: string;
 
   @ApiProperty({ example: 'John Doe' })
