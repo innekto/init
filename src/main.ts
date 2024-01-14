@@ -62,5 +62,6 @@ async function start() {
   await dataBaseCreateService.adminCreation();
   await dataBaseCreateService.desertFillingRepositoryInit();
   await dataBaseCreateService.desertsFillingCreation();
+  await dataBaseCreateService.usersCreation();
 }
 start();
