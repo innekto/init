@@ -23,7 +23,7 @@ export class DataBaseCreateService {
     private userRepository: Repository<User>,
     @InjectRepository(DesertFillingEntity)
     private desertFillingRepository: Repository<DesertFillingEntity>,
-  ) {}
+  ) { }
 
   async desertRepositoryInit() {
     if ((await this.desertRepository.count()) === 0) {
@@ -52,6 +52,8 @@ export class DataBaseCreateService {
     }
   }
 
+  
+
   async adminCreation() {
     const admin = await this.userRepository.findOneBy({ role: 'admin' });
 
@@ -65,6 +67,35 @@ export class DataBaseCreateService {
       adminUser.isConfirm = true;
       await this.userRepository.save(adminUser);
     }
+  }
+
+  async usersCreation() {
+    const users = await this.userRepository.findOneBy({ role: 'user' });
+
+    if (!users) {
+      const user_one = new User();
+
+      user_one.email = 'Sifag@gmail.com';
+      user_one.role = 'user';
+      user_one.password = await argon2.hash('password');
+      user_one.name = 'Joe Sifag';
+      user_one.isConfirm = true;
+
+      await this.userRepository.save(user_one);
+
+      const user_two = new User();
+
+      user_two.email = 'Orisdawn@gmail.com';
+      user_two.role = 'user';
+      user_two.password = await argon2.hash('password');
+      user_two.name = 'Lisa Migano';
+      user_two.isConfirm = true;
+    
+      await this.userRepository.save(user_two);
+
+
+    }
+    
   }
 
   async desertsFillingCreation() {
