@@ -6,7 +6,6 @@ import {
   IsNotEmpty,
   IsString,
   MinLength,
-  IsPhoneNumber,
 } from 'class-validator';
 import { lowerCaseTransformer } from 'src/utils/transformers/to-lower-case';
 

@@ -156,6 +156,7 @@ export class AuthService {
   }
 
   async login(loginDto: AuthLoginDto) {
+    console.log('loginDto', loginDto);
     const loginValue = loginDto.login;
 
     const user = await this.usersRepository

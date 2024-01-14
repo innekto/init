@@ -7,6 +7,7 @@ import { User } from './user.entity';
 // import { CreateUserDto } from './dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
+import { UpdateUserDto } from './dto/update-user.dto';
 // import * as crypto from 'crypto';
 
 @Injectable()
@@ -21,9 +22,19 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  async me(id: number) {
+  async me(id: number): Promise<User> {
     const me = await this.usersRepository.findOneByOrFail({ id });
 
     return me;
+  }
+
+  async updateUser(id: number, payload: UpdateUserDto) {
+    const user = await this.usersRepository.findOneByOrFail({ id });
+
+    Object.assign(user, { ...payload });
+
+    const updatedUser = await this.usersRepository.save(user);
+
+    return updatedUser;
   }
 }
