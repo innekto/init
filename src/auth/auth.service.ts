@@ -4,13 +4,11 @@ import {
   HttpStatus,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
@@ -70,14 +68,11 @@ export class AuthService {
       hash,
     });
 
-    const confirmLink = `${process.env.FRONTEND_DOMAIN}/verify/${hash}`;
-
     await this.mailerService.sendMail({
       from: 'virchenko.vlad.2021@gmail.com',
       to: user.email,
       subject: 'Підтвердження реєстрації',
-      html: `Для завершення реєстрації перейдіть за посиланням: <a href="${confirmLink}" style="font-weight: bold; color: blue;">${confirmLink}</a>
-      `,
+      html: `Для завершення реєстрації введіть код:${hash}`,
     });
   }
 

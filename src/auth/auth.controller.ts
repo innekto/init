@@ -19,7 +19,7 @@ import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
 // import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
-import { GoogleAuthGuard } from './guards/google.guard';
+
 import { Request } from 'express';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -101,19 +101,6 @@ export class AuthController {
     @Body() confirmEmailDto: AuthConfirmEmailDto,
   ): Promise<object> {
     return this.authService.confirmEmail(confirmEmailDto.hash);
-  }
-
-  @Get('google')
-  @UseGuards(GoogleAuthGuard)
-  async googleAuth(@Req() req: Request) {
-    return req.user;
-  }
-
-  @Get('google/redirect')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(GoogleAuthGuard)
-  async googleAuthRedirect(@Req() req: Request) {
-    return await this.authService.googleLogin(req);
   }
 
   @ApiBearerAuth()

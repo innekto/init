@@ -9,19 +9,15 @@ import { UsersModule } from './users/users.module';
 
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { DesertModule } from './desert/desert.module';
-import { DataBaseCreateService } from './database/servise/data-base-create.service';
-import { Desert } from './desert/entities/desert.entity';
-import { OrderModule } from './order/order.module';
+
 import { dataSourceOptionst } from './database/database-config';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { DesertTypeEntity } from './desert/entities/desert-type.entity';
-import { GoogleStrategy } from './auth/strategies/google.strategy';
+
 import { AuthService } from './auth/auth.service';
 import { User } from './users/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { DesertFillingEntity } from './desert/entities/filling.entity';
+
 import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor';
@@ -32,8 +28,7 @@ import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor'
   controllers: [AppController],
   providers: [
     AppService,
-    DataBaseCreateService,
-    GoogleStrategy,
+
     AdminJwtStrategy,
     AuthService,
     JwtService,
@@ -43,12 +38,7 @@ import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor'
     },
   ],
   imports: [
-    TypeOrmModule.forFeature([
-      Desert,
-      DesertTypeEntity,
-      User,
-      DesertFillingEntity,
-    ]),
+    TypeOrmModule.forFeature([User]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {
@@ -68,8 +58,7 @@ import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor'
     UsersModule,
 
     AuthModule,
-    DesertModule,
-    OrderModule,
+
     CloudinaryModule,
   ],
 })

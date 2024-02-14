@@ -1,7 +1,7 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { DataBaseCreateService } from './database/servise/data-base-create.service';
+
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 
 import * as session from 'express-session';
@@ -54,14 +54,5 @@ async function start() {
   SwaggerModule.setup('/api/docs', app, document);
 
   await app.listen(PORT, () => console.log(`server started on port:${PORT}`));
-
-  const dataBaseCreateService = app.get(DataBaseCreateService);
-
-  await dataBaseCreateService.desertRepositoryInit();
-  await dataBaseCreateService.desertTypesRepositoryInit();
-  await dataBaseCreateService.adminCreation();
-  await dataBaseCreateService.desertFillingRepositoryInit();
-  await dataBaseCreateService.desertsFillingCreation();
-  await dataBaseCreateService.usersCreation();
 }
 start();

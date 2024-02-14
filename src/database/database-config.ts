@@ -20,8 +20,7 @@ export const dataSourceOptionst: DataSourceOptions = {
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
   entities: ['dist/**/*entity.js'],
-  migrations: ['dist/database/migrations/*.js'],
-  migrationsRun: true,
+  synchronize: true,
   ssl: Boolean(SSL_CONNECTION),
 };
 
