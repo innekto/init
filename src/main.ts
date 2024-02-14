@@ -22,6 +22,7 @@ async function start() {
 
   app.use(passport.initialize());
   app.use(passport.session());
+  app.setGlobalPrefix('api/v1');
 
   app.enableCors({
     origin: '*',
@@ -42,11 +43,11 @@ async function start() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
-    .setTitle('online-store')
+    .setTitle('Misto')
     .setDescription('base URL: "https://online-store-frwk.onrender.com"')
     .setVersion('1.0.1')
     .addBearerAuth()
-    .addTag('OS')
+    .addTag('M')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

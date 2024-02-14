@@ -5,8 +5,6 @@ import {
   Body,
   HttpCode,
   HttpStatus,
-  Get,
-  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -20,7 +18,6 @@ import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
 
-import { Request } from 'express';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { User } from 'src/common/decorators/user.decorator';
