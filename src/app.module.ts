@@ -21,6 +21,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor';
+import { AdminModule } from './admin/admin.module';
 
 // dotenv.config();
 
@@ -60,6 +61,8 @@ import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor'
     AuthModule,
 
     CloudinaryModule,
+
+    AdminModule,
   ],
 })
 export class AppModule {}
