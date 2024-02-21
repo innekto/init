@@ -194,50 +194,6 @@ export class AuthService {
     };
   }
 
-  async adminLogin(loginDto: AuthLoginDto) {
-    const loginValue = loginDto.login;
-
-    const admin = await this.usersRepository
-      .createQueryBuilder('user')
-      .where('user.phone = :loginValue OR user.email = :loginValue', {
-        loginValue,
-      })
-      .andWhere('user.role = :role', { role: 'admin' })
-      .getOne();
-
-    if (!admin) {
-      throw new NotFoundException('admin not found');
-    }
-
-    const isValidPassword = await argon2.verify(
-      admin.password,
-      loginDto.password,
-    );
-
-    if (!isValidPassword) {
-      throw new BadRequestException('Wrong password');
-    }
-
-    const { token, refreshToken } = await this.generateTokens({
-      id: admin.id,
-      email: admin.email,
-      role: admin.role,
-    });
-
-    const decodedToken: any = this.jwtService.decode(token, { json: true });
-
-    admin.online = true;
-
-    await this.usersRepository.save(admin);
-
-    return {
-      token,
-      tokenExpires: decodedToken.exp * 1000,
-      refreshToken,
-      admin,
-    };
-  }
-
   async refreshToken(id: number) {
     const user = await this.usersRepository.findOneByOrFail({ id });
 

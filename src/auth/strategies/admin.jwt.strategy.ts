@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from './jwt-payload.interface';
 
 import * as dotenv from 'dotenv';
+import { Role } from 'src/common/emuns/role.emun';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    if (payload.role !== 'admin') {
+    if (payload.role !== Role.Admin) {
       throw new UnauthorizedException(
         'You do not have the required permissions.',
       );

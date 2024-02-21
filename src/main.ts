@@ -6,6 +6,7 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 
 import * as session from 'express-session';
 import * as passport from 'passport';
+import { AdminCreationService } from './database/service/admin.creation';
 
 async function start() {
   const PORT = process.env.PORT || 5000;
@@ -42,12 +43,15 @@ async function start() {
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
+  const adminCreation = app.get(AdminCreationService);
+  await adminCreation.adminCreation();
+
   const config = new DocumentBuilder()
     .setTitle('Misto')
     .setDescription('base URL: "https://misto-back.onrender.com/api/v1"')
     .setVersion('1.0.1')
     .addBearerAuth()
-    .addTag('M')
+    .addTag('Misto')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

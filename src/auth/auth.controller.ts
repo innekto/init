@@ -56,12 +56,6 @@ export class AuthController {
     return await this.authService.login(loginDto);
   }
 
-  @Post('admin/login')
-  @ApiOperation({ summary: 'login by admin' })
-  async adminLogin(@Body() loginDto: AuthLoginDto) {
-    return await this.authService.adminLogin(loginDto);
-  }
-
   @Post('email/register')
   @ApiOperation({ summary: 'user registration' })
   @HttpCode(HttpStatus.CREATED)

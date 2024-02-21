@@ -22,6 +22,8 @@ import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor';
 import { AdminModule } from './admin/admin.module';
+import { AdminCreationService } from './database/service/admin.creation';
+import { Admin } from './admin/entities/admin.entity';
 
 // dotenv.config();
 
@@ -29,17 +31,17 @@ import { AdminModule } from './admin/admin.module';
   controllers: [AppController],
   providers: [
     AppService,
-
     AdminJwtStrategy,
     AuthService,
     JwtService,
+    AdminCreationService,
     {
       provide: APP_INTERCEPTOR,
       useClass: NotFoundInterceptor,
     },
   ],
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Admin]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {
