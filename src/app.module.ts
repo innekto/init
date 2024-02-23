@@ -27,6 +27,7 @@ import { Admin } from './admin/entities/admin.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/entities/category.entity';
 import { CategoryCreationService } from './database/service/category.creation';
+import { WhatIsDoneModule } from './what-is-done/what-is-done.module';
 
 // dotenv.config();
 
@@ -71,6 +72,8 @@ import { CategoryCreationService } from './database/service/category.creation';
     AdminModule,
 
     CategoriesModule,
+
+    WhatIsDoneModule,
   ],
 })
 export class AppModule {}
