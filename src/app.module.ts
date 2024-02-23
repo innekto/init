@@ -24,6 +24,9 @@ import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor'
 import { AdminModule } from './admin/admin.module';
 import { AdminCreationService } from './database/service/admin.creation';
 import { Admin } from './admin/entities/admin.entity';
+import { CategoriesModule } from './categories/categories.module';
+import { Category } from './categories/entities/category.entity';
+import { CategoryCreationService } from './database/service/category.creation';
 
 // dotenv.config();
 
@@ -35,13 +38,14 @@ import { Admin } from './admin/entities/admin.entity';
     AuthService,
     JwtService,
     AdminCreationService,
+    CategoryCreationService,
     {
       provide: APP_INTERCEPTOR,
       useClass: NotFoundInterceptor,
     },
   ],
   imports: [
-    TypeOrmModule.forFeature([User, Admin]),
+    TypeOrmModule.forFeature([User, Admin, Category]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {
@@ -65,6 +69,8 @@ import { Admin } from './admin/entities/admin.entity';
     CloudinaryModule,
 
     AdminModule,
+
+    CategoriesModule,
   ],
 })
 export class AppModule {}

@@ -19,6 +19,8 @@ export class AdminService {
     private authService: AuthService,
   ) {}
 
+  async findAdmin() {}
+
   async adminLogin(loginDto: AdminLoginDto) {
     const admin = await this.adminRepository.findOneByOrFail({
       email: loginDto.email,
