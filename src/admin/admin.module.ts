@@ -21,5 +21,6 @@ const { JWT_SECRET } = process.env;
   ],
   controllers: [AdminController],
   providers: [AdminService, AuthService, UsersService],
+  exports: [AdminService],
 })
 export class AdminModule {}
