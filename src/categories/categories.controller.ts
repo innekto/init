@@ -15,19 +15,20 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 
 @ApiTags('categories')
-@ApiBearerAuth()
 @Controller('category')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
   @ApiOperation({ summary: 'create new category by admin' })
+  @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'get all categories/only for render' })
   findAll() {
     return this.categoriesService.findAll();
   }

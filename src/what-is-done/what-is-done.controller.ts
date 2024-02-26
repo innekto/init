@@ -8,12 +8,19 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { WhatIsDoneService } from './what-is-done.service';
 import { CreateWhatIsDoneDto } from './dto/create-what-is-done.dto';
 import { UpdateWhatIsDoneDto } from './dto/update-what-is-done.dto';
-import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 
 @ApiTags('what-is-done')
 @Controller('what-is-done')
@@ -21,6 +28,9 @@ export class WhatIsDoneController {
   constructor(private readonly whatIsDoneService: WhatIsDoneService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  @ApiOperation({ summary: 'post new cooool by admin' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   create(
@@ -30,9 +40,10 @@ export class WhatIsDoneController {
     return this.whatIsDoneService.create(file, createWhatIsDoneDto);
   }
 
-  @Get()
-  findAll() {
-    return this.whatIsDoneService.findAll();
+  @Get(':category')
+  @ApiOperation({ summary: 'get cooools by category/only for rendering' })
+  findAll(@Param('category') category: string) {
+    return this.whatIsDoneService.findAllInCategory(category);
   }
 
   @Get(':id')
