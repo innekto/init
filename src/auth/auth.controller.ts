@@ -65,29 +65,6 @@ export class AuthController {
 
   @Post('email/confirm')
   @ApiOperation({ summary: 'user email confirmation' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    content: {
-      'application/json': {
-        example: {
-          token: 'string',
-          tokenExpires: 'number',
-          refreshToken: 'refreshToken',
-          user: {
-            id: 'id',
-            name: 'John Doe',
-            phone: '+380509999999',
-            email: 'email@examole.com',
-            isConfirm: 'boolean',
-            online: 'boolean',
-            createdAt: 'Date',
-            updatedAt: 'Date',
-            deletedAt: 'Date or null',
-          },
-        },
-      },
-    },
-  })
   async confirmEmail(
     @Body() confirmEmailDto: AuthConfirmEmailDto,
   ): Promise<object> {
@@ -97,18 +74,6 @@ export class AuthController {
   @ApiBearerAuth()
   @Post('refresh')
   @ApiOperation({ summary: "refreshing user's tokens when token expired " })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    content: {
-      'application/json': {
-        example: {
-          token: 'string',
-          tokenExpires: 'number',
-          refreshToken: 'refreshToken',
-        },
-      },
-    },
-  })
   @UseGuards(RefreshJwtAuthGuard)
   async refreshToken(@User('id') userId: number) {
     return this.authService.refreshToken(userId);

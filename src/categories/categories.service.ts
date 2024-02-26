@@ -19,8 +19,8 @@ export class CategoriesService {
     return await this.categoryRepository.save(newCategory);
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findAll() {
+    return await this.categoryRepository.find();
   }
 
   findOne(id: number) {

@@ -34,8 +34,10 @@ export class WhatIsDoneService {
     return await this.whatIsDoneRepository.save(newResource);
   }
 
-  findAll() {
-    return `This action returns all whatIsDone`;
+  async findAllInCategory(category: string) {
+    return await this.whatIsDoneRepository.findBy({
+      category: { name: category },
+    });
   }
 
   findOne(id: number) {
