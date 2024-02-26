@@ -5,8 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { WhatIsDone } from './entities/what-is-done.entity';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
+import { Category } from 'src/categories/entities/category.entity';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([WhatIsDone])],
+  imports: [TypeOrmModule.forFeature([WhatIsDone, Category])],
   controllers: [WhatIsDoneController],
   providers: [WhatIsDoneService, CloudinaryService],
 })

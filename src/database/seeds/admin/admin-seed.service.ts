@@ -7,13 +7,13 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class AdminCreationService {
+export class AdminSeedService {
   constructor(
     @InjectRepository(Admin)
     private adminRepository: Repository<Admin>,
   ) {}
 
-  async adminCreation() {
+  async run() {
     const isAdmin = await this.adminRepository.exist({
       where: { role: Role.Admin },
     });

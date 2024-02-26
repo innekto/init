@@ -17,10 +17,15 @@ export class CreateWhatIsDoneDto {
   @IsString()
   client: string;
 
-  @ApiProperty({ example: 'text', description: 'client' })
+  @ApiProperty({ example: 'text', description: 'challenge' })
   @IsNotEmpty()
   @IsString()
   challenge: string;
+
+  @ApiProperty({ example: 'category', description: 'category' })
+  @IsNotEmpty()
+  @IsString()
+  categoryName: string;
 
   @ApiProperty({ type: 'string', format: 'binary' })
   imagePath: Express.Multer.File;

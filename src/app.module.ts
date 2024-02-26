@@ -22,12 +22,14 @@ import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor';
 import { AdminModule } from './admin/admin.module';
-import { AdminCreationService } from './database/service/admin.creation';
+
 import { Admin } from './admin/entities/admin.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/entities/category.entity';
-import { CategoryCreationService } from './database/service/category.creation';
+
 import { WhatIsDoneModule } from './what-is-done/what-is-done.module';
+
+import { WhatIsDone } from './what-is-done/entities/what-is-done.entity';
 
 // dotenv.config();
 
@@ -38,15 +40,14 @@ import { WhatIsDoneModule } from './what-is-done/what-is-done.module';
     AdminJwtStrategy,
     AuthService,
     JwtService,
-    AdminCreationService,
-    CategoryCreationService,
+
     {
       provide: APP_INTERCEPTOR,
       useClass: NotFoundInterceptor,
     },
   ],
   imports: [
-    TypeOrmModule.forFeature([User, Admin, Category]),
+    TypeOrmModule.forFeature([User, Admin, Category, WhatIsDone]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {

@@ -19,7 +19,8 @@ export const dataSourceOptionst: DataSourceOptions = {
   username: POSTGRES_USERNAME,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  entities: ['dist/**/*entity.js'],
+  // entities: ['dist/**/*entity.js'],
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: true,
   ssl: Boolean(SSL_CONNECTION),
 };

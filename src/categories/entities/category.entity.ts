@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 
 @Entity()
+@Unique(['name'])
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
