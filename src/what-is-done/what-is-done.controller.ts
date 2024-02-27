@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
+import { WhatIsDone } from './entities/what-is-done.entity';
 
 @ApiTags('what-is-done')
 @Controller('what-is-done')
@@ -36,8 +37,22 @@ export class WhatIsDoneController {
   create(
     @UploadedFile() file: Express.Multer.File,
     @Body() createWhatIsDoneDto: CreateWhatIsDoneDto,
-  ) {
+  ): Promise<WhatIsDone> {
     return this.whatIsDoneService.create(file, createWhatIsDoneDto);
+  }
+
+  @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  @ApiOperation({ summary: 'update cooool by admin' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('imagePath'))
+  update(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: number,
+    @Body() payload: UpdateWhatIsDoneDto,
+  ): Promise<WhatIsDone> {
+    return this.whatIsDoneService.update(file, id, payload);
   }
 
   @Get(':category')
@@ -51,16 +66,10 @@ export class WhatIsDoneController {
     return this.whatIsDoneService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateWhatIsDoneDto: UpdateWhatIsDoneDto,
-  ) {
-    return this.whatIsDoneService.update(+id, updateWhatIsDoneDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.whatIsDoneService.remove(+id);
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  remove(@Param('id') id: number) {
+    return this.whatIsDoneService.remove(id);
   }
 }

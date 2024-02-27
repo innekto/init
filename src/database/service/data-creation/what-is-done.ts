@@ -17,7 +17,7 @@ export const whatIsDoneOnDigit: IWhatIsDone[] = [
       'Академія Віяр прагнула підвищити свою онлайн-присутність та взаємодію зі своєю аудиторією через соціальні мережі. Крім того, клієнт бажав оновити дизайн свого профілю в Instagram та надати йому стильний та професійний вигляд.',
     categoryName: 'Digital-просування',
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1708865711/Group_144_2_er4lww.jpg',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1709049976/tb7abonaoyrgvgheoss2.jpg',
   },
 
   {
