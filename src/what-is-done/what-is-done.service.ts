@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Category } from 'src/categories/entities/category.entity';
+import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
 
 @Injectable()
 export class WhatIsDoneService {
@@ -17,7 +18,10 @@ export class WhatIsDoneService {
     private cloudinaryService: CloudinaryService,
   ) {}
 
-  async create(file: Express.Multer.File, payload: CreateWhatIsDoneDto) {
+  async create(
+    file: Express.Multer.File,
+    payload: CreateWhatIsDoneDto,
+  ): Promise<WhatIsDone> {
     const { categoryName, ...rest } = payload;
 
     const upload = await this.cloudinaryService.uploadFile(file);
@@ -34,6 +38,29 @@ export class WhatIsDoneService {
     return await this.whatIsDoneRepository.save(newResource);
   }
 
+  async update(
+    file: Express.Multer.File,
+    id: number,
+    payload: UpdateWhatIsDoneDto,
+  ): Promise<WhatIsDone> {
+    const cool = await this.whatIsDoneRepository.findOneOrFail({
+      where: { id },
+    });
+
+    if (file) {
+      const publicId = publicIdExtract(cool.imagePath);
+
+      await this.cloudinaryService.deleteFile(publicId);
+
+      const upload = await this.cloudinaryService.uploadFile(file);
+      cool.imagePath = upload.secure_url;
+    }
+
+    Object.assign(cool, payload);
+    const updatedCool = await this.whatIsDoneRepository.save(cool);
+    return updatedCool;
+  }
+
   async findAllInCategory(category: string) {
     return await this.whatIsDoneRepository.findBy({
       category: { name: category },
@@ -44,11 +71,11 @@ export class WhatIsDoneService {
     return `This action returns a #${id} whatIsDone`;
   }
 
-  update(id: number, updateWhatIsDoneDto: UpdateWhatIsDoneDto) {
-    return `This action updates a #${id} whatIsDone`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} whatIsDone`;
+  async remove(id: number) {
+    const cool = await this.whatIsDoneRepository.findOneOrFail({
+      where: { id },
+    });
+    console.log('cool', cool);
+    await this.whatIsDoneRepository.remove(cool);
   }
 }

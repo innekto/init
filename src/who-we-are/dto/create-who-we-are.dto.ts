@@ -7,7 +7,7 @@ export class CreateWhoWeAreDto {
   @IsString()
   title: string;
 
-  @ApiProperty({ example: 'descroption', description: 'descroption' })
+  @ApiProperty({ example: 'description', description: 'description' })
   @IsNotEmpty()
   @IsString()
   description: string;

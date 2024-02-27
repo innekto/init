@@ -52,11 +52,17 @@ export class WhoWeAreController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  @ApiOperation({ summary: 'update us by admin' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('imagePath'))
   update(
-    @Param('id') id: string,
-    @Body() updateWhoWeAreDto: UpdateWhoWeAreDto,
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: number,
+    @Body() payload: UpdateWhoWeAreDto,
   ) {
-    return this.whoWeAreService.update(+id, updateWhoWeAreDto);
+    return this.whoWeAreService.update(file, id, payload);
   }
 
   @Delete(':id')

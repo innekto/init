@@ -1,7 +1,6 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -36,9 +35,6 @@ export class WhatIsDone {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatetAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt: Date;
 
   @ManyToOne(() => Category, { eager: true })
   @JoinColumn({ name: 'categoryName', referencedColumnName: 'name' })

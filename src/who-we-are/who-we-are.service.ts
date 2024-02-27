@@ -5,6 +5,7 @@ import { WhoWeAre } from './entities/who-we-are.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Repository } from 'typeorm';
+import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
 
 @Injectable()
 export class WhoWeAreService {
@@ -29,8 +30,26 @@ export class WhoWeAreService {
     return `This action returns a #${id} whoWeAre`;
   }
 
-  update(id: number, updateWhoWeAreDto: UpdateWhoWeAreDto) {
-    return `This action updates a #${id} whoWeAre`;
+  async update(
+    file: Express.Multer.File,
+    id: number,
+    payload: UpdateWhoWeAreDto,
+  ) {
+    const us = await this.whoWeAreRepository.findOneOrFail({ where: { id } });
+
+    if (file) {
+      const publicId = publicIdExtract(us.imagePath);
+
+      await this.cloudinaryService.deleteFile(publicId);
+
+      const upload = await this.cloudinaryService.uploadFile(file);
+      us.imagePath = upload.secure_url;
+    }
+
+    Object.assign(us, payload);
+
+    const updatedUs = await this.whoWeAreRepository.save(us);
+    return updatedUs;
   }
 
   remove(id: number) {
