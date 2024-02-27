@@ -30,6 +30,7 @@ import { Category } from './categories/entities/category.entity';
 import { WhatIsDoneModule } from './what-is-done/what-is-done.module';
 
 import { WhatIsDone } from './what-is-done/entities/what-is-done.entity';
+import { WhoWeAreModule } from './who-we-are/who-we-are.module';
 
 // dotenv.config();
 
@@ -75,6 +76,8 @@ import { WhatIsDone } from './what-is-done/entities/what-is-done.entity';
     CategoriesModule,
 
     WhatIsDoneModule,
+
+    WhoWeAreModule,
   ],
 })
 export class AppModule {}

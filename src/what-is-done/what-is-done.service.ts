@@ -20,16 +20,16 @@ export class WhatIsDoneService {
   async create(file: Express.Multer.File, payload: CreateWhatIsDoneDto) {
     const { categoryName, ...rest } = payload;
 
-    const newResource = new WhatIsDone(rest);
+    const upload = await this.cloudinaryService.uploadFile(file);
+    const newResource = new WhatIsDone({
+      ...rest,
+      imagePath: upload.secure_url,
+    });
 
     const category = await this.categoryRepository.findOneOrFail({
       where: { name: categoryName },
     });
     newResource.category = category;
-
-    const upload = await this.cloudinaryService.uploadFile(file);
-
-    newResource.imagePath = upload.secure_url;
 
     return await this.whatIsDoneRepository.save(newResource);
   }
