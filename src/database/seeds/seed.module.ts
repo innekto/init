@@ -6,16 +6,18 @@ import { dataSourceOptionst } from '../database-config';
 import { CategorySeedModule } from './category/category-seed.module';
 import { AdminSeedModule } from './admin/admin-seed.module';
 import { WhoWeAreSeedModule } from './who-we-are/who-we-are-seed.module';
+import { ServiceSeedModule } from './service/service-seed.module';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot({
+      ...dataSourceOptionst,
+    }),
     WhatIsDoneSeedModule,
     CategorySeedModule,
     AdminSeedModule,
     WhoWeAreSeedModule,
-    TypeOrmModule.forRoot({
-      ...dataSourceOptionst,
-    }),
+    ServiceSeedModule,
   ],
 })
 export class SeedModule {}
