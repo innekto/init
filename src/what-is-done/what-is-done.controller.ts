@@ -31,7 +31,7 @@ export class WhatIsDoneController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
-  @ApiOperation({ summary: 'post new cooool by admin' })
+  @ApiOperation({ summary: 'create new cooool by admin' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   create(
@@ -56,7 +56,7 @@ export class WhatIsDoneController {
   }
 
   @Get(':category')
-  @ApiOperation({ summary: 'get cooools by category/only for rendering' })
+  @ApiOperation({ summary: 'get cooools by category' })
   findAll(@Param('category') category: string) {
     return this.whatIsDoneService.findAllInCategory(category);
   }
