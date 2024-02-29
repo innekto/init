@@ -1,4 +1,10 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateServiceDto } from './create-service.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateServiceDto extends PartialType(CreateServiceDto) {}
+import { IsNotEmpty, IsString } from 'class-validator';
+
+export class UpdateServiceDto {
+  @ApiProperty({ example: 'title', description: 'title' })
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+}

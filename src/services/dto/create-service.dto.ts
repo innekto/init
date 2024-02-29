@@ -6,4 +6,9 @@ export class CreateServiceDto {
   @IsNotEmpty()
   @IsString()
   title: string;
+
+  @ApiProperty({ example: 'category', description: 'category' })
+  @IsNotEmpty()
+  @IsString()
+  categoryName: string;
 }
