@@ -58,6 +58,7 @@ export class WhatIsDoneService {
 
     Object.assign(cool, payload);
     const updatedCool = await this.whatIsDoneRepository.save(cool);
+
     return updatedCool;
   }
 
@@ -75,7 +76,7 @@ export class WhatIsDoneService {
     const cool = await this.whatIsDoneRepository.findOneOrFail({
       where: { id },
     });
-    console.log('cool', cool);
+
     await this.whatIsDoneRepository.remove(cool);
   }
 }
