@@ -5,6 +5,7 @@ import { Member } from './entities/member.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
 
 @Injectable()
 export class MemberService {
@@ -13,7 +14,10 @@ export class MemberService {
     private memberRepository: Repository<Member>,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
-  async create(file: Express.Multer.File, payload: CreateMemberDto) {
+  async create(
+    file: Express.Multer.File,
+    payload: CreateMemberDto,
+  ): Promise<Member> {
     const upload = await this.cloudinaryService.uploadFile(file);
     const newMember = new Member({ ...payload, imagePath: upload.secure_url });
     return await this.memberRepository.save(newMember);
@@ -27,11 +31,29 @@ export class MemberService {
     return `This action returns a #${id} member`;
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async update(
+    file: Express.Multer.File,
+    id: number,
+    payload: UpdateMemberDto,
+  ): Promise<Member> {
+    const member = await this.memberRepository.findOneByOrFail({ id });
+
+    if (file) {
+      const publicId = publicIdExtract(member.imagePath);
+
+      await this.cloudinaryService.deleteFile(publicId);
+      const upload = await this.cloudinaryService.uploadFile(file);
+      member.imagePath = upload.secure_url;
+    }
+
+    Object.assign(member, payload);
+    const updatedMember = await this.memberRepository.save(member);
+
+    return updatedMember;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async remove(id: number) {
+    const member = await this.memberRepository.findOneByOrFail({ id });
+    await this.memberRepository.remove(member);
   }
 }
