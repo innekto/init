@@ -25,13 +25,4 @@ export const servicesData: IServices[] = [
     title: 'візуальна стратегія для соцмереж',
     categoryName: 'Cтратегічний маркетинг',
   },
-
-  {
-    title: 'лендинги',
-    categoryName: 'Онлайн-присутність',
-  },
-  {
-    title: 'багатосторінкові сайти',
-    categoryName: 'Онлайн-присутність',
-  },
 ];
