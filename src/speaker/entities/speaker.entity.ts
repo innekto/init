@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CreateSpeakerDto } from '../dto/create-speaker.dto';
 import { Event } from 'src/event/entities/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -26,7 +20,6 @@ export class Speaker {
   @ManyToMany(() => Event, (event) => event.speakers, {
     onDelete: 'CASCADE',
   })
-  @JoinTable({ name: 'speaker_to_event' })
   events: Event[];
 
   constructor(payload?: Partial<CreateSpeakerDto>) {
