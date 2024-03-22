@@ -9,6 +9,9 @@ import {
   UseInterceptors,
   UploadedFile,
   UseGuards,
+  FileTypeValidator,
+  MaxFileSizeValidator,
+  ParseFilePipe,
 } from '@nestjs/common';
 import { WhatIsDoneService } from './what-is-done.service';
 import { CreateWhatIsDoneDto } from './dto/create-what-is-done.dto';
@@ -48,7 +51,15 @@ export class WhatIsDoneController {
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   update(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 10 }),
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
     @Param('id') id: number,
     @Body() payload: UpdateWhatIsDoneDto,
   ): Promise<WhatIsDone> {
