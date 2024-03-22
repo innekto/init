@@ -35,6 +35,7 @@ import { ServicesModule } from './services/services.module';
 import { MemberModule } from './member/member.module';
 import { EventModule } from './event/event.module';
 import { SpeakerModule } from './speaker/speaker.module';
+import { TeamFormModule } from './team-form/team-form.module';
 
 // dotenv.config();
 
@@ -90,6 +91,8 @@ import { SpeakerModule } from './speaker/speaker.module';
     EventModule,
 
     SpeakerModule,
+
+    TeamFormModule,
   ],
 })
 export class AppModule {}
