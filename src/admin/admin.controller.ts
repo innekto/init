@@ -11,11 +11,17 @@ import {
 import { AdminService } from './admin.service';
 // import { CreateAdminDto } from './dto/create-admin.dto';
 
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { AdminLoginDto } from './dto/login.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { User } from 'src/common/decorators/user.decorator';
+import { Admin } from './entities/admin.entity';
 
 @ApiTags('admin')
 @Controller('admin')
@@ -36,6 +42,7 @@ export class AdminController {
   @Get('me')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'get admin profile' })
+  @ApiResponse({ type: Admin })
   @UseGuards(AdminAuthGuard)
   getMe(@User('adminId') adminId: number) {
     try {
