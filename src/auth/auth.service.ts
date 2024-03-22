@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   HttpStatus,
   Injectable,
@@ -20,7 +19,6 @@ import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 
 import * as dotenv from 'dotenv';
-import { AuthLoginDto } from './dto/auth-login.dto';
 import { JwtPayload } from './strategies/jwt-payload.interface';
 
 dotenv.config();
@@ -39,68 +37,68 @@ export class AuthService {
     return user;
   }
 
-  async register(data: AuthRegisterDto): Promise<void> {
-    const existingUser = await this.usersRepository
-      .createQueryBuilder('user')
-      .where('user.email = :email OR user.phone = :phone', {
-        email: data.email,
-        phone: data.phone,
-      })
-      .getOne();
+  // async register(data: AuthRegisterDto): Promise<void> {
+  //   const existingUser = await this.usersRepository
+  //     .createQueryBuilder('user')
+  //     .where('user.email = :email OR user.phone = :phone', {
+  //       email: data.email,
+  //       phone: data.phone,
+  //     })
+  //     .getOne();
 
-    if (existingUser) {
-      throw new ConflictException({
-        error: `User with this email or phone number already exists.`,
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-      });
-    }
+  //   if (existingUser) {
+  //     throw new ConflictException({
+  //       error: `User with this email or phone number already exists.`,
+  //       status: HttpStatus.UNPROCESSABLE_ENTITY,
+  //     });
+  //   }
 
-    const hash = crypto
-      .createHash('sha256')
-      .update(randomStringGenerator())
-      .digest('hex')
-      .slice(-6);
+  //   const hash = crypto
+  //     .createHash('sha256')
+  //     .update(randomStringGenerator())
+  //     .digest('hex')
+  //     .slice(-6);
 
-    const user = await this.usersRepository.save({
-      ...data,
-      email: data.email,
-      password: await argon2.hash(data.password),
-      hash,
-    });
+  //   const user = await this.usersRepository.save({
+  //     ...data,
+  //     email: data.email,
+  //     password: await argon2.hash(data.password),
+  //     hash,
+  //   });
 
-    await this.mailerService.sendMail({
-      from: 'virchenko.vlad.2021@gmail.com',
-      to: user.email,
-      subject: 'Підтвердження реєстрації',
-      html: `Для завершення реєстрації введіть код:${hash}`,
-    });
-  }
+  //   await this.mailerService.sendMail({
+  //     from: 'virchenko.vlad.2021@gmail.com',
+  //     to: user.email,
+  //     subject: 'Підтвердження реєстрації',
+  //     html: `Для завершення реєстрації введіть код:${hash}`,
+  //   });
+  // }
 
-  async confirmEmail(hash: string): Promise<object> {
-    const user = await this.usersRepository.findOne({ where: { hash } });
+  // async confirmEmail(hash: string): Promise<object> {
+  //   const user = await this.usersRepository.findOne({ where: { hash } });
 
-    if (!user) {
-      throw new NotFoundException({
-        error: 'wrong hash',
-        status: HttpStatus.NOT_FOUND,
-      });
-    }
+  //   if (!user) {
+  //     throw new NotFoundException({
+  //       error: 'wrong hash',
+  //       status: HttpStatus.NOT_FOUND,
+  //     });
+  //   }
 
-    const { token, refreshToken } = await this.generateTokens({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    });
+  //   const { token, refreshToken } = await this.generateTokens({
+  //     id: user.id,
+  //     email: user.email,
+  //     role: user.role,
+  //   });
 
-    const decodedToken: any = this.jwtService.decode(token, { json: true });
+  //   const decodedToken: any = this.jwtService.decode(token, { json: true });
 
-    user.isConfirm = true;
-    user.online = true;
-    user.hash = null;
+  //   user.isConfirm = true;
+  //   user.online = true;
+  //   user.hash = null;
 
-    await this.usersRepository.save(user);
-    return { user, token, refreshToken, tokenExpires: decodedToken.exp * 1000 };
-  }
+  //   await this.usersRepository.save(user);
+  //   return { user, token, refreshToken, tokenExpires: decodedToken.exp * 1000 };
+  // }
 
   async googleLogin(req) {
     if (!req.user) {
@@ -148,50 +146,6 @@ export class AuthService {
 
     const logginedUser = await this.usersRepository.save(user);
     return logginedUser;
-  }
-
-  async login(loginDto: AuthLoginDto) {
-    console.log('loginDto', loginDto);
-    const loginValue = loginDto.login;
-
-    const user = await this.usersRepository
-      .createQueryBuilder('user')
-      .where('user.phone = :loginValue OR user.email = :loginValue', {
-        loginValue,
-      })
-      .getOne();
-
-    if (!user || user.role === 'admin') {
-      throw new NotFoundException('user not found');
-    }
-
-    const isValidPassword = await argon2.verify(
-      user.password,
-      loginDto.password,
-    );
-
-    if (!isValidPassword) {
-      throw new BadRequestException('Wrong password');
-    }
-
-    const { token, refreshToken } = await this.generateTokens({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    });
-
-    const decodedToken: any = this.jwtService.decode(token, { json: true });
-
-    user.online = true;
-
-    await this.usersRepository.save(user);
-
-    return {
-      token,
-      tokenExpires: decodedToken.exp * 1000,
-      refreshToken,
-      user,
-    };
   }
 
   async refreshToken(id: number) {
