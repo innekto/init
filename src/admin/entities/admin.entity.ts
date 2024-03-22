@@ -9,15 +9,19 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CreateAdminDto } from '../dto/create-admin.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('admin')
 export class Admin {
+  @ApiProperty({ description: 'admin id' })
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty({ description: 'admin email' })
   @Column({ unique: true })
   email: string;
 
+  @ApiProperty({ description: 'admin name' })
   @Column()
   name: string;
 
@@ -25,9 +29,11 @@ export class Admin {
   @Column({ nullable: true })
   password: string;
 
+  @ApiProperty({ description: 'admin role' })
   @Column({ nullable: false, default: Role.Admin })
   role: string;
 
+  @ApiProperty({ description: 'is verify email' })
   @Column({ default: false })
   emailVerified: boolean;
 
@@ -39,6 +45,7 @@ export class Admin {
   @Column({ nullable: true })
   passwordResetToken: string;
 
+  @ApiProperty({ description: 'is online' })
   @Column({ default: false })
   isOnline: boolean;
 
