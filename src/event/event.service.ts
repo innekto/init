@@ -17,9 +17,8 @@ export class EventService {
   ) {}
 
   async create(payload: CreateEventDto) {
-    const newEvent = new Event(payload);
-
     const { speakersIds = [] } = payload;
+    const newEvent = new Event(payload);
 
     if (speakersIds.length) {
       const speakers = await this.speakerRepository.find({
