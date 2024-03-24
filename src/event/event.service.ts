@@ -33,8 +33,8 @@ export class EventService {
     return await this.eventRepository.save(newEvent);
   }
 
-  findAll() {
-    return `This action returns all event`;
+  async findAll(): Promise<Event[]> {
+    return await this.eventRepository.find({ relations: ['speakers'] });
   }
 
   findOne(id: number) {

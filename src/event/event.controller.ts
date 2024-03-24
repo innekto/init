@@ -30,12 +30,14 @@ export class EventController {
   @ApiResponse({ type: Event })
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
-  create(@Body() createEventDto: CreateEventDto) {
+  async create(@Body() createEventDto: CreateEventDto) {
     return this.eventService.create(createEventDto);
   }
 
   @Get()
-  findAll() {
+  @ApiOperation({ summary: 'get all events (for render)' })
+  @ApiResponse({ type: [Event] })
+  async findAll(): Promise<Event[]> {
     return this.eventService.findAll();
   }
 
