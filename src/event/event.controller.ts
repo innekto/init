@@ -41,11 +41,6 @@ export class EventController {
     return this.eventService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventService.findOne(+id);
-  }
-
   @Patch(':eventId')
   @ApiOperation({ summary: 'update event by admin' })
   @ApiResponse({ type: Event })
@@ -63,7 +58,7 @@ export class EventController {
   @ApiResponse({ type: Event })
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
-  remove(@Param('eventId') eventId: number) {
+  async remove(@Param('eventId') eventId: number) {
     return this.eventService.remove(eventId);
   }
 }

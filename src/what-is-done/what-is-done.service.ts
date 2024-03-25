@@ -68,10 +68,6 @@ export class WhatIsDoneService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} whatIsDone`;
-  }
-
   async remove(id: number) {
     const cool = await this.whatIsDoneRepository.findOneOrFail({
       where: { id },

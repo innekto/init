@@ -27,10 +27,6 @@ export class MemberService {
     return await this.memberRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
-  }
-
   async update(
     file: Express.Multer.File,
     id: number,

@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiConsumes,
   ApiTags,
+  ApiResponse,
 } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { Member } from './entities/member.entity';
@@ -33,8 +34,9 @@ export class MemberController {
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'add member by admin' })
   @ApiConsumes('multipart/form-data')
+  @ApiResponse({ type: Member })
   @UseInterceptors(FileInterceptor('imagePath'))
-  create(
+  async create(
     @UploadedFile() file: Express.Multer.File,
     @Body() createMemberDto: CreateMemberDto,
   ): Promise<Member> {
@@ -42,20 +44,17 @@ export class MemberController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'get our team/only for render' })
+  @ApiOperation({ summary: 'get our team/for render' })
+  @ApiResponse({ type: [Member] })
   async findAll() {
     return this.memberService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.memberService.findOne(+id);
   }
 
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'update member by admin' })
+  @ApiResponse({ type: Member })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   async update(
@@ -71,6 +70,6 @@ export class MemberController {
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'delete member by admin' })
   remove(@Param('id') id: number) {
-    return this.memberService.remove(+id);
+    return this.memberService.remove(id);
   }
 }

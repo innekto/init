@@ -11,8 +11,14 @@ import {
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
+import { Service } from './entities/service.entity';
 
 @Controller('services')
 @ApiTags('service')
@@ -23,6 +29,7 @@ export class ServicesController {
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'create new service by admin' })
+  @ApiResponse({ type: Service })
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);
   }
@@ -31,6 +38,7 @@ export class ServicesController {
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'update service by admin' })
+  @ApiResponse({ type: Service })
   async update(
     @Param('id') id: number,
     @Body() updateServiceDto: UpdateServiceDto,
@@ -39,18 +47,17 @@ export class ServicesController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'get all services' })
-  findAll() {
+  @ApiOperation({ summary: 'get all services/for render' })
+  @ApiResponse({ type: [Service] })
+  async findAll() {
     return this.servicesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.servicesService.findOne(+id);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.servicesService.remove(+id);
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  @ApiOperation({ summary: 'delete service by admin' })
+  async remove(@Param('id') id: number) {
+    return this.servicesService.remove(id);
   }
 }

@@ -17,10 +17,12 @@ import {
   ApiBearerAuth,
   ApiConsumes,
   ApiOperation,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
+import { TeamForm } from './entities/team-form.entity';
 
 @Controller('team-form')
 @ApiTags('team-form')
@@ -29,8 +31,10 @@ export class TeamFormController {
 
   @Post()
   @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'add form by guest' })
+  @ApiResponse({ type: TeamForm })
   @UseInterceptors(FileInterceptor('imagePath'))
-  create(
+  async create(
     @UploadedFile(
       new ParseFilePipe({
         validators: [new FileTypeValidator({ fileType: '.pdf' })],
@@ -46,7 +50,8 @@ export class TeamFormController {
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'get all forms by admin' })
-  findAll() {
+  @ApiResponse({ type: [TeamForm] })
+  async findAll() {
     return this.teamFormService.findAll();
   }
 

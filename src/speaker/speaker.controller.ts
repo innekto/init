@@ -43,16 +43,6 @@ export class SpeakerController {
     return this.speakerService.create(file, createSpeakerDto);
   }
 
-  @Get()
-  findAll() {
-    return this.speakerService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.speakerService.findOne(+id);
-  }
-
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)

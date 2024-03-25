@@ -21,7 +21,8 @@ import { AdminLoginDto } from './dto/login.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { User } from 'src/common/decorators/user.decorator';
-import { Admin } from './entities/admin.entity';
+import { Admin } from 'src/admin/entities/admin.entity';
+import { adminLogin } from './response-example/responses';
 
 @ApiTags('admin')
 @Controller('admin')
@@ -30,7 +31,11 @@ export class AdminController {
 
   @Post('login')
   @ApiOperation({ summary: 'login by admin' })
-  adminLogin(@Body() loginDto: AdminLoginDto) {
+  // @ApiResponse({ type: Admin })
+  @ApiResponse({
+    content: adminLogin,
+  })
+  async adminLogin(@Body() loginDto: AdminLoginDto) {
     return this.adminService.adminLogin(loginDto);
   }
 
@@ -44,7 +49,7 @@ export class AdminController {
   @ApiOperation({ summary: 'get admin profile' })
   @ApiResponse({ type: Admin })
   @UseGuards(AdminAuthGuard)
-  getMe(@User('adminId') adminId: number) {
+  async getMe(@User('adminId') adminId: number) {
     try {
       return this.adminService.getMe(adminId);
     } catch (error) {
@@ -56,23 +61,26 @@ export class AdminController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'update admin profile' })
   @UseGuards(AdminAuthGuard)
-  update(
+  async update(
     @User('adminId') adminId: number,
     @Body() updateAdminDto: UpdateAdminDto,
   ) {
     return this.adminService.update(adminId, updateAdminDto);
   }
 
-  @ApiBearerAuth()
-  @Get()
-  findAll() {
-    return this.adminService.findAll();
-  }
-
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.adminService.remove(+id);
+  }
+
+  @Post('logout')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'admin logout' })
+  @ApiResponse({ type: Admin })
+  @UseGuards(AdminAuthGuard)
+  async logout(@User('adminId') adminId: number) {
+    return this.adminService.adminLogout(adminId);
   }
 }

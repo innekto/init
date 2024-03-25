@@ -17,10 +17,12 @@ import {
   ApiBearerAuth,
   ApiConsumes,
   ApiOperation,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
+import { WhoWeAre } from './entities/who-we-are.entity';
 
 @Controller('who-we-are')
 @ApiTags('who-we-are')
@@ -31,6 +33,7 @@ export class WhoWeAreController {
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'post new us by admin' })
+  @ApiResponse({ type: WhoWeAre })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   async create(
@@ -42,22 +45,19 @@ export class WhoWeAreController {
 
   @Get()
   @ApiOperation({ summary: 'get all us/only for rendering' })
+  @ApiResponse({ type: [WhoWeAre] })
   async getAll() {
     return this.whoWeAreService.getAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.whoWeAreService.findOne(+id);
   }
 
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'update us by admin' })
+  @ApiResponse({ type: WhoWeAre })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
-  update(
+  async update(
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: number,
     @Body() payload: UpdateWhoWeAreDto,
@@ -66,7 +66,10 @@ export class WhoWeAreController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.whoWeAreService.remove(+id);
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  @ApiOperation({ summary: 'delete us by admin' })
+  async remove(@Param('id') id: number) {
+    return this.whoWeAreService.remove(id);
   }
 }

@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -14,7 +13,7 @@ import { dataSourceOptionst } from './database/database-config';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 import { AuthService } from './auth/auth.service';
-import { User } from './users/user.entity';
+
 import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
@@ -53,7 +52,7 @@ import { TeamFormModule } from './team-form/team-form.module';
     },
   ],
   imports: [
-    TypeOrmModule.forFeature([User, Admin, Category, WhatIsDone]),
+    TypeOrmModule.forFeature([Admin, Category, WhatIsDone]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRoot({
       transport: {
@@ -70,10 +69,7 @@ import { TeamFormModule } from './team-form/team-form.module';
     }),
 
     PassportModule.register({ session: true }),
-    UsersModule,
-
     AuthModule,
-
     CloudinaryModule,
 
     AdminModule,

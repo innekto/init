@@ -37,15 +37,11 @@ export class EventService {
     return await this.eventRepository.find({ relations: ['speakers'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
-  }
-
-  update(id: number, updateEventDto: UpdateEventDto) {
+  async update(id: number, updateEventDto: UpdateEventDto) {
     return `This action updates a #${id} event`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+  async remove(id: number) {
+    return await this.eventRepository.delete(id);
   }
 }

@@ -9,6 +9,7 @@ import {
 import { CreateEventDto } from '../dto/create-event.dto';
 import { Speaker } from 'src/speaker/entities/speaker.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Event {
@@ -28,6 +29,7 @@ export class Event {
   @Column()
   location: string;
 
+  @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;
 

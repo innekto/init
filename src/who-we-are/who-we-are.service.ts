@@ -12,7 +12,6 @@ export class WhoWeAreService {
   constructor(
     @InjectRepository(WhoWeAre)
     private whoWeAreRepository: Repository<WhoWeAre>,
-
     private cloudinaryService: CloudinaryService,
   ) {}
 
@@ -24,10 +23,6 @@ export class WhoWeAreService {
 
   async getAll() {
     return await this.whoWeAreRepository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} whoWeAre`;
   }
 
   async update(
@@ -52,7 +47,7 @@ export class WhoWeAreService {
     return updatedUs;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} whoWeAre`;
+  async remove(id: number) {
+    return await this.whoWeAreRepository.delete(id);
   }
 }
