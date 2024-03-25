@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 
-import { UsersModule } from 'src/users/users.module';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
+
 import { JwtModule } from '@nestjs/jwt';
 
 import { JwtStrategy } from './strategies/jwt.strategy';
@@ -11,7 +10,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import * as dotenv from 'dotenv';
 import { RefreshJwtStrategy } from './strategies/refreshToken.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/user.entity';
 
 dotenv.config();
 
@@ -19,8 +17,8 @@ const { JWT_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
-    UsersModule,
+    TypeOrmModule.forFeature([]),
+
     PassportModule,
     JwtModule.register({
       secret: JWT_SECRET,
@@ -28,6 +26,6 @@ const { JWT_SECRET, TOKEN_EXPIRES_IN } = process.env;
     }),
   ],
   providers: [JwtStrategy, RefreshJwtStrategy, AuthService],
-  controllers: [AuthController],
+  controllers: [],
 })
 export class AuthModule {}

@@ -22,11 +22,11 @@ export class TeamFormService {
     return await this.formRepository.save(newForm);
   }
 
-  findAll() {
-    return `This action returns all teamForm`;
+  async findAll() {
+    return await this.formRepository.find();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} teamForm`;
+  async remove(id: number) {
+    return await this.formRepository.delete(id);
   }
 }

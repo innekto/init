@@ -39,25 +39,24 @@ export class Admin {
 
   @Exclude()
   @Column({ nullable: true })
-  emailVerificationToken: string;
-
-  @Exclude()
-  @Column({ nullable: true })
   passwordResetToken: string;
 
   @ApiProperty({ description: 'is online' })
   @Column({ default: false })
   isOnline: boolean;
 
+  @Exclude()
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
   @Exclude()
   @DeleteDateColumn({ nullable: true })
   deletedAt: Date;
+  static id: any;
 
   constructor(admin?: CreateAdminDto) {
     if (!admin) return;

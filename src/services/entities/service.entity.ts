@@ -9,21 +9,28 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CreateServiceDto } from '../dto/create-service.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Service {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty()
   @Column()
   title: string;
 
+  @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;
 
+  @Exclude()
   @UpdateDateColumn({ type: 'timestamp' })
   updatetAt: Date;
 
+  @ApiProperty()
   @ManyToOne(() => Category, { eager: true })
   @JoinColumn({ name: 'categoryName', referencedColumnName: 'name' })
   category: Category;

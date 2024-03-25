@@ -20,6 +20,7 @@ import {
   ApiBearerAuth,
   ApiConsumes,
   ApiOperation,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -35,6 +36,7 @@ export class WhatIsDoneController {
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'create new cooool by admin' })
+  @ApiResponse({ type: WhatIsDone })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   create(
@@ -48,6 +50,7 @@ export class WhatIsDoneController {
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'update cooool by admin' })
+  @ApiResponse({ type: WhatIsDone })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('imagePath'))
   update(
@@ -68,19 +71,16 @@ export class WhatIsDoneController {
 
   @Get(':category')
   @ApiOperation({ summary: 'get cooools by category' })
-  findAll(@Param('category') category: string) {
+  @ApiResponse({ type: [WhatIsDone] })
+  async findByCategory(@Param('category') category: string) {
     return this.whatIsDoneService.findAllInCategory(category);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.whatIsDoneService.findOne(+id);
-  }
-
   @Delete(':id')
+  @ApiOperation({ summary: 'delete by admin' })
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)
-  remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number) {
     return this.whatIsDoneService.remove(id);
   }
 }

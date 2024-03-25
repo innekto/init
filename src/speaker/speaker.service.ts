@@ -26,14 +26,6 @@ export class SpeakerService {
     return await this.speakerRepository.save(newSpeaker);
   }
 
-  async findAll() {
-    return await this.speakerRepository.find();
-  }
-
-  async findOne(id: number) {
-    return await this.speakerRepository.findOneByOrFail({ id });
-  }
-
   async update(
     file: Express.Multer.File,
     id: number,

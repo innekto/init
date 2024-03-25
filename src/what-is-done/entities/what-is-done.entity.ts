@@ -9,33 +9,44 @@ import {
 } from 'typeorm';
 import { CreateWhatIsDoneDto } from '../dto/create-what-is-done.dto';
 import { Category } from 'src/categories/entities/category.entity';
+import { Exclude } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class WhatIsDone {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty()
   @Column()
   title: string;
 
+  @ApiProperty()
   @Column()
   collaborate: string;
 
+  @ApiProperty()
   @Column()
   client: string;
 
+  @ApiProperty()
   @Column()
   challenge: string;
 
+  @ApiProperty()
   @Column({ type: String, nullable: true })
   imagePath: string;
 
+  @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;
 
+  @Exclude()
   @UpdateDateColumn({ type: 'timestamp' })
   updatetAt: Date;
 
+  @ApiProperty()
   @ManyToOne(() => Category, { eager: true })
   @JoinColumn({ name: 'categoryName', referencedColumnName: 'name' })
   category: Category;

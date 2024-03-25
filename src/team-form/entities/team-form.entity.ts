@@ -18,7 +18,7 @@ export class TeamForm {
   position: string;
 
   @ApiProperty({ description: 'candidate email' })
-  @Column()
+  @Column({ type: String, nullable: false, unique: true })
   email: string;
 
   @ApiProperty({ description: 'candidate CV' })

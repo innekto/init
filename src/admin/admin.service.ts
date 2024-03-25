@@ -19,8 +19,6 @@ export class AdminService {
     private authService: AuthService,
   ) {}
 
-  async findAdmin() {}
-
   async adminLogin(loginDto: AdminLoginDto) {
     const admin = await this.adminRepository.findOneByOrFail({
       email: loginDto.email,
@@ -65,15 +63,17 @@ export class AdminService {
     return await this.adminRepository.save(admin);
   }
 
-  findAll() {
-    return `This action returns all admin`;
-  }
-
   // create(createAdminDto: CreateAdminDto) {
   //   return 'This action adds a new admin';
   // }
 
   remove(id: number) {
     return `This action removes a #${id} admin`;
+  }
+
+  async adminLogout(adminId: number) {
+    const admin = await this.adminRepository.findOneByOrFail({ id: adminId });
+    admin.isOnline = false;
+    return await this.adminRepository.save(admin);
   }
 }

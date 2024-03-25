@@ -39,11 +39,7 @@ export class ServicesService {
     return await this.serviceRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} service`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} service`;
+  async remove(id: number) {
+    return await this.serviceRepository.delete(id);
   }
 }

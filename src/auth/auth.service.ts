@@ -1,41 +1,19 @@
-import {
-  ConflictException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import * as argon2 from 'argon2';
+import { Injectable } from '@nestjs/common';
+
 import { JwtService } from '@nestjs/jwt';
 
 import { MailerService } from '@nestjs-modules/mailer';
-import { AuthRegisterDto } from './dto/auth-register.dto';
-import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
-
-import * as crypto from 'crypto';
-
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '../users/user.entity';
 
 import * as dotenv from 'dotenv';
-import { JwtPayload } from './strategies/jwt-payload.interface';
 
 dotenv.config();
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
-    private readonly userService: UsersService,
     private jwtService: JwtService,
     private mailerService: MailerService,
   ) {}
-
-  async findOneById(id: number) {
-    const user = await this.usersRepository.findOneBy({ id });
-    return user;
-  }
 
   // async register(data: AuthRegisterDto): Promise<void> {
   //   const existingUser = await this.usersRepository
@@ -100,83 +78,26 @@ export class AuthService {
   //   return { user, token, refreshToken, tokenExpires: decodedToken.exp * 1000 };
   // }
 
-  async googleLogin(req) {
-    if (!req.user) {
-      return 'No user!';
-    }
-    const user = await this.usersRepository.findOneBy({ id: req.user.id });
+  // async refreshToken(id: number) {
+  //   const user = await this.usersRepository.findOneByOrFail({ id });
 
-    const { token, refreshToken } = await this.generateTokens({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    });
+  //   if (!user) {
+  //     throw new NotFoundException('user not found');
+  //   }
 
-    const decodedToken: any = this.jwtService.decode(token, { json: true });
+  //   const { token, refreshToken } = await this.generateTokens({
+  //     id: user.id,
+  //     email: user.email,
+  //     role: user.role,
+  //   });
 
-    return {
-      message: 'Successfully logged in',
-      user,
-      token,
-      refreshToken,
-      tokenExpires: decodedToken.exp * 1000,
-    };
-  }
+  //   const decodedToken: JwtPayload = this.jwtService.decode(token, {
+  //     json: true,
+  //   });
+  //   console.log('decodedToken', decodedToken);
 
-  async validateGoogleUser(details) {
-    const user = await this.usersRepository.findOneBy({ email: details.email });
-
-    if (!user) {
-      const newUser = this.usersRepository.create(details);
-      await this.usersRepository.save(newUser);
-
-      const crearedUser = await this.usersRepository.findOneBy({
-        email: details.email,
-      });
-
-      crearedUser.isConfirm = true;
-      crearedUser.online = true;
-
-      const savedUser = this.usersRepository.save(crearedUser);
-
-      return savedUser;
-    }
-
-    user.online = true;
-
-    const logginedUser = await this.usersRepository.save(user);
-    return logginedUser;
-  }
-
-  async refreshToken(id: number) {
-    const user = await this.usersRepository.findOneByOrFail({ id });
-
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
-
-    const { token, refreshToken } = await this.generateTokens({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    });
-
-    const decodedToken: JwtPayload = this.jwtService.decode(token, {
-      json: true,
-    });
-    console.log('decodedToken', decodedToken);
-
-    return { refreshToken, token, tokenExpires: decodedToken.exp * 1000 };
-  }
-
-  async logout(id: number) {
-    const user = await this.usersRepository.findOneBy({ id });
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
-    user.online = false;
-    await this.usersRepository.save(user);
-  }
+  //   return { refreshToken, token, tokenExpires: decodedToken.exp * 1000 };
+  // }
 
   async generateTokens(user: { id: number; email: string; role: string }) {
     const [token, refreshToken] = await Promise.all([
