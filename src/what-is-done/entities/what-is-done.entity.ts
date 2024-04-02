@@ -4,6 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -11,6 +12,7 @@ import { CreateWhatIsDoneDto } from '../dto/create-what-is-done.dto';
 import { Category } from 'src/categories/entities/category.entity';
 import { Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { Image } from 'src/image/entities/image.entity';
 
 @Entity()
 export class WhatIsDone {
@@ -34,10 +36,6 @@ export class WhatIsDone {
   @Column()
   challenge: string;
 
-  @ApiProperty()
-  @Column({ type: String, nullable: true })
-  imagePath: string;
-
   @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;
@@ -50,6 +48,10 @@ export class WhatIsDone {
   @ManyToOne(() => Category, { eager: true })
   @JoinColumn({ name: 'categoryName', referencedColumnName: 'name' })
   category: Category;
+
+  @OneToOne(() => Image, (image) => image.whatIsDone)
+  @JoinColumn({ name: 'imageId' })
+  image: Image;
 
   constructor(payload?: Partial<CreateWhatIsDoneDto>) {
     if (!payload) return;

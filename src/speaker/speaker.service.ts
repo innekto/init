@@ -3,10 +3,9 @@ import { CreateSpeakerDto } from './dto/create-speaker.dto';
 import { UpdateSpeakerDto } from './dto/update-speaker.dto';
 import { Speaker } from './entities/speaker.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Repository } from 'typeorm';
 import { Event } from 'src/event/entities/event.entity';
-import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
+import { ImageService } from 'src/image/image.service';
 
 @Injectable()
 export class SpeakerService {
@@ -15,30 +14,28 @@ export class SpeakerService {
     private speakerRepository: Repository<Speaker>,
     @InjectRepository(Event)
     private eventRepository: Repository<Event>,
-    private readonly cloudinaryService: CloudinaryService,
+    private readonly imageServise: ImageService,
   ) {}
 
-  async create(file: Express.Multer.File, payload: CreateSpeakerDto) {
-    const upload = await this.cloudinaryService.uploadFile(file);
+  async create(payload: CreateSpeakerDto) {
     const newSpeaker = new Speaker(payload);
-    newSpeaker.imagePath = upload.secure_url;
-
+    const image = await this.imageServise.findOneById(payload.imageId);
+    newSpeaker.image = image;
     return await this.speakerRepository.save(newSpeaker);
   }
 
-  async update(
-    file: Express.Multer.File,
-    id: number,
-    payload: UpdateSpeakerDto,
-  ) {
+  async update(id: number, payload: UpdateSpeakerDto) {
     const speaker = await this.speakerRepository.findOneByOrFail({ id });
 
-    if (file) {
-      const publicId = publicIdExtract(speaker.imagePath);
+    if (payload.imageId) {
+      const removedImageId = speaker.image.id;
+      speaker.image = null;
 
-      await this.cloudinaryService.deleteFile(publicId);
-      const upload = await this.cloudinaryService.uploadFile(file);
-      speaker.imagePath = upload.secure_url;
+      await this.speakerRepository.save(speaker);
+      await this.imageServise.remove(removedImageId);
+
+      const newImage = await this.imageServise.findOneById(payload.imageId);
+      speaker.image = newImage;
     }
 
     Object.assign(speaker, payload);
@@ -48,6 +45,11 @@ export class SpeakerService {
   }
 
   async remove(id: number) {
-    return await this.speakerRepository.delete({ id });
+    const speaker = await this.speakerRepository.findOneOrFail({
+      where: { id },
+      relations: ['image'],
+    });
+    await this.speakerRepository.remove(speaker);
+    await this.imageServise.remove(speaker.image.id);
   }
 }

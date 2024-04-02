@@ -34,13 +34,8 @@ export class WhoWeAreController {
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'post new us by admin' })
   @ApiResponse({ type: WhoWeAre })
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('imagePath'))
-  async create(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() createWhoWeAreDto: CreateWhoWeAreDto,
-  ) {
-    return this.whoWeAreService.create(file, createWhoWeAreDto);
+  async create(@Body() createWhoWeAreDto: CreateWhoWeAreDto) {
+    return this.whoWeAreService.create(createWhoWeAreDto);
   }
 
   @Get()
@@ -55,14 +50,8 @@ export class WhoWeAreController {
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'update us by admin' })
   @ApiResponse({ type: WhoWeAre })
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('imagePath'))
-  async update(
-    @UploadedFile() file: Express.Multer.File,
-    @Param('id') id: number,
-    @Body() payload: UpdateWhoWeAreDto,
-  ) {
-    return this.whoWeAreService.update(file, id, payload);
+  async update(@Param('id') id: number, @Body() payload: UpdateWhoWeAreDto) {
+    return this.whoWeAreService.update(id, payload);
   }
 
   @Delete(':id')

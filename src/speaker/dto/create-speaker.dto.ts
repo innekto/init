@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateSpeakerDto {
   @ApiProperty({ example: 'Name', description: 'name' })
@@ -7,6 +7,8 @@ export class CreateSpeakerDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ type: 'string', format: 'binary' })
-  imagePath: Express.Multer.File;
+  @ApiProperty({ example: '1', description: 'imageId' })
+  @IsNotEmpty()
+  @IsNumber()
+  imageId: number;
 }

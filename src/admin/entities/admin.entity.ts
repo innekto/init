@@ -56,7 +56,6 @@ export class Admin {
   @Exclude()
   @DeleteDateColumn({ nullable: true })
   deletedAt: Date;
-  static id: any;
 
   constructor(admin?: CreateAdminDto) {
     if (!admin) return;

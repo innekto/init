@@ -34,7 +34,6 @@ export class WhatIsDoneSeedService {
           newDigitItem.client = rest.client;
           newDigitItem.collaborate = rest.collaboration;
           newDigitItem.title = rest.title;
-          newDigitItem.imagePath = rest.imagePath;
 
           await this.whatIsDoneRepository.save(newDigitItem);
         }),

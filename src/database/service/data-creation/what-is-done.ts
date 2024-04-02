@@ -4,7 +4,6 @@ export interface IWhatIsDone {
   client: string;
   challenge: string;
   categoryName: string;
-  imagePath: string;
 }
 
 export const whatIsDoneOnDigit: IWhatIsDone[] = [
@@ -16,8 +15,6 @@ export const whatIsDoneOnDigit: IWhatIsDone[] = [
     challenge:
       'Академія Віяр прагнула підвищити свою онлайн-присутність та взаємодію зі своєю аудиторією через соціальні мережі. Крім того, клієнт бажав оновити дизайн свого профілю в Instagram та надати йому стильний та професійний вигляд.',
     categoryName: 'Digital-просування',
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1709049976/tb7abonaoyrgvgheoss2.jpg',
   },
 
   {
@@ -28,7 +25,5 @@ export const whatIsDoneOnDigit: IWhatIsDone[] = [
     challenge:
       "Компанія стикалася із викликами, пов'язаними із неефективністю попереднього спеціаліста з таргетованої реклами. Це вимагало негайних дій для виявлення нових резервів та впровадження стратегічних змін.",
     categoryName: 'Digital-просування',
-    imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1708865882/Frame_2608178_qzditg.jpg',
   },
 ];
