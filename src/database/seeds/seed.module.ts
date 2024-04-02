@@ -8,6 +8,7 @@ import { AdminSeedModule } from './admin/admin-seed.module';
 import { WhoWeAreSeedModule } from './who-we-are/who-we-are-seed.module';
 import { ServiceSeedModule } from './service/service-seed.module';
 import { MemberSeedModule } from './member/member-seed.module';
+import { ImageSeedModule } from './images/images-seed.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MemberSeedModule } from './member/member-seed.module';
     WhoWeAreSeedModule,
     ServiceSeedModule,
     MemberSeedModule,
+    ImageSeedModule,
   ],
 })
 export class SeedModule {}

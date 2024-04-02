@@ -4,22 +4,21 @@ import { UpdateMemberDto } from './dto/update-member.dto';
 import { Member } from './entities/member.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
-import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
+
+import { ImageService } from 'src/image/image.service';
 
 @Injectable()
 export class MemberService {
   constructor(
     @InjectRepository(Member)
     private memberRepository: Repository<Member>,
-    private readonly cloudinaryService: CloudinaryService,
+
+    private readonly imageServise: ImageService,
   ) {}
-  async create(
-    file: Express.Multer.File,
-    payload: CreateMemberDto,
-  ): Promise<Member> {
-    const upload = await this.cloudinaryService.uploadFile(file);
-    const newMember = new Member({ ...payload, imagePath: upload.secure_url });
+  async create(payload: CreateMemberDto): Promise<Member> {
+    const newMember = new Member(payload);
+    const image = await this.imageServise.findOneById(payload.imageId);
+    newMember.image = image;
     return await this.memberRepository.save(newMember);
   }
 
@@ -27,19 +26,22 @@ export class MemberService {
     return await this.memberRepository.find();
   }
 
-  async update(
-    file: Express.Multer.File,
-    id: number,
-    payload: UpdateMemberDto,
-  ): Promise<Member> {
-    const member = await this.memberRepository.findOneByOrFail({ id });
+  async update(id: number, payload: UpdateMemberDto): Promise<Member> {
+    const member = await this.memberRepository.findOneOrFail({
+      where: { id },
+      relations: ['image'],
+    });
 
-    if (file) {
-      const publicId = publicIdExtract(member.imagePath);
+    if (payload.imageId) {
+      const removedImageId = member.image.id;
+      member.image = null;
 
-      await this.cloudinaryService.deleteFile(publicId);
-      const upload = await this.cloudinaryService.uploadFile(file);
-      member.imagePath = upload.secure_url;
+      await this.memberRepository.save(member);
+      await this.imageServise.remove(removedImageId);
+
+      const newImage = await this.imageServise.findOneById(payload.imageId);
+
+      member.image = newImage;
     }
 
     Object.assign(member, payload);
@@ -49,7 +51,12 @@ export class MemberService {
   }
 
   async remove(id: number) {
-    const member = await this.memberRepository.findOneByOrFail({ id });
+    const member = await this.memberRepository.findOneOrFail({
+      where: { id },
+      relations: ['image'],
+    });
+
     await this.memberRepository.remove(member);
+    await this.imageServise.remove(member.image.id);
   }
 }

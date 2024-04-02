@@ -35,6 +35,7 @@ import { MemberModule } from './member/member.module';
 import { EventModule } from './event/event.module';
 import { SpeakerModule } from './speaker/speaker.module';
 import { TeamFormModule } from './team-form/team-form.module';
+import { ImageModule } from './image/image.module';
 
 // dotenv.config();
 
@@ -89,6 +90,8 @@ import { TeamFormModule } from './team-form/team-form.module';
     SpeakerModule,
 
     TeamFormModule,
+
+    ImageModule,
   ],
 })
 export class AppModule {}
