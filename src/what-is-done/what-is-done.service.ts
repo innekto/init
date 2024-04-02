@@ -4,9 +4,8 @@ import { UpdateWhatIsDoneDto } from './dto/update-what-is-done.dto';
 import { WhatIsDone } from './entities/what-is-done.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Category } from 'src/categories/entities/category.entity';
-import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
+import { ImageService } from 'src/image/image.service';
 
 @Injectable()
 export class WhatIsDoneService {
@@ -15,21 +14,15 @@ export class WhatIsDoneService {
     private whatIsDoneRepository: Repository<WhatIsDone>,
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
-    private cloudinaryService: CloudinaryService,
+    private readonly imageServise: ImageService,
   ) {}
 
-  async create(
-    file: Express.Multer.File,
-    payload: CreateWhatIsDoneDto,
-  ): Promise<WhatIsDone> {
+  async create(payload: CreateWhatIsDoneDto): Promise<WhatIsDone> {
     const { categoryName, ...rest } = payload;
 
-    const upload = await this.cloudinaryService.uploadFile(file);
-    const newResource = new WhatIsDone({
-      ...rest,
-      imagePath: upload.secure_url,
-    });
-
+    const newResource = new WhatIsDone(rest);
+    const image = await this.imageServise.findOneById(payload.imageId);
+    newResource.image = image;
     const category = await this.categoryRepository.findOneOrFail({
       where: { name: categoryName },
     });
@@ -38,22 +31,21 @@ export class WhatIsDoneService {
     return await this.whatIsDoneRepository.save(newResource);
   }
 
-  async update(
-    file: Express.Multer.File,
-    id: number,
-    payload: UpdateWhatIsDoneDto,
-  ): Promise<WhatIsDone> {
+  async update(id: number, payload: UpdateWhatIsDoneDto): Promise<WhatIsDone> {
     const cool = await this.whatIsDoneRepository.findOneOrFail({
       where: { id },
+      relations: ['image'],
     });
 
-    if (file) {
-      const publicId = publicIdExtract(cool.imagePath);
+    if (payload.imageId) {
+      const removedImageId = cool.image.id;
+      cool.image = null;
 
-      await this.cloudinaryService.deleteFile(publicId);
+      await this.whatIsDoneRepository.save(cool);
+      await this.imageServise.remove(removedImageId);
 
-      const upload = await this.cloudinaryService.uploadFile(file);
-      cool.imagePath = upload.secure_url;
+      const newImage = await this.imageServise.findOneById(payload.imageId);
+      cool.image = newImage;
     }
 
     Object.assign(cool, payload);
@@ -71,8 +63,10 @@ export class WhatIsDoneService {
   async remove(id: number) {
     const cool = await this.whatIsDoneRepository.findOneOrFail({
       where: { id },
+      relations: ['image'],
     });
 
     await this.whatIsDoneRepository.remove(cool);
+    await this.imageServise.remove(cool.image.id);
   }
 }

@@ -38,7 +38,7 @@ export class Member {
   @UpdateDateColumn({ type: 'timestamp' })
   updatetAt: Date;
 
-  @OneToOne(() => Image, (image) => image.member)
+  @OneToOne(() => Image, (image) => image.member, { eager: true })
   @JoinColumn({ name: 'imageId' })
   image: Image;
 

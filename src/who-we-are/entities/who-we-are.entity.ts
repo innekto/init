@@ -6,10 +6,13 @@ import {
   DeepPartial,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Image } from 'src/image/entities/image.entity';
 
 @Entity()
 export class WhoWeAre {
@@ -25,10 +28,6 @@ export class WhoWeAre {
   @Column()
   description: string;
 
-  @ApiProperty()
-  @Column({ type: String, nullable: true })
-  imagePath: string;
-
   @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;
@@ -40,6 +39,10 @@ export class WhoWeAre {
   @Exclude()
   @DeleteDateColumn({ nullable: true })
   deletedAt: Date;
+
+  @OneToOne(() => Image, (image) => image.whoWeAre, { eager: true })
+  @JoinColumn({ name: 'imageId' })
+  image: Image;
 
   constructor(payload?: DeepPartial<CreateWhoWeAreDto>) {
     if (!payload) return;

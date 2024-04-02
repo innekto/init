@@ -3,7 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Image } from '../../../image/entities/image.entity';
-import { membersImages } from 'src/database/service/data-creation/images';
+import {
+  membersImages,
+  whoWeAreImages,
+} from 'src/database/service/data-creation/images';
 
 @Injectable()
 export class ImageSeedService {
@@ -22,6 +25,15 @@ export class ImageSeedService {
           const newMemberImage = new Image(rest);
           newMemberImage.imagePath = imagePath;
           await this.imageRepository.save(newMemberImage);
+        }),
+      );
+
+      await Promise.all(
+        whoWeAreImages.map(async (item) => {
+          const { imagePath, ...rest } = item;
+          const newWhoWeAreImage = new Image(rest);
+          newWhoWeAreImage.imagePath = imagePath;
+          await this.imageRepository.save(newWhoWeAreImage);
         }),
       );
     }

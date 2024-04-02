@@ -6,12 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  UseInterceptors,
-  UploadedFile,
   UseGuards,
-  FileTypeValidator,
-  MaxFileSizeValidator,
-  ParseFilePipe,
 } from '@nestjs/common';
 import { WhatIsDoneService } from './what-is-done.service';
 import { CreateWhatIsDoneDto } from './dto/create-what-is-done.dto';
@@ -23,7 +18,6 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { WhatIsDone } from './entities/what-is-done.entity';
 
@@ -37,13 +31,10 @@ export class WhatIsDoneController {
   @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'create new cooool by admin' })
   @ApiResponse({ type: WhatIsDone })
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('imagePath'))
   create(
-    @UploadedFile() file: Express.Multer.File,
     @Body() createWhatIsDoneDto: CreateWhatIsDoneDto,
   ): Promise<WhatIsDone> {
-    return this.whatIsDoneService.create(file, createWhatIsDoneDto);
+    return this.whatIsDoneService.create(createWhatIsDoneDto);
   }
 
   @Patch(':id')
@@ -52,21 +43,11 @@ export class WhatIsDoneController {
   @ApiOperation({ summary: 'update cooool by admin' })
   @ApiResponse({ type: WhatIsDone })
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('imagePath'))
   update(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 10 }),
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-        ],
-      }),
-    )
-    file: Express.Multer.File,
     @Param('id') id: number,
     @Body() payload: UpdateWhatIsDoneDto,
   ): Promise<WhatIsDone> {
-    return this.whatIsDoneService.update(file, id, payload);
+    return this.whatIsDoneService.update(id, payload);
   }
 
   @Get(':category')
