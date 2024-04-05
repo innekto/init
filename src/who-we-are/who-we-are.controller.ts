@@ -7,20 +7,17 @@ import {
   Param,
   Delete,
   UseGuards,
-  UseInterceptors,
-  UploadedFile,
 } from '@nestjs/common';
 import { WhoWeAreService } from './who-we-are.service';
 import { CreateWhoWeAreDto } from './dto/create-who-we-are.dto';
 import { UpdateWhoWeAreDto } from './dto/update-who-we-are.dto';
 import {
   ApiBearerAuth,
-  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { FileInterceptor } from '@nestjs/platform-express';
+
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { WhoWeAre } from './entities/who-we-are.entity';
 
