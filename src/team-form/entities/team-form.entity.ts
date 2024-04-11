@@ -22,7 +22,7 @@ export class TeamForm {
   email: string;
 
   @ApiProperty({ description: 'candidate CV' })
-  @Column()
+  @Column({ nullable: true })
   cvPath: string;
 
   @ApiProperty({ description: 'candidate text' })
