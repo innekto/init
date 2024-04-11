@@ -36,6 +36,7 @@ import { EventModule } from './event/event.module';
 import { SpeakerModule } from './speaker/speaker.module';
 import { TeamFormModule } from './team-form/team-form.module';
 import { ImageModule } from './image/image.module';
+import { BusinessFormModule } from './business-form/business-form.module';
 
 // dotenv.config();
 
@@ -72,26 +73,17 @@ import { ImageModule } from './image/image.module';
     PassportModule.register({ session: true }),
     AuthModule,
     CloudinaryModule,
-
     AdminModule,
-
     CategoriesModule,
-
     WhatIsDoneModule,
-
     WhoWeAreModule,
-
     ServicesModule,
-
     MemberModule,
-
     EventModule,
-
     SpeakerModule,
-
     TeamFormModule,
-
     ImageModule,
+    BusinessFormModule,
   ],
 })
 export class AppModule {}
