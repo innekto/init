@@ -37,6 +37,8 @@ import { SpeakerModule } from './speaker/speaker.module';
 import { TeamFormModule } from './team-form/team-form.module';
 import { ImageModule } from './image/image.module';
 import { BusinessFormModule } from './business-form/business-form.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { IsUniqueInterceptor } from './common/interceptors/is-unique.interceptor';
 
 // dotenv.config();
 
@@ -52,22 +54,27 @@ import { BusinessFormModule } from './business-form/business-form.module';
       provide: APP_INTERCEPTOR,
       useClass: NotFoundInterceptor,
     },
+    { provide: APP_INTERCEPTOR, useClass: IsUniqueInterceptor },
   ],
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forFeature([Admin, Category, WhatIsDone]),
     TypeOrmModule.forRoot(dataSourceOptionst),
-    MailerModule.forRoot({
-      transport: {
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        //   secureConnection: false,
-        auth: {
-          user: 'virchenko.vlad.2021@gmail.com',
-          pass: 'xtdklgmizwqtlbwz',
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        transport: {
+          service: configService.get<string>('MAILER_SERVICE'),
+          host: configService.get<string>('MAILER_HOST'),
+          port: configService.get<string>('MAILER_PORT'),
+          secure: configService.get<string>('MAILER_SECURE'),
+          auth: {
+            user: configService.get<string>('MAILER_USER'),
+            pass: configService.get<string>('MAILER_PASS'),
+          },
         },
-      },
+      }),
+      inject: [ConfigService],
     }),
 
     PassportModule.register({ session: true }),

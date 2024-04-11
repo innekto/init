@@ -22,6 +22,10 @@ export class CreateTeamFormDto {
   @IsString()
   description: string;
 
-  @ApiProperty({ type: 'string', format: 'binary', required: false })
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: '.pdf',
+  })
   imagePath: Express.Multer.File;
 }

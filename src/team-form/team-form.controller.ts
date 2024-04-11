@@ -23,6 +23,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { TeamForm } from './entities/team-form.entity';
+// import { FileNullInterceptor } from 'src/common/interceptors/file-null.interceptor';
 
 @Controller('team-form')
 @ApiTags('team-form')
@@ -33,7 +34,10 @@ export class TeamFormController {
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'add form by guest' })
   @ApiResponse({ type: TeamForm })
-  @UseInterceptors(FileInterceptor('imagePath'))
+  @UseInterceptors(
+    FileInterceptor('imagePath'),
+    // FileNullInterceptor
+  )
   async create(
     @UploadedFile(
       new ParseFilePipe({
@@ -41,6 +45,7 @@ export class TeamFormController {
       }),
     )
     file: Express.Multer.File,
+
     @Body() createTeamFormDto: CreateTeamFormDto,
   ) {
     return this.teamFormService.create(file, createTeamFormDto);
