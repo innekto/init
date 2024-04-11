@@ -14,10 +14,6 @@ export class BusinessForm {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty()
-  @Column({ type: String, nullable: true })
-  imagePath: string;
-
   @ApiProperty({ description: 'name' })
   @Column()
   name: string;
