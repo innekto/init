@@ -14,16 +14,11 @@ export class BusinessFormService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async create(file: Express.Multer.File, payload: CreateBusinessFormDto) {
+  async create(payload: CreateBusinessFormDto) {
     isValidService(payload.marketingWishes);
 
     const newBusinessForm = new BusinessForm(payload);
 
-    if (file) {
-      const upload = await this.cloudinaryService.uploadFile(file);
-      const imagePath = upload.secure_url;
-      newBusinessForm.imagePath = imagePath;
-    }
     return await this.businessFormRepository.save(newBusinessForm);
   }
 

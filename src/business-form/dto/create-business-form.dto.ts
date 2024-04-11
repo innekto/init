@@ -2,9 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateBusinessFormDto {
-  @ApiProperty({ type: 'string', format: 'binary', required: false })
-  imagePath: Express.Multer.File;
-
   @ApiProperty({ description: 'name' })
   @IsNotEmpty()
   @IsString()
