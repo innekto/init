@@ -23,7 +23,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { TeamForm } from './entities/team-form.entity';
-import { FileNullInterceptor } from 'src/common/interceptors/file-null.interceptor';
+// import { FileNullInterceptor } from 'src/common/interceptors/file-null.interceptor';
 
 @Controller('team-form')
 @ApiTags('team-form')
