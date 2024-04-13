@@ -21,18 +21,18 @@ export class BusinessFormService {
 
     const newBusinessForm = new BusinessForm(payload);
     const date = new Date();
-    await this.mailerService.sendMail({
-      from: this.configService.get<string>('MAILER_USER'),
-      to: 'virchenko.vlad.2021@gmail.com',
-      subject: 'Заявка Клієнта',
-      html: `
-      <p>Ім'я: ${newBusinessForm.name}</p>
-      <p>Контакт: ${newBusinessForm.contact}</p>
-      <p>Дата: ${date}</p>
-      <p>Компанія: ${newBusinessForm.companyName}</p>
-      <p>Коментар: ${newBusinessForm.comment}</p>
-    `,
-    });
+    // await this.mailerService.sendMail({
+    //   from: this.configService.get<string>('MAILER_USER'),
+    //   to: 'virchenko.vlad.2021@gmail.com',
+    //   subject: 'Заявка Клієнта',
+    //   html: `
+    //   <p>Ім'я: ${newBusinessForm.name}</p>
+    //   <p>Контакт: ${newBusinessForm.contact}</p>
+    //   <p>Дата: ${date}</p>
+    //   <p>Компанія: ${newBusinessForm.companyName}</p>
+    //   <p>Коментар: ${newBusinessForm.comment}</p>
+    // `,
+    // });
 
     return await this.businessFormRepository.save(newBusinessForm);
   }

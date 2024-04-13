@@ -32,18 +32,18 @@ export class TeamFormService {
     try {
       savedForm = await this.formRepository.save(newForm);
 
-      await this.mailerService.sendMail({
-        from: this.configService.get<string>('MAILER_USER'),
-        to: 'virchenko.vlad.2021@gmail.com',
-        subject: 'Заявка Кандидата',
-        html: `
-          <p>Ім'я: ${newForm.name}</p>
-          <p>Пошта: ${newForm.email}</p>
-          <p>Дата: ${date}</p>
-          <p>Навички: ${newForm.position}</p>
-          <p>Коментар: ${newForm.description}</p>
-        `,
-      });
+      // await this.mailerService.sendMail({
+      //   from: this.configService.get<string>('MAILER_USER'),
+      //   to: 'virchenko.vlad.2021@gmail.com',
+      //   subject: 'Заявка Кандидата',
+      //   html: `
+      //     <p>Ім'я: ${newForm.name}</p>
+      //     <p>Пошта: ${newForm.email}</p>
+      //     <p>Дата: ${date}</p>
+      //     <p>Навички: ${newForm.position}</p>
+      //     <p>Коментар: ${newForm.description}</p>
+      //   `,
+      // });
     } catch (error) {
       throw error;
     }
