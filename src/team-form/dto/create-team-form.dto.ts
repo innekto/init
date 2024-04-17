@@ -21,7 +21,7 @@ export class CreateTeamFormDto {
   @IsNotEmpty()
   @IsEmail()
   @Matches(formEmailRegex, { message: 'Invalid format of email' })
-  @MinLength(17)
+  @MinLength(14)
   @MaxLength(72)
   email: string;
 
