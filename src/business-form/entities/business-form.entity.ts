@@ -30,6 +30,10 @@ export class BusinessForm {
   @Column()
   contact: string;
 
+  @ApiProperty({ description: 'website url' })
+  @Column()
+  webUrl: string;
+
   @ApiProperty({
     description: 'marketing channels/budgets for promotion/results',
   })
@@ -54,6 +58,7 @@ export class BusinessForm {
     this.position = payload.position;
     this.companyName = payload.companyName;
     this.contact = payload.contact;
+    this.webUrl = payload.webUrl;
     this.whatStuffsToUseNow = payload.whatStuffsToUseNow;
     this.marketingWishes = payload.marketingWishes;
     this.comment = payload.comment;

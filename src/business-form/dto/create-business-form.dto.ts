@@ -22,6 +22,11 @@ export class CreateBusinessFormDto {
   @IsString()
   contact: string;
 
+  @ApiProperty({ description: 'website url' })
+  @IsNotEmpty()
+  @IsString()
+  webUrl: string;
+
   @ApiProperty({
     description: 'marketing channels/budgets for promotion/results',
   })
