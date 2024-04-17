@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ImageService } from 'src/image/image.service';
+import { checkImageFields } from 'src/image/helpers/check.image.fields';
 
 @Injectable()
 export class MemberService {
@@ -18,6 +19,7 @@ export class MemberService {
   async create(payload: CreateMemberDto): Promise<Member> {
     const newMember = new Member(payload);
     const image = await this.imageServise.findOneById(payload.imageId);
+    checkImageFields(image);
     newMember.image = image;
     return await this.memberRepository.save(newMember);
   }

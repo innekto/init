@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
 import { ImageService } from 'src/image/image.service';
+import { checkImageFields } from 'src/image/helpers/check.image.fields';
 
 @Injectable()
 export class WhatIsDoneService {
@@ -22,6 +23,7 @@ export class WhatIsDoneService {
 
     const newResource = new WhatIsDone(rest);
     const image = await this.imageServise.findOneById(payload.imageId);
+    checkImageFields(image);
     newResource.image = image;
     const category = await this.categoryRepository.findOneOrFail({
       where: { name: categoryName },
