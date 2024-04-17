@@ -41,7 +41,7 @@ export class TeamFormController {
   async create(
     @UploadedFile(
       new ParseFilePipe({
-        validators: [new FileTypeValidator({ fileType: '.(pdf|doc|docx)' })],
+        validators: [new FileTypeValidator({ fileType: '.pdf' })],
       }),
     )
     file: Express.Multer.File,
