@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Repository } from 'typeorm';
 import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
+import { relations } from './helpers/relation.helper';
 
 @Injectable()
 export class ImageService {
@@ -55,6 +56,9 @@ export class ImageService {
   }
 
   async findOneById(id: number) {
-    return await this.imageRepository.findOneByOrFail({ id });
+    return await this.imageRepository.findOneOrFail({
+      where: { id },
+      relations: relations,
+    });
   }
 }

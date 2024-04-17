@@ -5,6 +5,7 @@ import { WhoWeAre } from './entities/who-we-are.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ImageService } from 'src/image/image.service';
+import { checkImageFields } from 'src/image/helpers/check.image.fields';
 
 @Injectable()
 export class WhoWeAreService {
@@ -17,6 +18,7 @@ export class WhoWeAreService {
   async create(payload: CreateWhoWeAreDto) {
     const newWe = new WhoWeAre(payload);
     const image = await this.imageServise.findOneById(payload.imageId);
+    checkImageFields(image);
     newWe.image = image;
     return await this.whoWeAreRepository.save(newWe);
   }

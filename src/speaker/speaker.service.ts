@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Event } from 'src/event/entities/event.entity';
 import { ImageService } from 'src/image/image.service';
+import { checkImageFields } from 'src/image/helpers/check.image.fields';
 
 @Injectable()
 export class SpeakerService {
@@ -20,6 +21,7 @@ export class SpeakerService {
   async create(payload: CreateSpeakerDto) {
     const newSpeaker = new Speaker(payload);
     const image = await this.imageServise.findOneById(payload.imageId);
+    checkImageFields(image);
     newSpeaker.image = image;
     return await this.speakerRepository.save(newSpeaker);
   }
