@@ -7,7 +7,7 @@ interface IMember {
 export const membersData: IMember[] = [
   {
     name: 'Ірина Головацька',
-    internalPosition: 'Голова держуправління Misto ',
+    internalPosition: 'Голова держуправління Misto',
     officialPosition: 'CEO',
   },
 
@@ -23,12 +23,12 @@ export const membersData: IMember[] = [
   },
   {
     name: 'Анна Сезон',
-    internalPosition: 'Завідувачка сектору благоустрою креативів ',
+    internalPosition: 'Завідувачка сектору благоустрою креативів',
     officialPosition: 'Дизайнерка',
   },
   {
     name: 'Діана Чепурнова ',
-    internalPosition: 'Менеджер з розвитку соціальних мереж ',
+    internalPosition: 'Менеджер з розвитку соціальних мереж',
     officialPosition: 'CMM-менеджерка',
   },
 ];
