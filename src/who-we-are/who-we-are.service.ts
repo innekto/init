@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ImageService } from 'src/image/image.service';
 import { checkImageFields } from 'src/image/helpers/check.image.fields';
-import { renderGrouping } from './utils/grouping.for.render';
+import { whoWeAreGrouping } from './utils/grouping.for.render';
 
 @Injectable()
 export class WhoWeAreService {
@@ -26,7 +26,7 @@ export class WhoWeAreService {
 
   async getAll() {
     const result = await this.whoWeAreRepository.find();
-    return renderGrouping(result);
+    return whoWeAreGrouping(result);
   }
 
   async update(id: number, payload: UpdateWhoWeAreDto) {

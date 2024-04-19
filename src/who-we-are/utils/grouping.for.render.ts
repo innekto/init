@@ -1,6 +1,6 @@
 import { WhoWeAre } from '../entities/who-we-are.entity';
 
-export const renderGrouping = (payload: WhoWeAre[]) => {
+export const whoWeAreGrouping = (payload: WhoWeAre[]) => {
   const TITLES = [
     'Ми профі',
     'Ми працюємо не з рекламою, а з вашим бізнесом',
