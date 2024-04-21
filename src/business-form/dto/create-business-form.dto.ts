@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Matches } from 'class-validator';
-import { webUrlsRegexp } from 'src/common/regexp/regexp';
+import { nameRegexp, webUrlsRegexp } from 'src/common/regexp/regexp';
 
 export class CreateBusinessFormDto {
   @ApiProperty({ description: 'name' })
   @IsNotEmpty()
   @IsString()
+  @Matches(nameRegexp, { message: 'Invalid format of url' })
   name: string;
 
   @ApiProperty({ description: 'contact for communication' })

@@ -7,3 +7,5 @@ export const userNameRegex =
 
 export const webUrlsRegexp =
   /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=%]*)?$/;
+
+export const nameRegexp = /^[a-zA-Z -]+$/;
