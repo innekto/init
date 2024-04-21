@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, Matches } from 'class-validator';
+import { webUrlsRegexp } from 'src/common/regexp/regexp';
 
 export class CreateBusinessFormDto {
   @ApiProperty({ description: 'name' })
@@ -25,6 +26,7 @@ export class CreateBusinessFormDto {
   @ApiProperty({ description: 'website url' })
   @IsNotEmpty()
   @IsString()
+  @Matches(webUrlsRegexp, { message: 'Invalid format of url' })
   webUrl: string;
 
   @ApiProperty({

@@ -7,7 +7,7 @@ import {
   MaxLength,
   IsString,
 } from 'class-validator';
-import { emailRegex, passwordRegex } from 'src/common/regexp/login.regexp';
+import { emailRegex, passwordRegex } from 'src/common/regexp/regexp';
 import { lowerCaseTransformer } from 'src/utils/transformers/to-lower-case';
 
 export class CreateAdminDto {
