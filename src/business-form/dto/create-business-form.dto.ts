@@ -6,7 +6,7 @@ export class CreateBusinessFormDto {
   @ApiProperty({ description: 'name' })
   @IsNotEmpty()
   @IsString()
-  @Matches(nameRegexp, { message: 'Invalid format of url' })
+  @Matches(nameRegexp, { message: 'Invalid format of name' })
   name: string;
 
   @ApiProperty({ description: 'contact for communication' })
@@ -27,7 +27,7 @@ export class CreateBusinessFormDto {
   @ApiProperty({ description: 'website url' })
   @IsNotEmpty()
   @IsString()
-  @Matches(webUrlsRegexp, { message: 'Invalid format of url' })
+  @Matches(webUrlsRegexp, { message: 'Invalid format of webUrl' })
   webUrl: string;
 
   @ApiProperty({
