@@ -7,7 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { formEmailRegex } from 'src/common/regexp/login.regexp';
+import { emailRegex } from 'src/common/regexp/regexp';
 
 export class CreateTeamFormDto {
   @ApiProperty({ example: 'Name', description: 'name' })
@@ -20,7 +20,7 @@ export class CreateTeamFormDto {
   @ApiProperty({ example: 'email@.com', description: 'email' })
   @IsNotEmpty()
   @IsEmail()
-  @Matches(formEmailRegex, { message: 'Invalid format of email' })
+  @Matches(emailRegex, { message: 'Invalid format of email' })
   @MinLength(14)
   @MaxLength(72)
   email: string;

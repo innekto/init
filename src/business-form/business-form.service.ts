@@ -42,6 +42,7 @@ export class BusinessFormService {
   }
 
   async remove(id: number) {
-    return await this.businessFormRepository.delete(id);
+    const form = await this.businessFormRepository.findOneByOrFail({ id });
+    return await this.businessFormRepository.delete(form.id);
   }
 }

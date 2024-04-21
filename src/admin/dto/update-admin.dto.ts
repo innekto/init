@@ -8,7 +8,7 @@ import {
   IsNotEmpty,
   IsEmail,
 } from 'class-validator';
-import { emailRegex } from 'src/common/regexp/login.regexp';
+import { emailRegex } from 'src/common/regexp/regexp';
 import { Transform } from 'class-transformer';
 import { lowerCaseTransformer } from 'src/utils/transformers/to-lower-case';
 
