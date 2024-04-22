@@ -42,6 +42,7 @@ export class EventService {
   }
 
   async remove(id: number) {
-    return await this.eventRepository.delete(id);
+    const event = await this.eventRepository.findOneByOrFail({ id });
+    return await this.eventRepository.delete(event.id);
   }
 }
