@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsString, Matches, MaxLength } from 'class-validator';
 import { nameRegexp, webUrlsRegexp } from 'src/common/regexp/regexp';
 
 export class CreateBusinessFormDto {
@@ -7,6 +7,7 @@ export class CreateBusinessFormDto {
   @IsNotEmpty()
   @IsString()
   @Matches(nameRegexp, { message: 'Invalid format of name' })
+  @MaxLength(20)
   name: string;
 
   @ApiProperty({ description: 'contact for communication' })
