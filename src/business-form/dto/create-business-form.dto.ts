@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsString, Matches, MaxLength } from 'class-validator';
 import { nameRegexp, webUrlsRegexp } from 'src/common/regexp/regexp';
 
 export class CreateBusinessFormDto {
@@ -17,6 +17,7 @@ export class CreateBusinessFormDto {
   @ApiProperty({ description: 'company name' })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(20)
   companyName: string;
 
   @ApiProperty({ description: '' })
