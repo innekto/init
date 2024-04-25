@@ -7,6 +7,7 @@ export class CreateBusinessFormDto {
   @IsNotEmpty()
   @IsString()
   @Matches(nameRegexp, { message: 'Invalid format of name' })
+  @MaxLength(20)
   name: string;
 
   @ApiProperty({ description: 'contact for communication' })
@@ -17,7 +18,6 @@ export class CreateBusinessFormDto {
   @ApiProperty({ description: 'company name' })
   @IsNotEmpty()
   @IsString()
-  @MaxLength(20)
   companyName: string;
 
   @ApiProperty({ description: '' })
