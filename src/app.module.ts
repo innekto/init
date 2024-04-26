@@ -5,26 +5,40 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { DesertModule } from './desert/desert.module';
-import { DataBaseCreateService } from './database/servise/data-base-create.service';
-import { Desert } from './desert/entities/desert.entity';
-import { OrderModule } from './order/order.module';
+
 import { dataSourceOptionst } from './database/database-config';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { DesertTypeEntity } from './desert/entities/desert-type.entity';
-import { GoogleStrategy } from './auth/strategies/google.strategy';
+
 import { AuthService } from './auth/auth.service';
-import { User } from './users/user.entity';
+
 import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { DesertFillingEntity } from './desert/entities/filling.entity';
+
 import { AdminJwtStrategy } from './auth/strategies/admin.jwt.strategy';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor';
+import { AdminModule } from './admin/admin.module';
+
+import { Admin } from './admin/entities/admin.entity';
+import { CategoriesModule } from './categories/categories.module';
+import { Category } from './categories/entities/category.entity';
+
+import { WhatIsDoneModule } from './what-is-done/what-is-done.module';
+
+import { WhatIsDone } from './what-is-done/entities/what-is-done.entity';
+import { WhoWeAreModule } from './who-we-are/who-we-are.module';
+import { ServicesModule } from './services/services.module';
+import { MemberModule } from './member/member.module';
+import { EventModule } from './event/event.module';
+import { SpeakerModule } from './speaker/speaker.module';
+import { TeamFormModule } from './team-form/team-form.module';
+import { ImageModule } from './image/image.module';
+import { BusinessFormModule } from './business-form/business-form.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { IsUniqueInterceptor } from './common/interceptors/is-unique.interceptor';
 
 // dotenv.config();
 
@@ -32,45 +46,51 @@ import { NotFoundInterceptor } from './common/interceptors/find-one-interceptor'
   controllers: [AppController],
   providers: [
     AppService,
-    DataBaseCreateService,
-    GoogleStrategy,
     AdminJwtStrategy,
     AuthService,
     JwtService,
+
     {
       provide: APP_INTERCEPTOR,
       useClass: NotFoundInterceptor,
     },
+    { provide: APP_INTERCEPTOR, useClass: IsUniqueInterceptor },
   ],
   imports: [
-    TypeOrmModule.forFeature([
-      Desert,
-      DesertTypeEntity,
-      User,
-      DesertFillingEntity,
-    ]),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forFeature([Admin, Category, WhatIsDone]),
     TypeOrmModule.forRoot(dataSourceOptionst),
-    MailerModule.forRoot({
-      transport: {
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        //   secureConnection: false,
-        auth: {
-          user: 'virchenko.vlad.2021@gmail.com',
-          pass: 'xtdklgmizwqtlbwz',
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        transport: {
+          service: configService.get<string>('MAILER_SERVICE'),
+          host: configService.get<string>('MAILER_HOST'),
+          port: configService.get<string>('MAILER_PORT'),
+          secure: configService.get<string>('MAILER_SECURE'),
+          auth: {
+            user: configService.get<string>('MAILER_USER'),
+            pass: configService.get<string>('MAILER_PASS'),
+          },
         },
-      },
+      }),
+      inject: [ConfigService],
     }),
 
     PassportModule.register({ session: true }),
-    UsersModule,
-
     AuthModule,
-    DesertModule,
-    OrderModule,
     CloudinaryModule,
+    AdminModule,
+    CategoriesModule,
+    WhatIsDoneModule,
+    WhoWeAreModule,
+    ServicesModule,
+    MemberModule,
+    EventModule,
+    SpeakerModule,
+    TeamFormModule,
+    ImageModule,
+    BusinessFormModule,
   ],
 })
 export class AppModule {}

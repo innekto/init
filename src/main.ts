@@ -1,7 +1,7 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { DataBaseCreateService } from './database/servise/data-base-create.service';
+
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 
 import * as session from 'express-session';
@@ -22,6 +22,7 @@ async function start() {
 
   app.use(passport.initialize());
   app.use(passport.session());
+  app.setGlobalPrefix('api/v1');
 
   app.enableCors({
     origin: '*',
@@ -42,11 +43,11 @@ async function start() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
-    .setTitle('online-store')
-    .setDescription('base URL: "https://online-store-frwk.onrender.com"')
+    .setTitle('Misto')
+    .setDescription('base URL: "https://misto-back.onrender.com/api/v1"')
     .setVersion('1.0.1')
     .addBearerAuth()
-    .addTag('OS')
+    .addTag('Misto')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -54,14 +55,5 @@ async function start() {
   SwaggerModule.setup('/api/docs', app, document);
 
   await app.listen(PORT, () => console.log(`server started on port:${PORT}`));
-
-  const dataBaseCreateService = app.get(DataBaseCreateService);
-
-  await dataBaseCreateService.desertRepositoryInit();
-  await dataBaseCreateService.desertTypesRepositoryInit();
-  await dataBaseCreateService.adminCreation();
-  await dataBaseCreateService.desertFillingRepositoryInit();
-  await dataBaseCreateService.desertsFillingCreation();
-  await dataBaseCreateService.usersCreation();
 }
 start();
