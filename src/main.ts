@@ -47,7 +47,7 @@ async function start() {
     .setDescription('base URL: "https://not-misto.onrender.com/api/v1"')
     .setVersion('1.0.1')
     .addBearerAuth()
-    .addTag('Misto')
+    .addTag('NotMisto')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
