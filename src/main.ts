@@ -44,7 +44,7 @@ async function start() {
 
   const config = new DocumentBuilder()
     .setTitle('Misto')
-    .setDescription('base URL: "https://misto-back.onrender.com/api/v1"')
+    .setDescription('base URL: "https://not-misto.onrender.com/api/v1"')
     .setVersion('1.0.1')
     .addBearerAuth()
     .addTag('Misto')
