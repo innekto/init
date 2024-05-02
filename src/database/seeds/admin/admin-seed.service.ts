@@ -21,9 +21,9 @@ export class AdminSeedService {
     if (!isAdmin) {
       const adminUser = new Admin();
 
-      adminUser.email = 'creative.misto@gmail.com';
+      adminUser.email = 'tuppefreupaummau-2893@yopmail.com';
       adminUser.role = Role.Admin;
-      adminUser.password = await bcrypt.hash('Mistopass22', 10);
+      adminUser.password = await bcrypt.hash('Browserus!9874538', 10);
       adminUser.name = 'admin admin';
       adminUser.emailVerified = true;
       await this.adminRepository.save(adminUser);
