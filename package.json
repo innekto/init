@@ -67,6 +67,7 @@
     "@types/passport-google-oauth20": "^2.0.14",
     "@types/passport-jwt": "^3.0.13",
     "@types/passport-local": "^1.0.38",
+    "@types/streamifier": "^0.1.2",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
