@@ -1,5 +1,5 @@
 export interface JwtPayload {
-  id: number; // або number, залежно від типу вашого ідентифікатора користувача
+  id: number;
   email: string;
   exp: number;
   role: string;

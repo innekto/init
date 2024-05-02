@@ -23,7 +23,7 @@ export class BusinessFormService {
     const date = new Date();
     await this.mailerService.sendMail({
       from: this.configService.get<string>('MAILER_USER'),
-      to: 'virchenko.vlad.2021@gmail.com',
+      to: 'tuppefreupaummau-2893@yopmail.com',
       subject: 'Заявка Клієнта',
       html: `
       <p>Ім'я: ${newBusinessForm.name}</p>
