@@ -8,28 +8,38 @@ interface IImages {
 export const membersImages: IImages[] = [
   {
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1712065069/%D0%86%D1%80%D0%B02_1_fgjv6x.jpg',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714989164/1687000960492_sisftc.jpg',
     description: membersData[0].name,
   },
   {
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1712065070/%D0%9C%D0%B0%D1%88%D0%B02_1_ysxtag.jpg',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714989316/7C199A5C-625F-44B2-918F-A959C068F5B7_sw7w5e.jpg',
     description: membersData[1].name,
   },
   {
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1712065072/IMG_8830_1_wyucvs.jpg',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714989563/1680011977841_wl6gsh.jpg',
     description: membersData[2].name,
   },
   {
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1712065068/%D0%90%D0%BD%D1%8F2_1_wzphk1.jpg',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714989670/1639836410381_yzz1dr.jpg',
     description: membersData[3].name,
   },
   {
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1712065068/%D0%94%D1%96%D0%B0%D0%BD%D0%B0_%D0%A7%D0%B5%D0%BF%D1%83%D1%80%D0%BD%D0%BE%D0%B2%D0%B0_1_ltrxqr.jpg',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714989818/2024-05-06_13.03.20_jcmb6d.jpg',
     description: membersData[4].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714990151/1680280289872_ypjdea.jpg',
+    description: membersData[5].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714992988/2024-05-06_13.49.38_qgxsee.jpg',
+    description: membersData[6].name,
   },
 ];
 
