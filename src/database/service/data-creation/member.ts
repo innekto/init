@@ -6,29 +6,39 @@ interface IMember {
 
 export const membersData: IMember[] = [
   {
-    name: 'Ірина Головацька',
-    internalPosition: 'Голова держуправління Misto',
-    officialPosition: 'CEO',
+    name: 'Viktoriia Semeniuk',
+    internalPosition: 'Project Manager',
+    officialPosition: 'Project Manager',
   },
 
   {
-    name: 'Марія Гусєва',
-    internalPosition: 'Керівник сектору цифрових технологій',
-    officialPosition: 'Діджитал лід',
+    name: 'Virchenko Vladyslav',
+    internalPosition: 'Backend developer',
+    officialPosition: 'Backend developer',
   },
   {
-    name: 'Катерина Христич',
-    internalPosition: 'Спеціалістка з таргетованої реклами',
-    officialPosition: 'Таргетолог',
+    name: 'Antonina Kharybina',
+    internalPosition: 'QA Engineer',
+    officialPosition: 'QA Engineer',
   },
   {
-    name: 'Анна Сезон',
-    internalPosition: 'Завідувачка сектору благоустрою креативів',
-    officialPosition: 'Дизайнерка',
+    name: 'Oleksandr Petrechko',
+    internalPosition: 'Frontend developer',
+    officialPosition: 'Web Developer',
   },
   {
-    name: 'Діана Чепурнова ',
-    internalPosition: 'Менеджер з розвитку соціальних мереж',
-    officialPosition: 'CMM-менеджерка',
+    name: 'Ivan Barei',
+    internalPosition: 'Frontend developer',
+    officialPosition: 'Frontend developer',
+  },
+  {
+    name: 'Serafim Barey',
+    internalPosition: 'Mentor Frontend',
+    officialPosition: 'Frontend developer',
+  },
+  {
+    name: 'Yuliia Petrovska',
+    internalPosition: 'QA Engineer',
+    officialPosition: 'QA Engineer',
   },
 ];
