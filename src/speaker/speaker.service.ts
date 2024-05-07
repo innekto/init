@@ -18,6 +18,10 @@ export class SpeakerService {
     private readonly imageServise: ImageService,
   ) {}
 
+  async getAll() {
+    return await this.speakerRepository.find();
+  }
+
   async create(payload: CreateSpeakerDto) {
     const newSpeaker = new Speaker(payload);
     const image = await this.imageServise.findOneById(payload.imageId);

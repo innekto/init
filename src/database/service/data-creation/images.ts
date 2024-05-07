@@ -1,4 +1,5 @@
 import { membersData } from './member';
+import { speakersData } from './speakers';
 
 interface IImages {
   imagePath: string;
@@ -41,6 +42,11 @@ export const membersImages: IImages[] = [
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1714992988/2024-05-06_13.49.38_qgxsee.jpg',
     description: membersData[6].name,
   },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1713726369/kav8vixnuu3rcjkherf0.jpg',
+    description: membersData[7].name,
+  },
 ];
 
 export const whatIsDoneImages: IImages[] = [
@@ -74,5 +80,38 @@ export const whoWeAreImages: IImages[] = [
     imagePath:
       'https://res.cloudinary.com/dmbz99tlq/image/upload/v1713696351/%D0%86%D0%B7_%D0%BD%D0%B0%D0%BC%D0%B8_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE_srpupo.jpg',
     description: 'parrot2',
+  },
+];
+
+export const speakersImages: IImages[] = [
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1715077722/010430722_htentu.jpg',
+    description: speakersData[0].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1715077721/055510985_awijyk.jpg',
+    description: speakersData[1].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1715077721/yenot_muv2sq.jpg',
+    description: speakersData[2].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1715077721/c8bb76d-yenot-1_ht2eg4.jpg',
+    description: speakersData[3].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1715077721/Depositphotos_11464248_m-2015_rpprgn.jpg',
+    description: speakersData[4].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1715077721/enot11_kvq8pc.jpg',
+    description: speakersData[5].name,
   },
 ];
