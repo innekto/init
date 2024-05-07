@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Image } from '../../../image/entities/image.entity';
 import {
   membersImages,
+  speakersImages,
   whoWeAreImages,
 } from 'src/database/service/data-creation/images';
 
@@ -34,6 +35,14 @@ export class ImageSeedService {
           const newWhoWeAreImage = new Image(rest);
           newWhoWeAreImage.imagePath = imagePath;
           await this.imageRepository.save(newWhoWeAreImage);
+        }),
+      );
+      await Promise.all(
+        speakersImages.map(async (item) => {
+          const { imagePath, ...rest } = item;
+          const newSpeakerImage = new Image(rest);
+          newSpeakerImage.imagePath = imagePath;
+          await this.imageRepository.save(newSpeakerImage);
         }),
       );
     }

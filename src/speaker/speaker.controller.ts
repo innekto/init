@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Get,
 } from '@nestjs/common';
 import { SpeakerService } from './speaker.service';
 import { CreateSpeakerDto } from './dto/create-speaker.dto';
@@ -25,6 +26,14 @@ import { Speaker } from './entities/speaker.entity';
 export class SpeakerController {
   constructor(private readonly speakerService: SpeakerService) {}
 
+  @Get()
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  @ApiOperation({ summary: 'get speakers by admin' })
+  @ApiResponse({ type: Speaker })
+  async getAll() {
+    return this.speakerService.getAll();
+  }
   @Post()
   @ApiBearerAuth()
   @UseGuards(AdminAuthGuard)

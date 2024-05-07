@@ -9,6 +9,8 @@ import { WhoWeAreSeedModule } from './who-we-are/who-we-are-seed.module';
 import { ServiceSeedModule } from './service/service-seed.module';
 import { MemberSeedModule } from './member/member-seed.module';
 import { ImageSeedModule } from './images/images-seed.module';
+import { SpeakerSeedModule } from './speakers/speakers-seed.module';
+import { EventSeedModule } from './events/event-seed.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { ImageSeedModule } from './images/images-seed.module';
     ServiceSeedModule,
     MemberSeedModule,
     ImageSeedModule,
+    SpeakerSeedModule,
+    EventSeedModule,
   ],
 })
 export class SeedModule {}

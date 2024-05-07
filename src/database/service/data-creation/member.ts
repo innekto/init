@@ -41,4 +41,9 @@ export const membersData: IMember[] = [
     internalPosition: 'QA Engineer',
     officialPosition: 'QA Engineer',
   },
+  {
+    name: 'Tihon Simak',
+    internalPosition: 'Designer',
+    officialPosition: 'Designer',
+  },
 ];
