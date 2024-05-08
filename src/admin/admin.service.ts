@@ -48,7 +48,7 @@ export class AdminService {
       token,
       tokenExpires: decodedToken.exp * 1000,
       refreshToken,
-      admin,
+      user: admin,
     };
   }
 
