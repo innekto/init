@@ -4,7 +4,7 @@ export const adminLogin = {
       token: 'string',
       tokenExpires: 1111111,
       refreshToken: 'string',
-      admin: {
+      user: {
         id: 1,
         email: 'testemail@mail.com',
         name: 'admin admin',
