@@ -27,7 +27,8 @@ export class MemberService {
 
   async findAll() {
     const result = await this.memberRepository.find();
-    return teamGrouping(result);
+
+    return result;
   }
 
   async update(id: number, payload: UpdateMemberDto): Promise<Member> {
