@@ -5,9 +5,9 @@ import { Repository } from 'typeorm';
 import { Image } from '../../../image/entities/image.entity';
 import {
   membersImages,
-  speakersImages,
   whoWeAreImages,
-} from 'src/database/service/data-creation/images';
+  speakersImages,
+} from 'src/database/service/data-creation';
 
 @Injectable()
 export class ImageSeedService {

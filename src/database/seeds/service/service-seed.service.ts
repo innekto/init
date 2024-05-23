@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Service } from 'src/services/entities/service.entity';
-import { servicesData } from 'src/database/service/data-creation/services';
+
 import { Category } from 'src/categories/entities/category.entity';
+import { servicesData } from 'src/database/service/data-creation';
 
 @Injectable()
 export class ServiceSeedService {
