@@ -4,9 +4,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Speaker } from 'src/speaker/entities/speaker.entity';
-import { speakersData } from 'src/database/service/data-creation/speakers';
+
 import { Member } from 'src/member/entities/member.entity';
 import { Image } from 'src/image/entities/image.entity';
+import { speakersData } from 'src/database/service/data-creation';
 
 @Injectable()
 export class SpeakerSeedService {

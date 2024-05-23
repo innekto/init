@@ -34,7 +34,9 @@ export class EventService {
   }
 
   async findAll(): Promise<Event[]> {
-    return await this.eventRepository.find({ relations: ['speakers'] });
+    const events = await this.eventRepository.find({ relations: ['speakers'] });
+
+    return events;
   }
 
   async update(id: number, updateEventDto: UpdateEventDto) {

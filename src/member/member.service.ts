@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 
 import { ImageService } from 'src/image/image.service';
 import { checkImageFields } from 'src/image/helpers/check.image.fields';
-import { teamGrouping } from './utils/grouping.for.render';
 
 @Injectable()
 export class MemberService {

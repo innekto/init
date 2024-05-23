@@ -3,9 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { WhoWeAre } from 'src/who-we-are/entities/who-we-are.entity';
-import { WhoWeAreData } from 'src/database/service/data-creation/who-we-are';
+
 import { Image } from 'src/image/entities/image.entity';
-import { whoWeAreImages } from 'src/database/service/data-creation/images';
+import {
+  WhoWeAreData,
+  whoWeAreImages,
+} from 'src/database/service/data-creation';
 
 @Injectable()
 export class WhoWeAreSeedService {

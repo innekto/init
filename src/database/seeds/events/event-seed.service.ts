@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 import { Event } from 'src/event/entities/event.entity';
-import { eventData } from 'src/database/service/data-creation/events';
+
 import { Speaker } from 'src/speaker/entities/speaker.entity';
-import { speakersData } from 'src/database/service/data-creation/speakers';
+import { eventData, speakersData } from 'src/database/service/data-creation';
 
 @Injectable()
 export class EventSeedService {

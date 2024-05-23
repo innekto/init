@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Category } from 'src/categories/entities/category.entity';
-import { whatIsDoneOnDigit } from 'src/database/service/data-creation/what-is-done';
+
 import { WhatIsDone } from 'src/what-is-done/entities/what-is-done.entity';
+import { whatIsDoneOnDigit } from 'src/database/service/data-creation';
 
 @Injectable()
 export class WhatIsDoneSeedService {

@@ -1,5 +1,4 @@
-import { membersData } from './member';
-import { speakersData } from './speakers';
+import { membersData, speakersData } from '.';
 
 interface IImages {
   imagePath: string;

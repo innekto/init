@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { membersData } from 'src/database/service/data-creation/member';
 import { Member } from '../../../member/entities/member.entity';
 import { Image } from 'src/image/entities/image.entity';
+import { membersData } from 'src/database/service/data-creation';
 
 @Injectable()
 export class MemberSeedService {
