@@ -8,22 +8,22 @@ export interface IWhatIsDone {
 
 export const whatIsDoneOnDigit: IWhatIsDone[] = [
   {
-    title: 'Візуальна стратегія для соцмереж',
-    collaboration: 'Академія ВІЯР + Misto',
+    title: 'Visual strategy for social networks',
+    collaboration: 'Viyar Academy + Misto',
     client:
-      'Академія Віяр - освітня платформа, що надає професійні курси зі вдосконалення знань у будівельних матеріалах',
+      'Viyar Academy - an educational platform that provides professional courses to improve knowledge in building materials',
     challenge:
-      'Академія Віяр прагнула підвищити свою онлайн-присутність та взаємодію зі своєю аудиторією через соціальні мережі. Крім того, клієнт бажав оновити дизайн свого профілю в Instagram та надати йому стильний та професійний вигляд.',
-    categoryName: 'Digital-просування',
+      'Viyar Academy wanted to increase its online presence and engagement with its audience through social media. In addition, the client wanted to update the design of their Instagram profile and give it a stylish and professional look.',
+    categoryName: 'Digital promotion',
   },
 
   {
-    title: 'Бренд-стратегія',
+    title: 'Brand strategy',
     collaboration: 'vav Synergy + Misto',
     client:
-      'Цей проект спрямований на оптимізацію стратегії та тактики рекламних кампаній у сфері працевлаштування в Європі.',
+      'This project aims to optimise the strategy and tactics of employment advertising campaigns in Europe.',
     challenge:
-      "Компанія стикалася із викликами, пов'язаними із неефективністю попереднього спеціаліста з таргетованої реклами. Це вимагало негайних дій для виявлення нових резервів та впровадження стратегічних змін.",
-    categoryName: 'Digital-просування',
+      'The company was facing challenges due to the inefficiency of its previous targeted advertising specialist. This required immediate action to identify new reserves and implement strategic changes.',
+    categoryName: 'Digital promotion',
   },
 ];
