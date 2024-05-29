@@ -5,25 +5,25 @@ interface IWhoWeAre {
 
 export const WhoWeAreData: IWhoWeAre[] = [
   {
-    title: 'Ми профі',
+    title: 'We are professionals',
     description:
-      'Усі в команді мають досвід роботи з різними нішами та типами бізнесу.',
+      'Everyone in the team has experience working with different niches and business types.',
   },
 
   {
-    title: 'Ми працюємо не з рекламою, а з вашим бізнесом',
+    title: 'We work not with advertising, but with your business',
     description:
-      'Ми розуміємо, що таке цілі продажів та знаємо, як важлива окупність реклами. Нам не все одно, які ліди потрапляють до вашої CRM-системи.',
+      'We understand what sales goals are and know how important the return on advertising is. We care about what leads get into your CRM system.',
   },
 
   {
-    title: 'Ми креативні',
+    title: 'We are creative',
     description:
-      'Це не значить, що тексти вашої реклами будуть у віршах чи ми запропонуємо додати кота у візуал. Креатив для нас — це пошук найкращого рішення, яке вирізнятиме вас серед конкурентів та дасть найвищий результат.',
+      'This does not mean that the texts of your adverts will be in poetry or we will suggest adding a cat to the visuals. For us, creativity is about finding the best solution that will distinguish you from your competitors and give you the best results.',
   },
   {
-    title: 'Із нами просто',
+    title: 'With us it is easy to',
     description:
-      'Ми забезпечуємо високий рівень сервісу та залученості, щоб і звіти вчасно, і розуміння цих звітів було — коротше,  ведемо клієнта за ручку.',
+      'We provide a high level of service and involvement to ensure that reports are delivered on time and that they are understood - in short, we lead the client by the hand.',
   },
 ];

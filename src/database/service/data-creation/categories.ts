@@ -4,12 +4,12 @@ interface ICategory {
 
 export const categoryData: ICategory[] = [
   {
-    name: 'Digital-просування',
+    name: 'Digital promotion',
   },
   {
-    name: 'Cтратегічний маркетинг',
+    name: 'Strategic marketing',
   },
   {
-    name: 'Онлайн-присутність',
+    name: 'On-line presence',
   },
 ];

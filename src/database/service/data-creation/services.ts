@@ -5,24 +5,24 @@ interface IServices {
 
 export const servicesData: IServices[] = [
   {
-    title: 'таргет у Meta',
-    categoryName: 'Digital-просування',
+    title: 'Target in Meta',
+    categoryName: 'Digital promotion',
   },
   {
-    title: 'реклама Google Ads',
-    categoryName: 'Digital-просування',
+    title: 'Google ads advertising',
+    categoryName: 'Digital promotion',
   },
 
   {
-    title: 'бренд-стратегія',
-    categoryName: 'Cтратегічний маркетинг',
+    title: 'Brand strategy',
+    categoryName: 'Strategic marketing',
   },
   {
-    title: 'маркетингова стратегія',
-    categoryName: 'Cтратегічний маркетинг',
+    title: 'Marketing strategy',
+    categoryName: 'Strategic marketing',
   },
   {
-    title: 'візуальна стратегія для соцмереж',
-    categoryName: 'Cтратегічний маркетинг',
+    title: 'Visual strategy for social networks',
+    categoryName: 'Strategic marketing',
   },
 ];
