@@ -2,10 +2,10 @@ import { WhoWeAre } from '../entities/who-we-are.entity';
 
 export const whoWeAreGrouping = (payload: WhoWeAre[]) => {
   const TITLES = [
-    'Ми профі',
-    'Ми працюємо не з рекламою, а з вашим бізнесом',
-    'Ми креативні',
-    'Із нами просто',
+    'We are professionals',
+    'We work not with advertising, but with your business',
+    'We are creative',
+    'With us it is easy to',
   ];
 
   const filteredPayload: WhoWeAre[] = [];
