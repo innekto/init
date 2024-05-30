@@ -1,11 +1,11 @@
 import { BadRequestException } from '@nestjs/common';
 
 const services = [
-  'таргетована реклама в Instagram та Facebook',
-  'реклама в Google',
-  'консалтинг',
-  'розробка стратегії',
-  'інше',
+  'Targeted advertising on Instagram and Facebook',
+  'Advertising on Google',
+  'Consulting',
+  'Strategy development',
+  'Other',
 ];
 
 export const isValidService = (service: string): boolean => {
