@@ -24,11 +24,7 @@ export class Member {
 
   @ApiProperty()
   @Column()
-  internalPosition: string;
-
-  @ApiProperty()
-  @Column()
-  officialPosition: string;
+  position: string;
 
   @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -45,7 +41,6 @@ export class Member {
   constructor(payload?: Partial<CreateMemberDto>) {
     if (!payload) return;
     this.name = payload.name;
-    this.internalPosition = payload.internalPosition;
-    this.officialPosition = payload.officialPosition;
+    this.position = payload.position;
   }
 }

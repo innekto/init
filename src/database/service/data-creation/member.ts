@@ -1,49 +1,48 @@
 interface IMember {
   name: string;
-  internalPosition: string;
-  officialPosition: string;
+  position: string;
 }
 
 export const membersData: IMember[] = [
   {
     name: 'Viktoriia Semeniuk',
-    internalPosition: 'Project Manager',
-    officialPosition: 'Project Manager',
+    position: 'Project Manager',
   },
 
   {
     name: 'Virchenko Vladyslav',
-    internalPosition: 'Backend developer',
-    officialPosition: 'Backend developer',
+    position: 'Backend developer',
   },
   {
     name: 'Antonina Kharybina',
-    internalPosition: 'QA Engineer',
-    officialPosition: 'QA Engineer',
+    position: 'QA Engineer',
   },
   {
     name: 'Oleksandr Petrechko',
-    internalPosition: 'Frontend developer',
-    officialPosition: 'Web Developer',
+    position: 'Frontend developer',
   },
   {
     name: 'Ivan Barei',
-    internalPosition: 'Frontend developer',
-    officialPosition: 'Frontend developer',
+    position: 'Frontend developer',
   },
   {
     name: 'Serafim Barey',
-    internalPosition: 'Mentor Frontend',
-    officialPosition: 'Frontend developer',
+    position: 'Mentor Frontend',
   },
   {
     name: 'Yuliia Petrovska',
-    internalPosition: 'QA Engineer',
-    officialPosition: 'QA Engineer',
+    position: 'QA Engineer',
   },
   {
     name: 'Tihon Simak',
-    internalPosition: 'Designer',
-    officialPosition: 'Designer',
+    position: 'Designer',
+  },
+  {
+    name: 'Iryna Zatynina',
+    position: 'Frontend developer',
+  },
+  {
+    name: 'Botvina Karina',
+    position: 'UX/Ui Designer',
   },
 ];
