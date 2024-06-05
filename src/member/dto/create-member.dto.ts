@@ -12,13 +12,8 @@ export class CreateMemberDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ example: 'Position', description: 'inernal position' })
+  @ApiProperty({ example: 'Position', description: ' position' })
   @IsNotEmpty()
   @IsString()
-  internalPosition: string;
-
-  @ApiProperty({ example: 'Position', description: 'official position' })
-  @IsNotEmpty()
-  @IsString()
-  officialPosition: string;
+  position: string;
 }

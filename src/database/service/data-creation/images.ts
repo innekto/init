@@ -44,8 +44,18 @@ export const membersImages: IImages[] = [
   },
   {
     imagePath:
-      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1713726369/kav8vixnuu3rcjkherf0.jpg',
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1717575637/IMG_20211009_130155_lqfofg.jpg',
     description: membersData[7].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1717575511/_25A3448_4_1_q8mhgk.jpg',
+    description: membersData[8].name,
+  },
+  {
+    imagePath:
+      'https://res.cloudinary.com/dmbz99tlq/image/upload/v1717576001/IMG_1254_smbh9x.jpg',
+    description: membersData[9].name,
   },
 ];
 
