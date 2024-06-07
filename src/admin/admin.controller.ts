@@ -23,6 +23,7 @@ import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { Admin } from 'src/admin/entities/admin.entity';
 import { adminLogin } from './response-example/responses';
+import { EditPhotoDto } from './dto/edit-photo.dto';
 
 @ApiTags('admin')
 @Controller('admin')
@@ -82,5 +83,17 @@ export class AdminController {
   @UseGuards(AdminAuthGuard)
   async logout(@User('adminId') adminId: number) {
     return this.adminService.adminLogout(adminId);
+  }
+
+  @Post('editPhoto')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'edit avatar' })
+  @ApiResponse({ type: Admin })
+  @UseGuards(AdminAuthGuard)
+  async editPhoto(
+    @User('adminId') adminId: number,
+    @Body() payload: EditPhotoDto,
+  ) {
+    return this.adminService.editPhoto(adminId, payload.photoId);
   }
 }

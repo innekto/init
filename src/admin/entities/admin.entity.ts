@@ -5,11 +5,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CreateAdminDto } from '../dto/create-admin.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { Image } from 'src/image/entities/image.entity';
 
 @Entity('admin')
 export class Admin {
@@ -44,6 +47,10 @@ export class Admin {
   @ApiProperty({ description: 'is online' })
   @Column({ default: false })
   isOnline: boolean;
+
+  @OneToOne(() => Image, (image) => image.admin, { eager: true })
+  @JoinColumn({ name: 'imageId' })
+  image: Image;
 
   @Exclude()
   @CreateDateColumn({ type: 'timestamp' })
