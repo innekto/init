@@ -1,1 +1,7 @@
-export const relations = ['member', 'speaker', 'whoWeAre', 'whatIsDone'];
+export const relations = [
+  'member',
+  'speaker',
+  'whoWeAre',
+  'whatIsDone',
+  'admin',
+];

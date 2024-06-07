@@ -10,6 +10,8 @@ import { AdminLoginDto } from './dto/login.dto';
 
 import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/auth/auth.service';
+import { ImageService } from 'src/image/image.service';
+import { checkImageFields } from 'src/image/helpers/check.image.fields';
 
 @Injectable()
 export class AdminService {
@@ -17,6 +19,7 @@ export class AdminService {
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
     private jwtService: JwtService,
     private authService: AuthService,
+    private readonly imageServiсe: ImageService,
   ) {}
 
   async adminLogin(loginDto: AdminLoginDto) {
@@ -75,5 +78,26 @@ export class AdminService {
     const admin = await this.adminRepository.findOneByOrFail({ id: adminId });
     admin.isOnline = false;
     return await this.adminRepository.save(admin);
+  }
+
+  async editPhoto(adminId: number, photoId: number) {
+    const admin = await this.adminRepository.findOneOrFail({
+      where: { id: adminId },
+      relations: ['image'],
+    });
+
+    if (admin.image) {
+      const removedImageId = admin.image.id;
+      admin.image = null;
+      await this.adminRepository.save(admin);
+      await this.imageServiсe.remove(removedImageId);
+    }
+
+    const image = await this.imageServiсe.findOneById(photoId);
+
+    checkImageFields(image);
+    admin.image = image;
+    await this.adminRepository.save(admin);
+    return { imageUrl: image.imagePath };
   }
 }
