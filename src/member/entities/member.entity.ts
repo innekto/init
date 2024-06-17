@@ -24,6 +24,10 @@ export class Member {
 
   @ApiProperty()
   @Column()
+  department: string;
+
+  @ApiProperty()
+  @Column()
   position: string;
 
   @Exclude()
@@ -42,5 +46,6 @@ export class Member {
     if (!payload) return;
     this.name = payload.name;
     this.position = payload.position;
+    this.department = payload.department;
   }
 }
