@@ -29,6 +29,10 @@ export class Event {
   @Column()
   location: string;
 
+  @ApiProperty({ description: 'description' })
+  @Column()
+  description: string;
+
   @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;
@@ -46,5 +50,6 @@ export class Event {
     this.name = payload.name;
     this.date = payload.date;
     this.location = payload.location;
+    this.description = payload.description;
   }
 }

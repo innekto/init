@@ -41,6 +41,13 @@ export class EventController {
     return this.eventService.findAll();
   }
 
+  @Get(':eventId')
+  @ApiOperation({ summary: 'get event by id' })
+  @ApiResponse({ type: Event })
+  async findOne(@Param('eventId') eventId: number) {
+    return this.eventService.findOne(eventId);
+  }
+
   @Patch(':eventId')
   @ApiOperation({ summary: 'update event by admin' })
   @ApiResponse({ type: Event })
