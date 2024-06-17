@@ -17,24 +17,30 @@ export class BusinessFormService {
   ) {}
 
   async create(payload: CreateBusinessFormDto) {
-    isValidService(payload.marketingWishes);
+    try {
+      isValidService(payload.marketingWishes);
 
-    const newBusinessForm = new BusinessForm(payload);
-    const date = new Date();
-    await this.mailerService.sendMail({
-      from: this.configService.get<string>('MAILER_USER'),
-      to: 'tuppefreupaummau-2893@yopmail.com',
-      subject: 'Заявка Клієнта',
-      html: `
-      <p>Ім'я: ${newBusinessForm.name}</p>
-      <p>Контакт: ${newBusinessForm.contact}</p>
-      <p>Дата: ${date}</p>
-      <p>Компанія: ${newBusinessForm.companyName}</p>
-      <p>Коментар: ${newBusinessForm.comment}</p>
-    `,
-    });
+      const newBusinessForm = new BusinessForm(payload);
+      const savedForm = await this.businessFormRepository.save(newBusinessForm);
 
-    return await this.businessFormRepository.save(newBusinessForm);
+      const date = new Date();
+      await this.mailerService.sendMail({
+        from: this.configService.get<string>('MAILER_USER'),
+        to: this.configService.get<string>('MAILER_USER'),
+        subject: 'Заявка Клієнта',
+        html: `
+         <p>Ім'я: ${newBusinessForm.name}</p>
+          <p>Контакт: ${newBusinessForm.contact}</p>
+          <p>Дата: ${date}</p>
+          <p>Компанія: ${newBusinessForm.companyName}</p>
+        <p>Коментар: ${newBusinessForm.comment}</p>
+  `,
+      });
+
+      return savedForm;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findAll() {
