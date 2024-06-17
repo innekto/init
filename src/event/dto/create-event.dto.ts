@@ -12,6 +12,11 @@ export class CreateEventDto {
   @IsString()
   location: string;
 
+  @ApiProperty({ example: 'text', description: 'description' })
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
   @ApiProperty({ example: 'Маркетинг у місті', description: 'name of event' })
   @IsNotEmpty()
   @IsString()

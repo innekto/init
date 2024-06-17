@@ -16,4 +16,9 @@ export class CreateMemberDto {
   @IsNotEmpty()
   @IsString()
   position: string;
+
+  @ApiProperty({ example: 'Position', description: ' position' })
+  @IsNotEmpty()
+  @IsString()
+  department: string;
 }

@@ -4,7 +4,7 @@ interface ISpeaker {
 
 export const speakersData: ISpeaker[] = [
   {
-    name: 'Phils Brothers',
+    name: 'Dream Team',
   },
   {
     name: 'Dylan',
