@@ -11,6 +11,7 @@ import { MemberSeedModule } from './member/member-seed.module';
 import { ImageSeedModule } from './images/images-seed.module';
 import { SpeakerSeedModule } from './speakers/speakers-seed.module';
 import { EventSeedModule } from './events/event-seed.module';
+import { SocialSeedModule } from './social/social-seed.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EventSeedModule } from './events/event-seed.module';
     ImageSeedModule,
     SpeakerSeedModule,
     EventSeedModule,
+    SocialSeedModule,
   ],
 })
 export class SeedModule {}
