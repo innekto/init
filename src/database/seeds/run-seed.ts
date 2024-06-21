@@ -10,6 +10,7 @@ import { MemberSeedService } from './member/member-seed.service';
 import { ImageSeedService } from './images/images-seed.service';
 import { SpeakerSeedService } from './speakers/speakers-seed.service';
 import { EventSeedService } from './events/event-seed.service';
+import { SocialSeedService } from './social/social-seed.service';
 
 const runSeed = async () => {
   const app = await NestFactory.create(SeedModule);
@@ -24,6 +25,7 @@ const runSeed = async () => {
   await app.get(MemberSeedService).run();
   await app.get(SpeakerSeedService).run();
   await app.get(EventSeedService).run();
+  await app.get(SocialSeedService).run();
 
   await app.close();
 };

@@ -11,6 +11,7 @@ import { CreateMemberDto } from '../dto/create-member.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { Image } from 'src/image/entities/image.entity';
+import { Social } from 'src/social/entities/social.entity';
 
 @Entity()
 export class Member {
@@ -41,6 +42,14 @@ export class Member {
   @OneToOne(() => Image, (image) => image.member, { eager: true })
   @JoinColumn({ name: 'imageId' })
   image: Image;
+
+  @OneToOne(() => Social, (social) => social.member, {
+    eager: true,
+    cascade: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'socialId' })
+  social: Social;
 
   constructor(payload?: Partial<CreateMemberDto>) {
     if (!payload) return;

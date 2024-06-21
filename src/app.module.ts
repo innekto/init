@@ -40,6 +40,7 @@ import { BusinessFormModule } from './business-form/business-form.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { IsUniqueInterceptor } from './common/interceptors/is-unique.interceptor';
 import { EventformModule } from './eventform/eventform.module';
+import { SocialModule } from './social/social.module';
 
 // dotenv.config();
 
@@ -93,6 +94,7 @@ import { EventformModule } from './eventform/eventform.module';
     ImageModule,
     BusinessFormModule,
     EventformModule,
+    SocialModule,
   ],
 })
 export class AppModule {}
