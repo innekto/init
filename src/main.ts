@@ -4,24 +4,24 @@ import { AppModule } from './app.module';
 
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 
-import * as session from 'express-session';
+// import * as session from 'express-session';
 import * as passport from 'passport';
 
 async function start() {
   const PORT = process.env.PORT || 5000;
   const app = await NestFactory.create(AppModule);
 
-  app.use(
-    session({
-      secret: 'sdfasdfbsdkfbsdlkafb',
-      saveUninitialized: true,
-      resave: false,
-      cookie: { maxAge: 60000 },
-    }),
-  );
+  // app.use(
+  //   session({
+  //     secret: 'sdfasdfbsdkfbsdlkafb',
+  //     saveUninitialized: true,
+  //     resave: false,
+  //     cookie: { maxAge: 60000 },
+  //   }),
+  // );
 
   app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(passport.session());
   app.setGlobalPrefix('api/v1');
 
   app.enableCors({
