@@ -7,6 +7,9 @@ import {
   Delete,
   Patch,
   UseGuards,
+  Res,
+  Request,
+  BadRequestException,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 // import { CreateAdminDto } from './dto/create-admin.dto';
@@ -24,20 +27,37 @@ import { User } from 'src/common/decorators/user.decorator';
 import { Admin } from 'src/admin/entities/admin.entity';
 import { adminLogin } from './response-example/responses';
 import { EditPhotoDto } from './dto/edit-photo.dto';
+import { Request as req, Response } from 'express';
+import { AuthService } from 'src/auth/auth.service';
 
 @ApiTags('admin')
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    readonly authService: AuthService,
+  ) {}
 
   @Post('login')
   @ApiOperation({ summary: 'login by admin' })
-  // @ApiResponse({ type: Admin })
   @ApiResponse({
     content: adminLogin,
   })
-  async adminLogin(@Body() loginDto: AdminLoginDto) {
-    return this.adminService.adminLogin(loginDto);
+  async adminLogin(
+    @Body() loginDto: AdminLoginDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { token, tokenExpires, refreshToken, user } =
+      await this.adminService.adminLogin(loginDto);
+
+    response.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      sameSite: 'none',
+      secure: true,
+    });
+
+    return { token, tokenExpires, user };
   }
 
   // @Post('create')
@@ -81,7 +101,11 @@ export class AdminController {
   @ApiOperation({ summary: 'admin logout' })
   @ApiResponse({ type: Admin })
   @UseGuards(AdminAuthGuard)
-  async logout(@User('adminId') adminId: number) {
+  async logout(
+    @User('adminId') adminId: number,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    response.clearCookie('refresh_token');
     return this.adminService.adminLogout(adminId);
   }
 
@@ -95,5 +119,26 @@ export class AdminController {
     @Body() payload: EditPhotoDto,
   ) {
     return this.adminService.editPhoto(adminId, payload.photoId);
+  }
+
+  @Post('refresh-token')
+  async refreshToken(
+    @Request() request: req,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    if (!request.headers.cookie)
+      throw new BadRequestException('Cookei is required!');
+
+    const { token, refreshToken } = await this.authService.refreshToken(
+      request.headers.cookie.split('=')[1],
+    );
+    response.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      sameSite: 'none',
+      secure: true,
+    });
+
+    return { token };
   }
 }

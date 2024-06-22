@@ -32,7 +32,6 @@ export class SocialService {
   }
 
   async update(memberId: number, payload: UpdateSocialDto) {
-    console.log('payload :>> ', payload);
     const { social } = await this.memberRepository.findOneByOrFail({
       id: memberId,
     });

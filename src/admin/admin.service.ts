@@ -75,9 +75,7 @@ export class AdminService {
   }
 
   async adminLogout(adminId: number) {
-    const admin = await this.adminRepository.findOneByOrFail({ id: adminId });
-    admin.isOnline = false;
-    return await this.adminRepository.save(admin);
+    return await this.authService.adminLogout(adminId);
   }
 
   async editPhoto(adminId: number, photoId: number) {

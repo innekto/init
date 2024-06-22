@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { JwtService } from '@nestjs/jwt';
 
 import { MailerService } from '@nestjs-modules/mailer';
 
 import * as dotenv from 'dotenv';
+import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 dotenv.config();
 
@@ -13,6 +17,8 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private mailerService: MailerService,
+    private configService: ConfigService,
+    @InjectRepository(Admin) private adminRepository: Repository<Admin>,
   ) {}
 
   // async register(data: AuthRegisterDto): Promise<void> {
@@ -114,6 +120,7 @@ export class AuthService {
         },
         {
           expiresIn: '7d',
+          secret: this.configService.get<string>('REFRESH_JWT_SECRET'),
         },
       ),
     ]);
@@ -123,6 +130,32 @@ export class AuthService {
     };
   }
 
+  async refreshToken(previousRefreshToken: string) {
+    const payload = await this.jwtService.verifyAsync(previousRefreshToken, {
+      secret: this.configService.get<string>('REFRESH_JWT_SECRET'),
+    });
+
+    const now = Math.floor(Date.now() / 1000);
+
+    if (payload.exp < now) {
+      await this.adminLogout(payload.sub);
+      throw new UnauthorizedException('Expired refresh token');
+    }
+
+    const { token, refreshToken } = await this.generateTokens({
+      email: payload.email,
+      role: payload.role,
+      id: payload.sub,
+    });
+
+    return { token, refreshToken };
+  }
+
+  async adminLogout(adminId: number) {
+    const admin = await this.adminRepository.findOneByOrFail({ id: adminId });
+    admin.isOnline = false;
+    return await this.adminRepository.save(admin);
+  }
   // async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
   //   const user = await this.userService.findOne(forgotPasswordDto.email);
 

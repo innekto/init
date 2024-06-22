@@ -8,8 +8,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 import * as dotenv from 'dotenv';
-import { RefreshJwtStrategy } from './strategies/refreshToken.strategy';
+
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 dotenv.config();
 
@@ -17,7 +19,7 @@ const { JWT_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([Admin]),
 
     PassportModule,
     JwtModule.register({
@@ -25,7 +27,7 @@ const { JWT_SECRET, TOKEN_EXPIRES_IN } = process.env;
       signOptions: { expiresIn: TOKEN_EXPIRES_IN },
     }),
   ],
-  providers: [JwtStrategy, RefreshJwtStrategy, AuthService],
+  providers: [JwtStrategy, AuthService, ConfigService],
   controllers: [],
 })
 export class AuthModule {}
