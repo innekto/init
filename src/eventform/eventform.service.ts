@@ -1,25 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventformDto } from './dto/create-eventform.dto';
 
-import { Eventform } from './entities/eventform.entity';
+import { EventForm } from './entities/eventform.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Event } from 'src/event/entities/event.entity';
 
 @Injectable()
 export class EventformService {
   constructor(
-    @InjectRepository(Eventform)
-    private eventRepository: Repository<Eventform>,
+    @InjectRepository(EventForm)
+    private eventFormRepository: Repository<EventForm>,
+    @InjectRepository(Event)
+    private eventRepository: Repository<Event>,
     private mailerService: MailerService,
     private configService: ConfigService,
   ) {}
 
   async create(payload: CreateEventformDto) {
     try {
-      const newEventForm = new Eventform(payload);
-      const savedEvent = await this.eventRepository.save(newEventForm);
+      const existEvent = await this.eventRepository.exist({
+        where: { id: payload.eventId },
+      });
+      if (!existEvent) throw new NotFoundException('Event not found');
+
+      const newEventForm = new EventForm(payload);
+      const savedEvent = await this.eventFormRepository.save(newEventForm);
 
       const date = new Date();
 

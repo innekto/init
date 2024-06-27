@@ -1,9 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEmail, Matches, IsNotEmpty } from 'class-validator';
+import { IsEmail, Matches, IsNotEmpty, IsNumber } from 'class-validator';
 import { lowerCaseTransformer } from 'src/utils/transformers/to-lower-case';
 
 export class CreateEventformDto {
+  @ApiProperty({ example: 1 })
+  @IsNotEmpty()
+  @IsNumber()
+  eventId: number;
+
   @ApiProperty({ example: 'John Doe' })
   @IsNotEmpty()
   name: string;
