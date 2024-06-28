@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
+import { IsOptional, IsNotEmpty } from 'class-validator';
 
 export class EditPhotoDto {
-  @ApiProperty({ example: '1' })
-  @IsNumber()
-  photoId: number;
+  @ApiProperty({ example: 'admin avatar', description: 'image alt' })
+  @IsOptional()
+  @IsNotEmpty()
+  imageAlt?: string;
 }
