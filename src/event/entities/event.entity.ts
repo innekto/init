@@ -4,12 +4,14 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { Speaker } from 'src/speaker/entities/speaker.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import { EventForm } from 'src/eventform/entities/eventform.entity';
 
 @Entity()
 export class Event {
@@ -44,6 +46,12 @@ export class Event {
   })
   @JoinTable({ name: 'speaker_to_event' })
   speakers: Speaker[];
+
+  @OneToMany(() => EventForm, (eventForm) => eventForm.event, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  eventForm: EventForm[];
 
   constructor(payload?: Partial<CreateEventDto>) {
     if (!payload) return;
