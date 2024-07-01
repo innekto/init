@@ -66,15 +66,30 @@ export class MemberController {
   }
 
   @Patch(':id')
-  @ApiBearerAuth()
-  @UseGuards(AdminAuthGuard)
+  // @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('imagePath'))
+  @ApiConsumes('multipart/form-data')
+  // @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'update member by admin' })
   @ApiResponse({ type: Member })
   async update(
     @Param('id') id: number,
     @Body() updateMemberDto: UpdateMemberDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 10 * 1024 * 1024,
+            message: 'max size of image is 10mb',
+          }),
+          new FileTypeValidator({ fileType: /image\// }),
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    image: Express.Multer.File,
   ): Promise<Member> {
-    return this.memberService.update(id, updateMemberDto);
+    return this.memberService.update(id, updateMemberDto, image);
   }
 
   @Delete(':id')

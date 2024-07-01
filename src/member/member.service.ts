@@ -5,6 +5,7 @@ import { Member } from './entities/member.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
 
 @Injectable()
 export class MemberService {
@@ -30,13 +31,24 @@ export class MemberService {
     return result;
   }
 
-  async update(id: number, payload: UpdateMemberDto): Promise<Member> {
+  async update(
+    id: number,
+    payload: UpdateMemberDto,
+    image?: Express.Multer.File,
+  ): Promise<Member> {
     const member = await this.memberRepository.findOneOrFail({
       where: { id },
-      relations: ['image'],
     });
 
+    if (image) {
+      const publicId = publicIdExtract(member.imagePath);
+      await this.cloudinaryService.deleteFile(publicId);
+      const { secure_url } = await this.cloudinaryService.uploadFile(image);
+      member.imagePath = secure_url;
+    }
+
     Object.assign(member, payload);
+
     const updatedMember = await this.memberRepository.save(member);
 
     return updatedMember;
