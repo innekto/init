@@ -26,16 +26,13 @@ import { Admin } from './admin/entities/admin.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/entities/category.entity';
 
-import { WhatIsDoneModule } from './what-is-done/what-is-done.module';
-
-import { WhatIsDone } from './what-is-done/entities/what-is-done.entity';
 import { WhoWeAreModule } from './who-we-are/who-we-are.module';
 import { ServicesModule } from './services/services.module';
 import { MemberModule } from './member/member.module';
 import { EventModule } from './event/event.module';
 import { SpeakerModule } from './speaker/speaker.module';
 import { TeamFormModule } from './team-form/team-form.module';
-import { ImageModule } from './image/image.module';
+
 import { BusinessFormModule } from './business-form/business-form.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { IsUniqueInterceptor } from './common/interceptors/is-unique.interceptor';
@@ -60,7 +57,7 @@ import { SocialModule } from './social/social.module';
   ],
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forFeature([Admin, Category, WhatIsDone]),
+    TypeOrmModule.forFeature([Admin, Category]),
     TypeOrmModule.forRoot(dataSourceOptionst),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
@@ -84,14 +81,13 @@ import { SocialModule } from './social/social.module';
     CloudinaryModule,
     AdminModule,
     CategoriesModule,
-    WhatIsDoneModule,
+
     WhoWeAreModule,
     ServicesModule,
     MemberModule,
     EventModule,
     SpeakerModule,
     TeamFormModule,
-    ImageModule,
     BusinessFormModule,
     EventformModule,
     SocialModule,

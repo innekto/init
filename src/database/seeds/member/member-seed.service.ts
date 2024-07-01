@@ -3,16 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Member } from '../../../member/entities/member.entity';
-import { Image } from 'src/image/entities/image.entity';
-import { membersData } from 'src/database/service/data-creation';
+
+import { membersData, membersImages } from 'src/database/service/data-creation';
 
 @Injectable()
 export class MemberSeedService {
   constructor(
     @InjectRepository(Member)
     private memberRepository: Repository<Member>,
-    @InjectRepository(Image)
-    private imageRepository: Repository<Image>,
   ) {}
 
   async run() {
@@ -20,11 +18,10 @@ export class MemberSeedService {
 
     if (count === 0) {
       await Promise.all(
-        membersData.map(async (item) => {
+        membersData.map(async (item, index) => {
           const newMember = new Member(item);
-          newMember.image = await this.imageRepository.findOneOrFail({
-            where: { description: item.name },
-          });
+          newMember.imageAlt = membersImages[index].description;
+          newMember.imagePath = membersImages[index].imagePath;
           await this.memberRepository.save(newMember);
         }),
       );

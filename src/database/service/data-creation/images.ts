@@ -59,17 +59,6 @@ export const membersImages: IImages[] = [
   },
 ];
 
-export const whatIsDoneImages: IImages[] = [
-  {
-    imagePath: '',
-    description: '',
-  },
-  {
-    imagePath: '',
-    description: '',
-  },
-];
-
 export const whoWeAreImages: IImages[] = [
   {
     imagePath:

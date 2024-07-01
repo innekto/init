@@ -10,6 +10,11 @@ import {
   Res,
   Request,
   BadRequestException,
+  UseInterceptors,
+  UploadedFile,
+  FileTypeValidator,
+  MaxFileSizeValidator,
+  ParseFilePipe,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 // import { CreateAdminDto } from './dto/create-admin.dto';
@@ -19,6 +24,7 @@ import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { AdminLoginDto } from './dto/login.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
@@ -29,6 +35,7 @@ import { adminLogin } from './response-example/responses';
 import { EditPhotoDto } from './dto/edit-photo.dto';
 import { Request as req, Response } from 'express';
 import { AuthService } from 'src/auth/auth.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('admin')
 @Controller('admin')
@@ -110,15 +117,29 @@ export class AdminController {
   }
 
   @Post('editPhoto')
+  @UseInterceptors(FileInterceptor('imagePath'))
   @ApiBearerAuth()
   @ApiOperation({ summary: 'edit avatar' })
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({ type: Admin })
   @UseGuards(AdminAuthGuard)
   async editPhoto(
-    @User('adminId') adminId: number,
     @Body() payload: EditPhotoDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 50 * 1024,
+            message: 'max size of image is 10mb',
+          }),
+          new FileTypeValidator({ fileType: /image\// }),
+        ],
+      }),
+    )
+    image: Express.Multer.File,
+    @User('adminId') adminId: number,
   ) {
-    return this.adminService.editPhoto(adminId, payload.photoId);
+    return this.adminService.editPhoto(image, adminId, payload);
   }
 
   @Post('refresh-token')

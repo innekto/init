@@ -26,6 +26,7 @@ export class AdminSeedService {
       adminUser.password = await bcrypt.hash('Browserus!9874538', 10);
       adminUser.name = 'admin admin';
       adminUser.emailVerified = true;
+      adminUser.imageAlt = 'admin avatar';
       await this.adminRepository.save(adminUser);
     }
   }

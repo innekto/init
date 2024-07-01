@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 // import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { Admin } from './entities/admin.entity';
@@ -10,8 +15,10 @@ import { AdminLoginDto } from './dto/login.dto';
 
 import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/auth/auth.service';
-import { ImageService } from 'src/image/image.service';
-import { checkImageFields } from 'src/image/helpers/check.image.fields';
+
+import { EditPhotoDto } from './dto/edit-photo.dto';
+import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class AdminService {
@@ -19,7 +26,7 @@ export class AdminService {
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
     private jwtService: JwtService,
     private authService: AuthService,
-    private readonly imageServiсe: ImageService,
+    private cloudinaryService: CloudinaryService,
   ) {}
 
   async adminLogin(loginDto: AdminLoginDto) {
@@ -78,24 +85,33 @@ export class AdminService {
     return await this.authService.adminLogout(adminId);
   }
 
-  async editPhoto(adminId: number, photoId: number) {
+  async editPhoto(
+    image: Express.Multer.File,
+    adminId: number,
+    payload: EditPhotoDto,
+  ) {
     const admin = await this.adminRepository.findOneOrFail({
       where: { id: adminId },
-      relations: ['image'],
     });
 
-    if (admin.image) {
-      const removedImageId = admin.image.id;
-      admin.image = null;
-      await this.adminRepository.save(admin);
-      await this.imageServiсe.remove(removedImageId);
+    if (image && admin.imagePath) {
+      const publicId = publicIdExtract(admin.imagePath);
+      await this.cloudinaryService.deleteFile(publicId);
     }
 
-    const image = await this.imageServiсe.findOneById(photoId);
+    const { secure_url } = await this.cloudinaryService.uploadFile(image);
 
-    checkImageFields(image);
-    admin.image = image;
-    await this.adminRepository.save(admin);
-    return { imageUrl: image.imagePath };
+    if (!secure_url) {
+      throw new HttpException(
+        'Error uploading image',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    this.adminRepository.update(admin.id, {
+      imagePath: secure_url,
+      imageAlt: payload.imageAlt ? payload.imageAlt : admin.imageAlt,
+    });
+    return { secure_url };
   }
 }

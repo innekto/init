@@ -10,7 +10,6 @@ import {
 import { CreateMemberDto } from '../dto/create-member.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Image } from 'src/image/entities/image.entity';
 import { Social } from 'src/social/entities/social.entity';
 
 @Entity()
@@ -31,6 +30,14 @@ export class Member {
   @Column()
   position: string;
 
+  @ApiProperty({ description: 'member avatar' })
+  @Column({ nullable: false })
+  imagePath: string;
+
+  @ApiProperty({ description: 'member avatar description' })
+  @Column({ nullable: true })
+  imageAlt: string;
+
   @Exclude()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;
@@ -38,10 +45,6 @@ export class Member {
   @Exclude()
   @UpdateDateColumn({ type: 'timestamp' })
   updatetAt: Date;
-
-  @OneToOne(() => Image, (image) => image.member, { eager: true })
-  @JoinColumn({ name: 'imageId' })
-  image: Image;
 
   @OneToOne(() => Social, (social) => social.member, {
     eager: true,
@@ -56,5 +59,6 @@ export class Member {
     this.name = payload.name;
     this.position = payload.position;
     this.department = payload.department;
+    this.imageAlt = payload.imageAlt;
   }
 }
