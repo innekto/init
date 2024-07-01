@@ -43,8 +43,8 @@ export class SpeakerController {
   }
 
   @Post()
-  // @ApiBearerAuth()
-  // @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'add speaker by admin' })
   @UseInterceptors(FileInterceptor('imagePath'))
   @ApiConsumes('multipart/form-data')

@@ -34,8 +34,8 @@ export class MemberController {
   constructor(private readonly memberService: MemberService) {}
 
   @Post()
-  // @ApiBearerAuth()
-  // @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'add member by admin' })
   @ApiResponse({ type: Member })
   @UseInterceptors(FileInterceptor('imagePath'))
@@ -66,10 +66,10 @@ export class MemberController {
   }
 
   @Patch(':id')
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
   @UseInterceptors(FileInterceptor('imagePath'))
   @ApiConsumes('multipart/form-data')
-  // @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'update member by admin' })
   @ApiResponse({ type: Member })
   async update(
