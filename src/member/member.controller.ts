@@ -36,10 +36,10 @@ export class MemberController {
   @Post()
   // @ApiBearerAuth()
   // @UseGuards(AdminAuthGuard)
-  @UseInterceptors(FileInterceptor('imagePath'))
-  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'add member by admin' })
   @ApiResponse({ type: Member })
+  @UseInterceptors(FileInterceptor('imagePath'))
+  @ApiConsumes('multipart/form-data')
   async create(
     @Body() createMemberDto: CreateMemberDto,
     @UploadedFile(

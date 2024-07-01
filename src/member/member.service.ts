@@ -57,7 +57,6 @@ export class MemberService {
   async remove(id: number) {
     const member = await this.memberRepository.findOneOrFail({
       where: { id },
-      relations: ['image'],
     });
 
     await this.memberRepository.remove(member);

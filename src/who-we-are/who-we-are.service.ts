@@ -4,23 +4,25 @@ import { UpdateWhoWeAreDto } from './dto/update-who-we-are.dto';
 import { WhoWeAre } from './entities/who-we-are.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ImageService } from 'src/image/image.service';
-import { checkImageFields } from 'src/image/helpers/check.image.fields';
+
 import { whoWeAreGrouping } from './utils/grouping.for.render';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { publicIdExtract } from 'src/common/helpers/public-id.extraction';
 
 @Injectable()
 export class WhoWeAreService {
   constructor(
     @InjectRepository(WhoWeAre)
     private whoWeAreRepository: Repository<WhoWeAre>,
-    private readonly imageServise: ImageService,
+    private cloudinaryService: CloudinaryService,
   ) {}
 
-  async create(payload: CreateWhoWeAreDto) {
+  async create(payload: CreateWhoWeAreDto, image: Express.Multer.File) {
     const newWe = new WhoWeAre(payload);
-    const image = await this.imageServise.findOneById(payload.imageId);
-    checkImageFields(image);
-    newWe.image = image;
+    const { secure_url } = await this.cloudinaryService.uploadFile(image);
+
+    newWe.imagePath = secure_url;
+
     return await this.whoWeAreRepository.save(newWe);
   }
 
@@ -29,21 +31,20 @@ export class WhoWeAreService {
     return whoWeAreGrouping(result);
   }
 
-  async update(id: number, payload: UpdateWhoWeAreDto) {
+  async update(
+    id: number,
+    payload: UpdateWhoWeAreDto,
+    image: Express.Multer.File,
+  ) {
     const us = await this.whoWeAreRepository.findOneOrFail({
       where: { id },
-      relations: ['image'],
     });
 
-    if (payload.imageId) {
-      const removedImageId = us.image.id;
-      us.image = null;
-
-      await this.whoWeAreRepository.save(us);
-      await this.imageServise.remove(removedImageId);
-
-      const newImage = await this.imageServise.findOneById(payload.imageId);
-      us.image = newImage;
+    if (image) {
+      const publicId = publicIdExtract(us.imagePath);
+      await this.cloudinaryService.deleteFile(publicId);
+      const { secure_url } = await this.cloudinaryService.uploadFile(image);
+      us.imagePath = secure_url;
     }
 
     Object.assign(us, payload);
