@@ -24,9 +24,7 @@ export class SpeakerSeedService {
       await Promise.all(
         speakersData.map(async (item) => {
           const newSpeaker = new Member(item);
-          newSpeaker.image = await this.imageRepository.findOneOrFail({
-            where: { description: item.name },
-          });
+
           await this.speakerRepository.save(newSpeaker);
         }),
       );

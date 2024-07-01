@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateMemberDto {
-  @ApiProperty({ example: '1', description: 'imageId' })
-  @IsNotEmpty()
-  @IsNumber()
-  imageId: number;
+  @ApiProperty({ type: 'string', format: 'binary' })
+  imagePath: Express.Multer.File;
+
+  @ApiProperty({ example: 'sadd', description: 'image alt' })
+  imageAlt: string;
 
   @ApiProperty({ example: 'Name', description: 'name' })
   @IsNotEmpty()

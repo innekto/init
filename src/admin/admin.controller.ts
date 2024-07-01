@@ -12,6 +12,9 @@ import {
   BadRequestException,
   UseInterceptors,
   UploadedFile,
+  FileTypeValidator,
+  MaxFileSizeValidator,
+  ParseFilePipe,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 // import { CreateAdminDto } from './dto/create-admin.dto';
@@ -114,7 +117,7 @@ export class AdminController {
   }
 
   @Post('editPhoto')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('imagePath'))
   @ApiBearerAuth()
   @ApiOperation({ summary: 'edit avatar' })
   @ApiConsumes('multipart/form-data')
@@ -122,7 +125,17 @@ export class AdminController {
   @UseGuards(AdminAuthGuard)
   async editPhoto(
     @Body() payload: EditPhotoDto,
-    @UploadedFile()
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 50 * 1024,
+            message: 'max size of image is 10mb',
+          }),
+          new FileTypeValidator({ fileType: /image\// }),
+        ],
+      }),
+    )
     image: Express.Multer.File,
     @User('adminId') adminId: number,
   ) {

@@ -7,6 +7,11 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  FileTypeValidator,
+  MaxFileSizeValidator,
+  ParseFilePipe,
+  UploadedFile,
 } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -17,22 +22,40 @@ import {
   ApiOperation,
   ApiTags,
   ApiResponse,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { Member } from './entities/member.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('members')
 @Controller('member')
 export class MemberController {
   constructor(private readonly memberService: MemberService) {}
 
-  @Post(':imageId')
-  @ApiBearerAuth()
-  @UseGuards(AdminAuthGuard)
+  @Post()
+  // @ApiBearerAuth()
+  // @UseGuards(AdminAuthGuard)
+  @UseInterceptors(FileInterceptor('imagePath'))
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'add member by admin' })
   @ApiResponse({ type: Member })
-  async create(@Body() createMemberDto: CreateMemberDto) {
-    return this.memberService.create(createMemberDto);
+  async create(
+    @Body() createMemberDto: CreateMemberDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 10 * 1024 * 1024,
+            message: 'max size of image is 10mb',
+          }),
+          new FileTypeValidator({ fileType: /image\// }),
+        ],
+      }),
+    )
+    image: Express.Multer.File,
+  ) {
+    return this.memberService.create(createMemberDto, image);
   }
 
   @Get()
