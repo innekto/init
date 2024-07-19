@@ -49,7 +49,7 @@ export class EventformService {
   }
 
   async findAll() {
-    return await this.eventRepository.find();
+    return await this.eventFormRepository.find();
   }
 
   remove(id: number) {
