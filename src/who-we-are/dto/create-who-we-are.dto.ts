@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateWhoWeAreDto {
   @ApiProperty({ example: 'title', description: 'title' })
@@ -12,8 +12,11 @@ export class CreateWhoWeAreDto {
   @IsString()
   description: string;
 
-  @ApiProperty({ example: '1', description: 'imageId' })
+  @ApiProperty({ type: 'string', format: 'binary' })
+  imagePath: Express.Multer.File;
+
+  @ApiProperty({ example: 'sadd', description: 'image alt' })
   @IsNotEmpty()
-  @IsNumber()
-  imageId: number;
+  @IsString()
+  imageAlt: string;
 }
