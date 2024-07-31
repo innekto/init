@@ -36,8 +36,8 @@ $ npm run test:cov
 
 ## Links
 
-Swagger: http://localhost:3040/api/docs
-Swagger: https://not-misto.onrender.com/api/docs
+Swagger: http://localhost:3080/api/docs
+Swagger: https://city-rlhn.onrender.com/api/docs
 
 ```bash
 Migrations:
