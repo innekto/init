@@ -150,9 +150,8 @@ export class AdminController {
     if (!request.headers.cookie)
       throw new BadRequestException('Cookei is required!');
 
-    const { token, refreshToken } = await this.authService.refreshToken(
-      request.headers.cookie.split('=')[1],
-    );
+    const { tokenExpires, token, refreshToken } =
+      await this.authService.refreshToken(request.headers.cookie.split('=')[1]);
     response.cookie('refresh_token', refreshToken, {
       httpOnly: true,
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
@@ -160,6 +159,6 @@ export class AdminController {
       secure: true,
     });
 
-    return { token };
+    return { token, tokenExpires };
   }
 }

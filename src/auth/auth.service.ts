@@ -124,7 +124,9 @@ export class AuthService {
         },
       ),
     ]);
+    const decodedToken = this.jwtService.decode(token, { json: true });
     return {
+      tokenExpires: decodedToken.exp,
       token,
       refreshToken,
     };
@@ -142,13 +144,13 @@ export class AuthService {
       throw new UnauthorizedException('Expired refresh token');
     }
 
-    const { token, refreshToken } = await this.generateTokens({
+    const { tokenExpires, token, refreshToken } = await this.generateTokens({
       email: payload.email,
       role: payload.role,
       id: payload.sub,
     });
 
-    return { token, refreshToken };
+    return { tokenExpires, token, refreshToken };
   }
 
   async adminLogout(adminId: number) {

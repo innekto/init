@@ -56,7 +56,7 @@ export class AdminService {
 
     return {
       token,
-      tokenExpires: decodedToken.exp * 1000,
+      tokenExpires: decodedToken.exp,
       refreshToken,
       user: admin,
     };
