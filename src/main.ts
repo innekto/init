@@ -25,7 +25,11 @@ async function start() {
   app.setGlobalPrefix('api/v1');
 
   app.enableCors({
-    origin: '*',
+    origin: [
+      'https://marketing-agency-pet.vercel.app',
+      'http://localhost:3080/api/v1',
+      'http://localhost:3000',
+    ],
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     allowedHeaders: [
       'Origin',
