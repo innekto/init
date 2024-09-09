@@ -8,6 +8,5 @@ export class EditPhotoDto {
   imageAlt?: string;
 
   @ApiProperty({ type: 'string', format: 'binary' })
-  @IsNotEmpty()
   imagePath: Express.Multer.File;
 }
