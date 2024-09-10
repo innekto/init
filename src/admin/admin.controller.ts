@@ -77,7 +77,7 @@ export class AdminController {
   @ApiOperation({ summary: 'get admin profile' })
   @ApiResponse({ type: Admin })
   @UseGuards(AdminAuthGuard)
-  async getMe(@User('adminId') adminId: number) {
+  async getMe(@User('id') adminId: number) {
     try {
       return this.adminService.getMe(adminId);
     } catch (error) {
@@ -90,17 +90,18 @@ export class AdminController {
   @ApiOperation({ summary: 'update admin profile' })
   @UseGuards(AdminAuthGuard)
   async update(
-    @User('adminId') adminId: number,
+    @User('id') adminId: number,
     @Body() updateAdminDto: UpdateAdminDto,
   ) {
     return this.adminService.update(adminId, updateAdminDto);
   }
 
-  @Delete(':id')
+  @Delete('avatar/delete')
   @ApiBearerAuth()
+  @ApiOperation({ summary: 'delete avatar' })
   @UseGuards(AdminAuthGuard)
-  async remove(@Param('id') id: string) {
-    return this.adminService.remove(+id);
+  async deleteAvatar(@User('id') adminId: number) {
+    return this.adminService.deleteAvatar(adminId);
   }
 
   @Post('logout')
@@ -109,14 +110,14 @@ export class AdminController {
   @ApiResponse({ type: Admin })
   @UseGuards(AdminAuthGuard)
   async logout(
-    @User('adminId') adminId: number,
+    @User('id') adminId: number,
     @Res({ passthrough: true }) response: Response,
   ) {
     response.clearCookie('refresh_token');
     return this.adminService.adminLogout(adminId);
   }
 
-  @Post('editPhoto')
+  @Patch('editPhoto')
   @UseInterceptors(FileInterceptor('imagePath'))
   @ApiBearerAuth()
   @ApiOperation({ summary: 'edit avatar' })
@@ -137,7 +138,7 @@ export class AdminController {
       }),
     )
     image: Express.Multer.File,
-    @User('adminId') adminId: number,
+    @User('id') adminId: number,
   ) {
     return this.adminService.editPhoto(image, adminId, payload);
   }
@@ -160,5 +161,13 @@ export class AdminController {
     });
 
     return { token, tokenExpires };
+  }
+
+  @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AdminAuthGuard)
+  async remove(@Param('id') id: string) {
+    console.log('id :>> ', id);
+    return this.adminService.remove(+id);
   }
 }

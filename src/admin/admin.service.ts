@@ -114,4 +114,18 @@ export class AdminService {
     });
     return { secure_url };
   }
+
+  async deleteAvatar(adminId: number) {
+    const admin = await this.adminRepository.findOneOrFail({
+      where: { id: adminId },
+    });
+
+    const publicId = publicIdExtract(admin.imagePath);
+    await this.cloudinaryService.deleteFile(publicId);
+
+    admin.imagePath = null;
+    admin.imageAlt = null;
+
+    await this.adminRepository.save(admin);
+  }
 }
