@@ -14,14 +14,14 @@ export class EventForm {
   name: string;
 
   @ApiProperty({ description: 'user phone' })
-  @Column({ unique: true })
+  @Column()
   phone: string;
 
   @ApiProperty({ description: 'user email' })
-  @Column({ unique: true })
+  @Column()
   email: string;
 
-  @ManyToOne(() => Event, (event) => event.eventForm)
+  @ManyToOne(() => Event, (event) => event.eventForm, { eager: true })
   event: Event;
 
   constructor(payload?: CreateEventformDto) {

@@ -49,7 +49,17 @@ export class EventformService {
   }
 
   async findAll() {
-    return await this.eventFormRepository.find();
+    const forms = await this.eventFormRepository.find();
+    const response = forms.map((f) => {
+      return {
+        id: f.id,
+        name: f.name,
+        phone: f.phone,
+        email: f.email,
+        eventId: f.event.id,
+      };
+    });
+    return response;
   }
 
   remove(id: number) {

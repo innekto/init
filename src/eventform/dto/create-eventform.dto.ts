@@ -1,6 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEmail, Matches, IsNotEmpty, IsNumber } from 'class-validator';
+import {
+  IsEmail,
+  Matches,
+  IsNotEmpty,
+  IsNumber,
+  MinLength,
+  MaxLength,
+  Validate,
+} from 'class-validator';
+import { IsValidName } from 'src/common/validators/name-validator';
 import { lowerCaseTransformer } from 'src/utils/transformers/to-lower-case';
 
 export class CreateEventformDto {
@@ -11,11 +20,18 @@ export class CreateEventformDto {
 
   @ApiProperty({ example: 'John Doe' })
   @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(30)
+  @Validate(IsValidName, {
+    message: 'Incorrect name',
+  })
   name: string;
 
   @ApiProperty({ example: 'test1@example.com' })
   @Transform(lowerCaseTransformer)
   @IsEmail()
+  @MinLength(14)
+  @MaxLength(72)
   @Matches(/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, {
     message: 'Incorrect email',
   })

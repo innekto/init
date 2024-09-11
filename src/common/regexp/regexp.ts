@@ -9,3 +9,6 @@ export const webUrlsRegexp =
   /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=%]*)?$/;
 
 export const nameRegexp = /^[a-zA-Zа-щА-ЩЬьЮюЯяЇїІіЄєҐґ -]+$/;
+
+export const namesValidator =
+  /^[A-Za-zА-Яа-яҐґЄєЖжИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщьЮюЯя']+$/;
